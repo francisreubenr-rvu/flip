@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, type CSSProperties } from 'react'
 import InkStampClock from './components/InkStampClock'
 import Pomodoro from './components/Pomodoro'
 import MusicPlayer from './components/MusicPlayer'
@@ -47,7 +47,12 @@ export default function FlipPage() {
   // Calendar popup state
   const [showCalendar, setShowCalendar] = useState(false)
 
-  // Scroll-snap refs
+  // ─── Ambient: brown noise + YouTube ──────────────────────────────────────
+  const [ambientOn, setAmbientOn] = useState(false)
+  const hasStartedRef = useRef(false)
+  const brownCtxRef = useRef<AudioContext | null>(null)
+
+  // ─── Scroll-snap refs ─────────────────────────────────────────────────────
   const pageRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const { day, week } = mounted ? weekInfo() : { day: 0, week: 0 }
@@ -86,6 +91,60 @@ export default function FlipPage() {
     })
     return () => observers.forEach(obs => obs.disconnect())
   }, [mounted])
+
+  // ─── Wake Lock: keep screen awake while page is visible ─────────────────
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !('wakeLock' in navigator)) return
+    let lock: { release: () => Promise<void> } | null = null
+    const acquire = async () => {
+      try { lock = await (navigator as any).wakeLock.request('screen') } catch {}
+    }
+    acquire()
+    const onVis = () => { if (document.visibilityState === 'visible') acquire() }
+    document.addEventListener('visibilitychange', onVis)
+    return () => { document.removeEventListener('visibilitychange', onVis); lock?.release() }
+  }, [])
+
+  // ─── Ambient start: brown noise + YouTube on first user gesture ───────────
+  const startAmbient = useCallback(async () => {
+    if (hasStartedRef.current) return
+    hasStartedRef.current = true
+    setAmbientOn(true)
+    try {
+      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)()
+      await ctx.resume()
+      const sr = ctx.sampleRate, size = sr * 4
+      const buf = ctx.createBuffer(1, size, sr)
+      const d = buf.getChannelData(0)
+      let last = 0
+      for (let i = 0; i < size; i++) {
+        const w = Math.random() * 2 - 1
+        d[i] = (last + 0.02 * w) / 1.02
+        last = d[i]
+        d[i] *= 3
+      }
+      const src = ctx.createBufferSource()
+      src.buffer = buf; src.loop = true
+      const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 600
+      const g = ctx.createGain(); g.gain.value = 0.3
+      src.connect(lp); lp.connect(g); g.connect(ctx.destination)
+      src.start()
+      brownCtxRef.current = ctx
+    } catch {}
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+    const go = () => startAmbient()
+    document.addEventListener('click', go, { once: true })
+    document.addEventListener('keydown', go, { once: true })
+    return () => {
+      document.removeEventListener('click', go)
+      document.removeEventListener('keydown', go)
+    }
+  }, [mounted, startAmbient])
+
+  useEffect(() => () => { brownCtxRef.current?.close() }, [])
 
   // Save to localStorage on changes
   const persist = useCallback((s: SessionLog[], intent: string, ift: string) => {
@@ -136,6 +195,12 @@ export default function FlipPage() {
           <span>WK{week} DY{day}</span>
           <span className="topbar-rhythm-sep">·</span>
           <span>{dayPct}% spent</span>
+          {ambientOn && (
+            <>
+              <span className="topbar-rhythm-sep">·</span>
+              <span style={{ color: 'var(--accent)', animation: 'dotPulse 4s ease-in-out infinite' }}>♪ ambient</span>
+            </>
+          )}
         </div>
         <InkStampClock compact />
       </header>
@@ -166,6 +231,16 @@ export default function FlipPage() {
           </button>
         ))}
       </nav>
+
+      {/* ── Hidden YouTube background player (injected after first gesture) ── */}
+      {ambientOn && (
+        <iframe
+          src="https://www.youtube.com/embed/XNBV9PcH8ik?autoplay=1&loop=1&playlist=XNBV9PcH8ik&controls=0&rel=0"
+          allow="autoplay; encrypted-media"
+          aria-hidden="true"
+          style={{ position: 'fixed', width: 1, height: 1, opacity: 0, pointerEvents: 'none', border: 'none', bottom: 0, right: 0 } as CSSProperties}
+        />
+      )}
 
       {/* ── Scroll-snap page area ────────────────────────────────────────── */}
       <div style={{
@@ -367,6 +442,11 @@ export default function FlipPage() {
       }}>
         <div style={{ fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>
           {pageLabel[page]}
+          {!ambientOn && (
+            <span style={{ marginLeft: 16, fontSize: 11, color: 'var(--ink-25)', animation: 'dotPulse 3s ease-in-out infinite' }}>
+              · tap anywhere to begin ambient
+            </span>
+          )}
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
