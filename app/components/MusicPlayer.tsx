@@ -59,8 +59,9 @@ export default function MusicPlayer({ onPlay }: { onPlay?: () => void }) {
     onPlay?.()
     setCh(c)
     chRef.current = c
-    if (playing) {
-      loadChannel(c)        // synchronous channel swap — still inside click handler
+    loadChannel(c)        // always load — on mobile there's no separate Play tap
+    if (!playing) {
+      setPlaying(true)
       startTimer()
     }
   }
