@@ -1,197 +1,116 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { RefreshCw } from 'lucide-react'
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   GAME 1: Dot Grid (connect dots to form squares — attention restoration)
+   GAME 1: Tic Tac Toe (X vs AI — minimax, perfect play)
    ─────────────────────────────────────────────────────────────────────────── */
 
-type Line = { r: number; c: number; dir: 'h' | 'v' }
+type Cell = null | 'X' | 'O'
 
-function DotGrid({ size = 5 }: { size?: number }) {
-  const [lines, setLines]   = useState<Line[]>([])
-  const [boxes, setBoxes]   = useState<Record<string, 'player' | 'ai'>>({})
-  const [turn, setTurn]     = useState<'player' | 'ai'>('player')
-  const [done, setDone]     = useState(false)
-  const aiTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+const WIN_LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
 
-  const hasLine = (r: number, c: number, dir: 'h' | 'v') =>
-    lines.some(l => l.r === r && l.c === c && l.dir === dir)
+function tttWinner(b: Cell[]): { mark: 'X' | 'O'; line: number[] } | 'draw' | null {
+  for (const [a, bb, c] of WIN_LINES) {
+    if (b[a] && b[a] === b[bb] && b[a] === b[c]) return { mark: b[a] as 'X' | 'O', line: [a, bb, c] }
+  }
+  return b.every(Boolean) ? 'draw' : null
+}
 
-  const checkBox = useCallback((r: number, c: number, newLines: Line[]) => {
-    const has = (rr: number, cc: number, d: 'h' | 'v') =>
-      newLines.some(l => l.r === rr && l.c === cc && l.dir === d)
-    return (
-      has(r, c, 'h') &&
-      has(r + 1, c, 'h') &&
-      has(r, c, 'v') &&
-      has(r, c + 1, 'v')
-    )
-  }, [])
+function minimax(b: Cell[], isO: boolean): number {
+  const r = tttWinner(b)
+  if (r === 'draw') return 0
+  if (r && r.mark === 'O') return 10
+  if (r && r.mark === 'X') return -10
+  const scores = b.map((cell, i) => {
+    if (cell) return isO ? -Infinity : Infinity
+    const nb = [...b]; nb[i] = isO ? 'O' : 'X'
+    return minimax(nb, !isO)
+  })
+  return isO ? Math.max(...scores) : Math.min(...scores)
+}
 
-  const addLine = useCallback((r: number, c: number, dir: 'h' | 'v', who: 'player' | 'ai') => {
-    if (hasLine(r, c, dir) || done) return false
-    const newLines = [...lines, { r, c, dir }]
-    setLines(newLines)
+function bestMove(b: Cell[]) {
+  let best = -Infinity, move = -1
+  b.forEach((cell, i) => {
+    if (cell) return
+    const nb = [...b]; nb[i] = 'O'
+    const s = minimax(nb, false)
+    if (s > best) { best = s; move = i }
+  })
+  return move
+}
 
-    const newBoxes = { ...boxes }
-    let scored = false
-    for (let br = 0; br < size - 1; br++) {
-      for (let bc = 0; bc < size - 1; bc++) {
-        const key = `${br},${bc}`
-        if (!newBoxes[key] && checkBox(br, bc, newLines)) {
-          newBoxes[key] = who
-          scored = true
-        }
+function TicTacToe() {
+  const [board, setBoard] = useState<Cell[]>(Array(9).fill(null))
+  const [xTurn, setXTurn] = useState(true)
+  const [result, setResult] = useState<{ mark: 'X' | 'O'; line: number[] } | 'draw' | null>(null)
+  const [thinking, setThinking] = useState(false)
+
+  const handleClick = (i: number) => {
+    if (!xTurn || board[i] || result || thinking) return
+    const nb = [...board]; nb[i] = 'X'
+    const r = tttWinner(nb)
+    setBoard(nb)
+    if (r) { setResult(r); return }
+    setXTurn(false); setThinking(true)
+    setTimeout(() => {
+      const ai = bestMove(nb)
+      if (ai >= 0) {
+        const nb2 = [...nb]; nb2[ai] = 'O'
+        setBoard(nb2)
+        setResult(tttWinner(nb2))
       }
-    }
-    setBoxes(newBoxes)
-
-    const totalBoxes = (size - 1) * (size - 1)
-    if (Object.keys(newBoxes).length >= totalBoxes) {
-      setDone(true)
-      return false
-    }
-
-    if (!scored) setTurn(who === 'player' ? 'ai' : 'player')
-    return scored
-  }, [lines, boxes, done, size, checkBox, hasLine])
-
-  // AI move (random with slight smarts)
-  useEffect(() => {
-    if (turn !== 'ai' || done) return
-    aiTimer.current = setTimeout(() => {
-      const allPossible: { r: number; c: number; dir: 'h' | 'v' }[] = []
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          if (r < size - 1) allPossible.push({ r, c, dir: 'v' })
-          if (c < size - 1) allPossible.push({ r, c, dir: 'h' })
-        }
-      }
-      const avail = allPossible.filter(l => !hasLine(l.r, l.c, l.dir))
-      if (!avail.length) return
-
-      const completing = avail.find(({ r, c, dir }) => {
-        const test = [...lines, { r, c, dir }]
-        for (let br = 0; br < size - 1; br++)
-          for (let bc = 0; bc < size - 1; bc++)
-            if (!boxes[`${br},${bc}`] && checkBox(br, bc, test)) return true
-        return false
-      })
-
-      const pick = completing ?? avail[Math.floor(Math.random() * avail.length)]
-      addLine(pick.r, pick.c, pick.dir, 'ai')
-    }, 400)
-    return () => { if (aiTimer.current) clearTimeout(aiTimer.current) }
-  }, [turn, done, size, lines, boxes, hasLine, addLine, checkBox])
-
-  const reset = () => {
-    setLines([]); setBoxes({}); setTurn('player'); setDone(false)
+      setXTurn(true); setThinking(false)
+    }, 320)
   }
 
-  const pScore = Object.values(boxes).filter(v => v === 'player').length
-  const aScore = Object.values(boxes).filter(v => v === 'ai').length
-  const CELL = 34
+  const reset = () => { setBoard(Array(9).fill(null)); setXTurn(true); setResult(null); setThinking(false) }
+
+  const winLine = typeof result === 'object' && result !== null ? result.line : null
+  const status = result
+    ? (result === 'draw' ? 'Draw — well matched.' : result.mark === 'X' ? 'You win.' : 'AI wins.')
+    : thinking ? 'AI thinking…' : 'Your move (X)'
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ fontFamily: 'var(--font)', fontSize: 12, color: 'var(--text-2)' }}>
-          You: {pScore}  •  AI: {aScore}
-        </div>
-        <button className="btn-terminal" style={{ padding: '4px 10px', fontSize: 11 }} onClick={reset}>
-          <RefreshCw size={11} /> New
-        </button>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', maxWidth: 210 }}>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-40)', letterSpacing: '0.08em' }}>
+          {status}
+        </span>
+        <button onClick={reset} style={{
+          background: 'none', border: '1px solid var(--grid-major)', borderRadius: 3,
+          padding: '3px 10px', fontFamily: 'var(--mono)', fontSize: 10,
+          color: 'var(--ink-40)', cursor: 'pointer', letterSpacing: '0.08em',
+        }}>reset</button>
       </div>
 
-      {done && (
-        <div style={{ fontFamily: 'var(--font)', fontSize: 14, color: pScore > aScore ? 'var(--green)' : 'var(--red)', textAlign: 'center' }}>
-          {pScore > aScore ? 'You won!' : pScore === aScore ? 'Draw!' : 'AI wins!'}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 66px)', gap: 5 }}>
+        {board.map((cell, i) => {
+          const isWin = winLine?.includes(i)
+          return (
+            <button key={i} onClick={() => handleClick(i)} style={{
+              width: 66, height: 66,
+              background: isWin ? 'var(--accent-dim)' : 'var(--page)',
+              border: `1.5px solid ${isWin ? 'var(--accent)' : 'var(--ink-80)'}`,
+              borderRadius: 3,
+              fontFamily: 'var(--serif)', fontSize: 30, fontStyle: 'italic', fontWeight: 700,
+              color: cell === 'X' ? 'var(--accent)' : 'var(--ink-80)',
+              cursor: (!cell && !result && xTurn && !thinking) ? 'pointer' : 'default',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'background 0.1s, border-color 0.1s',
+            }}>
+              {cell}
+            </button>
+          )
+        })}
+      </div>
+
+      {result && result !== 'draw' && (
+        <div style={{ fontFamily: 'var(--serif)', fontSize: 13, fontStyle: 'italic', color: 'var(--ink-40)', textAlign: 'center' }}>
+          {result.mark === 'X' ? 'The machine yields.' : 'The machine never tires.'}
         </div>
-      )}
-
-      <svg
-        width={(size - 1) * CELL + size * 6}
-        height={(size - 1) * CELL + size * 6}
-        style={{ overflow: 'visible', display: 'block' }}
-      >
-        {/* Boxes */}
-        {Array.from({ length: size - 1 }, (_, r) =>
-          Array.from({ length: size - 1 }, (_, c) => {
-            const who = boxes[`${r},${c}`]
-            return who ? (
-              <rect
-                key={`b${r}${c}`}
-                x={c * CELL + (c + 1) * 3 + 1}
-                y={r * CELL + (r + 1) * 3 + 1}
-                width={CELL - 2}
-                height={CELL - 2}
-                fill={who === 'player' ? 'var(--red-dim)' : 'oklch(52% 0.16 248 / 0.12)'}
-              />
-            ) : null
-          })
-        )}
-
-        {/* Horizontal lines */}
-        {Array.from({ length: size }, (_, r) =>
-          Array.from({ length: size - 1 }, (_, c) => {
-            const exists = hasLine(r, c, 'h')
-            return (
-              <line
-                key={`h${r}${c}`}
-                x1={c * CELL + (c + 1) * 3 + 3}
-                y1={r * CELL + (r + 0.5) * 3 + 3}
-                x2={(c + 1) * CELL + (c + 1) * 3 + 3}
-                y2={r * CELL + (r + 0.5) * 3 + 3}
-                stroke={exists ? (lines.find(l => l.r === r && l.c === c && l.dir === 'h') ? 'var(--text-1)' : 'oklch(62% 0.18 248)') : 'var(--border-1)'}
-                strokeWidth={exists ? 2.5 : 1.5}
-                style={{ cursor: exists ? 'default' : 'pointer' }}
-                onClick={() => !exists && turn === 'player' && addLine(r, c, 'h', 'player')}
-              />
-            )
-          })
-        )}
-
-        {/* Vertical lines */}
-        {Array.from({ length: size }, (_, r) =>
-          Array.from({ length: size }, (_, c) => {
-            if (r >= size - 1) return null
-            const exists = hasLine(r, c, 'v')
-            return (
-              <line
-                key={`v${r}${c}`}
-                x1={c * CELL + (c + 0.5) * 3 + 3}
-                y1={r * CELL + (r + 1) * 3 + 3}
-                x2={c * CELL + (c + 0.5) * 3 + 3}
-                y2={(r + 1) * CELL + (r + 1) * 3 + 3}
-                stroke={exists ? 'var(--text-1)' : 'var(--border-1)'}
-                strokeWidth={exists ? 2.5 : 1.5}
-                style={{ cursor: exists ? 'default' : 'pointer' }}
-                onClick={() => !exists && turn === 'player' && addLine(r, c, 'v', 'player')}
-              />
-            )
-          })
-        )}
-
-        {/* Dots */}
-        {Array.from({ length: size }, (_, r) =>
-          Array.from({ length: size }, (_, c) => (
-            <circle
-              key={`d${r}${c}`}
-              cx={c * CELL + (c + 0.5) * 3 + 3}
-              cy={r * CELL + (r + 0.5) * 3 + 3}
-              r={4}
-              fill="var(--text-1)"
-            />
-          ))
-        )}
-      </svg>
-
-      {!done && (
-        <p style={{ fontFamily: 'var(--font)', fontSize: 11, color: 'var(--text-3)', fontStyle: 'italic' }}>
-          {turn === 'player' ? 'Click any line to draw it.' : 'AI is thinking...'}
-        </p>
       )}
     </div>
   )
@@ -434,16 +353,16 @@ function WordUnscramble() {
    MiniGames — tabbed container
    ─────────────────────────────────────────────────────────────────────────── */
 
-type Tab = 'dots' | 'slide' | 'word'
+type Tab = 'ttt' | 'slide' | 'word'
 
 const TABS: { id: Tab; label: string; desc: string }[] = [
-  { id: 'dots',  label: 'Dot Grid', desc: 'soft fascination' },
-  { id: 'slide', label: 'Slide',    desc: 'spatial reasoning' },
-  { id: 'word',  label: 'Unscramble', desc: 'language + focus' },
+  { id: 'ttt',   label: 'Tic Tac Toe', desc: 'pattern recognition' },
+  { id: 'slide', label: 'Slide',       desc: 'spatial reasoning' },
+  { id: 'word',  label: 'Unscramble',  desc: 'language + focus' },
 ]
 
 export default function MiniGames({ disabled }: { disabled?: boolean }) {
-  const [tab, setTab] = useState<Tab>('dots')
+  const [tab, setTab] = useState<Tab>('ttt')
 
   return (
     <div style={{ position: 'relative' }}>
@@ -477,7 +396,7 @@ export default function MiniGames({ disabled }: { disabled?: boolean }) {
           {TABS.find(t => t.id === tab)?.desc} — designed for attention restoration
         </div>
 
-        {tab === 'dots'  && <DotGrid />}
+        {tab === 'ttt'   && <TicTacToe />}
         {tab === 'slide' && <NumberSlide />}
         {tab === 'word'  && <WordUnscramble />}
       </div>

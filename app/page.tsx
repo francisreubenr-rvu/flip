@@ -431,7 +431,7 @@ export default function FlipPage() {
             background: 'var(--page-cream)',
           }}
         >
-          <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(48px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
+          <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
             Focus <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>Session</em>
           </div>
           <Pomodoro onModeChange={setMode} onSessionComplete={onSessionComplete} />
@@ -451,7 +451,7 @@ export default function FlipPage() {
             padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
           }}
         >
-          <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(48px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
+          <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
             Sound <em style={{ fontStyle: 'italic', color: 'var(--ink-60)' }}>Environment</em>
           </div>
           <MusicPlayer />
@@ -468,7 +468,7 @@ export default function FlipPage() {
             padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
           }}
         >
-          <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(48px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
+          <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
             Rest <em style={{ fontStyle: 'italic', color: 'var(--break-color)' }}>& Recover</em>
           </div>
           <BreathingOrb />
@@ -489,7 +489,7 @@ export default function FlipPage() {
             gap: 20, padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
           }}
         >
-          <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
+          <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(24px, 5vw, 72px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
             Play <em style={{ fontStyle: 'italic', color: 'var(--ink-60)' }}>After Work</em>
           </div>
           <div style={{ fontFamily: 'var(--serif)', fontSize: 16, fontStyle: 'italic', color: 'var(--ink-60)', textAlign: 'center', maxWidth: 560 }}>

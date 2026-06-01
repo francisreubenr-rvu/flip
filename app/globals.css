@@ -962,6 +962,33 @@ body::before {
   .topbar { padding: 8px 14px; }
   .topbar-brand { font-size: 28px; }
   .topbar-rhythm { gap: 12px; font-size: 12px; }
+  .topbar-time { font-size: 15px; letter-spacing: 0; }
+
+  /* ── Pomodoro ──────────────────────────── */
+  .pomo-time   { font-size: clamp(56px, 16vw, 88px); }
+  .pomo-display { gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .pomo-bar    { width: 100%; max-width: 180px; }
+  .pomo-mode-label { font-size: 12px; }
+  .pomo-controls { gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .mode-chip   { padding: 7px 14px; font-size: 11px; }
+  .btn-circle  { width: 54px; height: 54px; }
+  .session-tracker { flex-wrap: wrap; }
+
+  /* ── MusicPlayer ───────────────────────── */
+  .sound-stage   { padding: 14px; }
+  .np-name       { font-size: 22px; }
+  .np-elapsed    { font-size: 13px; }
+  .ch-name       { font-size: 20px; }
+  .ch-sub        { font-size: 10px; }
+  .ch-num        { font-size: 12px; }
+  .waveform-big  { height: 52px; }
+  .channel-item  { padding: 10px 0; gap: 8px; }
+  .sound-footnote { font-size: 13px; }
+
+  /* ── Breathing ─────────────────────────── */
+  .breath-stage { width: 160px !important; height: 160px !important; }
+  .breath-orb   { width: 72px !important; height: 72px !important; }
+  .breath-label { font-size: 18px; bottom: -28px; }
 }
 
 /* ─── UTIL ─────────────────────────────────────────────────────────────── */
