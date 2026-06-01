@@ -7,6 +7,8 @@ import MiniGames from './components/MiniGames'
 import BreathingOrb from './components/BreathingOrb'
 import Calendar from './components/Calendar'
 import Folio from './components/Folio'
+import RocketOrbit from './components/RocketOrbit'
+import GolfNav from './components/GolfNav'
 
 type Mode = 'work' | 'short-break' | 'long-break'
 
@@ -172,6 +174,7 @@ export default function FlipPage() {
   }
 
   const scrollToPage = (n: number) => {
+    setPage(n)
     pageRefs.current[n]?.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -202,7 +205,7 @@ export default function FlipPage() {
             </>
           )}
         </div>
-        <InkStampClock compact />
+        <RocketOrbit><InkStampClock compact /></RocketOrbit>
       </header>
 
       {/* ── Sidebar margin stats ────────────────────────────────────────── */}
@@ -218,19 +221,8 @@ export default function FlipPage() {
         </div>
       </div>
 
-      {/* ── Right dot nav ───────────────────────────────────────────────── */}
-      <nav className="dotnav">
-        {pageLabel.map((label, i) => (
-          <button
-            key={i}
-            className={`dotnav-btn${page === i ? ' active' : ''}`}
-            onClick={() => scrollToPage(i)}
-          >
-            <span className="dotnav-label">{label}</span>
-            <span className="dotnav-dot" />
-          </button>
-        ))}
-      </nav>
+      {/* ── Golf-sphere page nav ────────────────────────────────────────── */}
+      <GolfNav page={page} onNavigate={scrollToPage} />
 
       {/* ── Hidden YouTube background player (injected after first gesture) ── */}
       {ambientOn && (
