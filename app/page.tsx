@@ -108,20 +108,34 @@ export default function FlipPage() {
     return () => observers.forEach(obs => obs.disconnect())
   }, [mounted])
 
-  // ─── Wake Lock: keep screen awake while page is visible ─────────────────
+  // ─── Wake Lock: keep screen awake ────────────────────────────────────────
   useEffect(() => {
-    if (typeof navigator === 'undefined' || !('wakeLock' in navigator)) return
-    let lock: { release: () => Promise<void> } | null = null
+    if (!('wakeLock' in navigator)) return
+    let lock: WakeLockSentinel | null = null
+
     const acquire = async () => {
-      try { lock = await (navigator as any).wakeLock.request('screen') } catch {}
+      if (document.visibilityState !== 'visible') return
+      try {
+        lock = await navigator.wakeLock.request('screen')
+        // Re-acquire immediately when the browser releases the lock (screen dim, etc.)
+        lock.addEventListener('release', () => { lock = null; acquire() })
+      } catch {}
     }
+
     acquire()
-    const onVis = () => { if (document.visibilityState === 'visible') acquire() }
+    // Backup: re-acquire on visibility change and every 15 s in case release event fires late
+    const onVis = () => { if (document.visibilityState === 'visible' && !lock) acquire() }
+    const timer = setInterval(() => { if (!lock) acquire() }, 15000)
     document.addEventListener('visibilitychange', onVis)
-    return () => { document.removeEventListener('visibilitychange', onVis); lock?.release() }
+
+    return () => {
+      document.removeEventListener('visibilitychange', onVis)
+      clearInterval(timer)
+      lock?.release()
+    }
   }, [])
 
-  // ─── Ambient start: brown noise + YouTube on first user gesture ───────────
+  // ─── Ambient: brown noise bed + YouTube lofi ─────────────────────────────
   const startAmbient = useCallback(async () => {
     if (hasStartedRef.current) return
     hasStartedRef.current = true
@@ -147,6 +161,13 @@ export default function FlipPage() {
       src.start()
       brownCtxRef.current = ctx
     } catch {}
+  }, [])
+
+  const stopAmbient = useCallback(() => {
+    hasStartedRef.current = false
+    setAmbientOn(false)
+    brownCtxRef.current?.close()
+    brownCtxRef.current = null
   }, [])
 
   // Tap-anywhere ambient start — desktop only; mobile uses the Sound page button
@@ -459,18 +480,18 @@ export default function FlipPage() {
 
           {/* Mobile-only ambient toggle — desktop uses tap-anywhere */}
           {isMobile && (
-            <button onClick={startAmbient} style={{
+            <button onClick={ambientOn ? stopAmbient : startAmbient} style={{
               background: ambientOn ? 'var(--accent-dim)' : 'none',
               border: `1.5px solid ${ambientOn ? 'var(--accent)' : 'var(--grid-major)'}`,
               borderRadius: 999,
               padding: '9px 22px',
               fontFamily: 'var(--mono)', fontSize: 12, letterSpacing: '0.14em',
               color: ambientOn ? 'var(--accent)' : 'var(--ink-40)',
-              cursor: ambientOn ? 'default' : 'pointer',
+              cursor: 'pointer',
               textTransform: 'uppercase' as const,
               transition: 'all 0.2s',
             }}>
-              {ambientOn ? '♪ ambient on' : '♪ begin ambient'}
+              {ambientOn ? '♪ stop ambient' : '♪ begin ambient'}
             </button>
           )}
 
@@ -529,21 +550,19 @@ export default function FlipPage() {
       }}>
         <div style={{ fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>
           {pageLabel[page]}
-          {!ambientOn ? (
-            <button
-              onClick={startAmbient}
-              style={{
-                marginLeft: 16, fontSize: 11, color: 'var(--ink-25)',
-                background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-                fontFamily: 'var(--mono)', letterSpacing: '0.10em',
-                animation: 'dotPulse 3s ease-in-out infinite',
-              }}
-            >
-              · ♪ begin ambient
-            </button>
-          ) : (
-            <span style={{ marginLeft: 16, fontSize: 11, color: 'var(--accent)', opacity: 0.7 }}>· ♪ ambient on</span>
-          )}
+          <button
+            onClick={ambientOn ? stopAmbient : startAmbient}
+            style={{
+              marginLeft: 16, fontSize: 11,
+              color: ambientOn ? 'var(--accent)' : 'var(--ink-25)',
+              background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+              fontFamily: 'var(--mono)', letterSpacing: '0.10em',
+              opacity: ambientOn ? 0.85 : 1,
+              animation: ambientOn ? 'none' : 'dotPulse 3s ease-in-out infinite',
+            }}
+          >
+            {ambientOn ? '· ♪ stop ambient' : '· ♪ begin ambient'}
+          </button>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

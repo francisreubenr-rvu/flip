@@ -11,31 +11,57 @@ const CHANNELS = [
   { id: 'brown',    label: 'Brown',    sub: 'pure low frequency',      ytId: 'IOijfCTQPGQ',  note: 'Deep low-frequency masking. Preferred for high-load reading and writing.' },
 ]
 
+function ytSrc(id: string) {
+  return `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&controls=0&rel=0&enablejsapi=0`
+}
+
 export default function MusicPlayer({ onPlay }: { onPlay?: () => void }) {
   const [playing, setPlaying] = useState(false)
   const [ch, setCh] = useState(CHANNELS[0])
   const [elapsed, setElapsed] = useState(0)
-  const [iframeKey, setIframeKey] = useState(0)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
   const timRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const chRef = useRef(ch)  // keep a ref so event handlers always see the current channel
+
+  useEffect(() => { chRef.current = ch }, [ch])
+  useEffect(() => () => { if (timRef.current) clearInterval(timRef.current) }, [])
 
   const startTimer = () => {
     if (timRef.current) clearInterval(timRef.current)
+    setElapsed(0)
     timRef.current = setInterval(() => setElapsed(e => e + 1), 1000)
   }
-  useEffect(() => () => { if (timRef.current) clearInterval(timRef.current) }, [])
 
-  const selectChannel = (c: typeof CHANNELS[0]) => {
-    onPlay?.()
-    setCh(c)
-    if (playing) { setIframeKey(k => k + 1); setElapsed(0); startTimer() }
+  // Sets iframe.src synchronously inside the user-gesture call stack so
+  // iOS Safari counts it as a user-triggered autoplay (not a deferred React render).
+  const loadChannel = (c: typeof CHANNELS[0]) => {
+    if (iframeRef.current) iframeRef.current.src = ytSrc(c.ytId)
+  }
+
+  const clearIframe = () => {
+    if (iframeRef.current) iframeRef.current.src = 'about:blank'
   }
 
   const toggle = () => {
     if (playing) {
+      clearIframe()
       setPlaying(false)
       if (timRef.current) clearInterval(timRef.current)
     } else {
-      setPlaying(true); setElapsed(0); setIframeKey(k => k + 1); startTimer(); onPlay?.()
+      loadChannel(ch)       // synchronous — must happen before any await/setState
+      setPlaying(true)
+      startTimer()
+      onPlay?.()
+    }
+  }
+
+  const selectChannel = (c: typeof CHANNELS[0]) => {
+    onPlay?.()
+    setCh(c)
+    chRef.current = c
+    if (playing) {
+      loadChannel(c)        // synchronous channel swap — still inside click handler
+      startTimer()
     }
   }
 
@@ -48,18 +74,21 @@ export default function MusicPlayer({ onPlay }: { onPlay?: () => void }) {
     dur: (0.5 + (i % 5) * 0.16).toFixed(2),
   }))
 
+  const hidden: CSSProperties = {
+    position: 'fixed', width: 1, height: 1, opacity: 0,
+    border: 'none', bottom: 0, left: 0, pointerEvents: 'none',
+  }
+
   return (
     <div className="sound-layout">
-      {/* Hidden YouTube iframe — audio only, injected on play */}
-      {playing && (
-        <iframe
-          key={iframeKey}
-          src={`https://www.youtube.com/embed/${ch.ytId}?autoplay=1&loop=1&playlist=${ch.ytId}&controls=0&rel=0`}
-          allow="autoplay; encrypted-media"
-          aria-hidden="true"
-          style={{ position: 'fixed', width: 1, height: 1, opacity: 0, border: 'none', bottom: 0, left: 0, pointerEvents: 'none' } as CSSProperties}
-        />
-      )}
+      {/* Always in DOM so we can set .src synchronously in the click handler */}
+      <iframe
+        ref={iframeRef}
+        src="about:blank"
+        allow="autoplay; encrypted-media"
+        aria-hidden="true"
+        style={hidden}
+      />
 
       <div className="channel-list">
         {CHANNELS.map((c, i) => (
