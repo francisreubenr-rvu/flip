@@ -149,8 +149,10 @@ export default function FlipPage() {
     } catch {}
   }, [])
 
+  // Tap-anywhere ambient start — desktop only; mobile uses the Sound page button
   useEffect(() => {
     if (!mounted) return
+    if (window.innerWidth <= 640) return
     const go = () => startAmbient()
     document.addEventListener('click', go, { once: true })
     document.addEventListener('keydown', go, { once: true })
@@ -454,7 +456,25 @@ export default function FlipPage() {
           <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
             Sound <em style={{ fontStyle: 'italic', color: 'var(--ink-60)' }}>Environment</em>
           </div>
-          <MusicPlayer />
+
+          {/* Mobile-only ambient toggle — desktop uses tap-anywhere */}
+          {isMobile && (
+            <button onClick={startAmbient} style={{
+              background: ambientOn ? 'var(--accent-dim)' : 'none',
+              border: `1.5px solid ${ambientOn ? 'var(--accent)' : 'var(--grid-major)'}`,
+              borderRadius: 999,
+              padding: '9px 22px',
+              fontFamily: 'var(--mono)', fontSize: 12, letterSpacing: '0.14em',
+              color: ambientOn ? 'var(--accent)' : 'var(--ink-40)',
+              cursor: ambientOn ? 'default' : 'pointer',
+              textTransform: 'uppercase' as const,
+              transition: 'all 0.2s',
+            }}>
+              {ambientOn ? '♪ ambient on' : '♪ begin ambient'}
+            </button>
+          )}
+
+          <MusicPlayer onPlay={startAmbient} />
         </div>
 
         {/* ── PAGE 3: REST ──────────────────────────────────────────────── */}
