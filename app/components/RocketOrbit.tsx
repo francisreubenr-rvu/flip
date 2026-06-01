@@ -212,20 +212,20 @@ export default function RocketOrbit() {
       const t = (now - startRef.current) * 0.001   // seconds
       const dt = Math.min(now - last, 50); last = now
 
-      // ── Rocket orbit: slowly precessing ──────────────────────────────
+      // ── Rocket orbit: slowly precessing, near mid-viewport ───────────
       const rocketTilt  = -12 * DEG + Math.sin(t * 0.031) * 0.38 + Math.sin(t * 0.019) * 0.20
-      const rocketA     = Math.min(vw * (0.38 + Math.sin(t * 0.024) * 0.04), 570)
-      const rocketB     = Math.min(vh * (0.21 + Math.cos(t * 0.021) * 0.025), 215)
+      const rocketA     = vw * (0.37 + Math.sin(t * 0.024) * 0.02)
+      const rocketB     = vh * (0.34 + Math.cos(t * 0.021) * 0.015)
       θRef.current     += 0.000162 * dt
 
       // ── Planet orbits ─────────────────────────────────────────────────
-      const innerA = Math.min(vw * 0.155, 220), innerB = Math.min(vh * 0.088, 82),  innerTilt = -22 * DEG
-      const outerA = Math.min(vw * 0.70,  800), outerB = Math.min(vh * 0.34,  220), outerTilt =  14 * DEG
-      θPRef.current[0] += 0.00042 * dt  // inner planet: fast
-      θPRef.current[1] += 0.000038 * dt // outer planet: slow
+      const innerA = vw * 0.16,  innerB = vh * 0.14,  innerTilt = -22 * DEG
+      const outerA = vw * 0.44,  outerB = vh * 0.42,  outerTilt =  14 * DEG
+      θPRef.current[0] += 0.00042  * dt  // inner planet: fast
+      θPRef.current[1] += 0.000038 * dt  // outer planet: slow
 
       // ── Asteroid belt ─────────────────────────────────────────────────
-      const beltA = Math.min(vw * 0.535, 640), beltB = Math.min(vh * 0.27, 175), beltTilt = -5 * DEG
+      const beltA = vw * 0.29, beltB = vh * 0.26, beltTilt = -5 * DEG
       θARef.current += 0.000022 * dt
 
       // ── Clear ─────────────────────────────────────────────────────────

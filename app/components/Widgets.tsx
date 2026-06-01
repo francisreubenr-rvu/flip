@@ -100,10 +100,10 @@ function Widget({ label, hint, onClick, children, cols = 1 }: {
         gridColumn: cols > 1 ? `span ${cols}` : undefined,
         border: '1.5px solid var(--ink-80)',
         background: flash ? 'var(--ink-80)' : 'var(--page)',
-        padding: '13px 15px 14px',
+        padding: '18px 22px 20px',
         cursor: onClick ? 'pointer' : 'default',
         display: 'flex', flexDirection: 'column',
-        minHeight: 110,
+        minHeight: 140,
         transition: 'background 0.05s, color 0.05s',
         color: flash ? 'var(--page)' : 'var(--ink-100)',
       }}
@@ -114,11 +114,11 @@ function Widget({ label, hint, onClick, children, cols = 1 }: {
         borderBottom: '1px solid var(--grid-major)',
         paddingBottom: 7, marginBottom: 10,
       }}>
-        <span style={{ fontFamily: 'var(--mono)', fontSize: 8.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: flash ? 'var(--page)' : 'var(--ink-40)' }}>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: flash ? 'var(--page)' : 'var(--ink-40)' }}>
           {label}
         </span>
         {hint && (
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 8, color: flash ? 'var(--page)' : 'var(--ink-25)', letterSpacing: '0.10em' }}>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 9.5, color: flash ? 'var(--page)' : 'var(--ink-25)', letterSpacing: '0.10em' }}>
             {hint}
           </span>
         )}
@@ -137,10 +137,10 @@ function QuoteWidget() {
   const q = QUOTES[i]
   return (
     <Widget label="Quotation" hint="tap · next" onClick={() => setI(x => (x + 1) % QUOTES.length)} cols={2}>
-      <div style={{ fontFamily: 'var(--serif)', fontSize: 14.5, fontStyle: 'italic', color: 'var(--ink-80)', lineHeight: 1.55, marginBottom: 8 }}>
+      <div style={{ fontFamily: 'var(--serif)', fontSize: 18, fontStyle: 'italic', color: 'var(--ink-80)', lineHeight: 1.55, marginBottom: 10 }}>
         &ldquo;{q.text}&rdquo;
       </div>
-      <div style={{ fontFamily: 'var(--mono)', fontSize: 9.5, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>— {q.author}</div>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>— {q.author}</div>
     </Widget>
   )
 }
@@ -153,12 +153,12 @@ function ScienceWidget() {
   const f = FACTS[i]
   return (
     <Widget label="Focus science" hint={open ? 'tap · next' : 'tap · reveal'} onClick={() => open ? (setI(x => (x+1) % FACTS.length), setOpen(false)) : setOpen(true)}>
-      <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--ink-80)', letterSpacing: '0.04em', marginBottom: 6 }}>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: 12.5, fontWeight: 700, color: 'var(--ink-80)', letterSpacing: '0.04em', marginBottom: 8 }}>
         {f.title}
       </div>
       {open
-        ? <div style={{ fontFamily: 'var(--serif)', fontSize: 12.5, fontStyle: 'italic', color: 'var(--ink-60)', lineHeight: 1.5 }}>{f.body}</div>
-        : <div style={{ fontFamily: 'var(--mono)', fontSize: 8.5, color: 'var(--ink-25)', letterSpacing: '0.14em', textTransform: 'uppercase' }}>tap to reveal</div>
+        ? <div style={{ fontFamily: 'var(--serif)', fontSize: 14.5, fontStyle: 'italic', color: 'var(--ink-60)', lineHeight: 1.5 }}>{f.body}</div>
+        : <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--ink-25)', letterSpacing: '0.14em', textTransform: 'uppercase' }}>tap to reveal</div>
       }
     </Widget>
   )
@@ -172,9 +172,9 @@ function WordWidget() {
   const w = WORDS[i]
   return (
     <Widget label="Word" hint={stage < 2 ? 'tap · reveal' : undefined} onClick={() => setStage(x => Math.min(x + 1, 2))}>
-      <div style={{ fontFamily: 'var(--serif)', fontSize: 20, fontStyle: 'italic', color: 'var(--ink-100)', letterSpacing: '-0.01em', marginBottom: 6 }}>{w.word}</div>
-      {stage >= 1 && <div style={{ fontFamily: 'var(--serif)', fontSize: 12, fontStyle: 'italic', color: 'var(--ink-60)', lineHeight: 1.5, marginBottom: 5 }}>{w.def}</div>}
-      {stage >= 2 && <div style={{ fontFamily: 'var(--mono)', fontSize: 8.5, color: 'var(--ink-25)', letterSpacing: '0.10em' }}>{w.origin}</div>}
+      <div style={{ fontFamily: 'var(--serif)', fontSize: 26, fontStyle: 'italic', color: 'var(--ink-100)', letterSpacing: '-0.01em', marginBottom: 8 }}>{w.word}</div>
+      {stage >= 1 && <div style={{ fontFamily: 'var(--serif)', fontSize: 14, fontStyle: 'italic', color: 'var(--ink-60)', lineHeight: 1.5, marginBottom: 6 }}>{w.def}</div>}
+      {stage >= 2 && <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--ink-25)', letterSpacing: '0.10em' }}>{w.origin}</div>}
     </Widget>
   )
 }
@@ -187,7 +187,7 @@ function PromptWidget() {
   const [editing, setEditing] = useState(false)
   return (
     <Widget label="Reflection" hint={editing ? undefined : 'tap prompt · next'} onClick={editing ? undefined : () => setI(x => (x + 1) % PROMPTS.length)} cols={2}>
-      <div style={{ fontFamily: 'var(--serif)', fontSize: 13.5, fontStyle: 'italic', color: 'var(--ink-80)', lineHeight: 1.55, marginBottom: 10 }}>
+      <div style={{ fontFamily: 'var(--serif)', fontSize: 16, fontStyle: 'italic', color: 'var(--ink-80)', lineHeight: 1.55, marginBottom: 12 }}>
         {PROMPTS[i]}
       </div>
       {editing
@@ -199,11 +199,11 @@ function PromptWidget() {
             onClick={e => e.stopPropagation()}
             rows={2}
             placeholder="write here…"
-            style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--grid-major)', fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, color: 'var(--ink-80)', outline: 'none', resize: 'none', lineHeight: 1.5 }}
+            style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--grid-major)', fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 14.5, color: 'var(--ink-80)', outline: 'none', resize: 'none', lineHeight: 1.5 }}
           />
         : <div
             onClick={e => { e.stopPropagation(); setEditing(true) }}
-            style={{ fontFamily: 'var(--serif)', fontSize: 12.5, fontStyle: 'italic', color: ans ? 'var(--ink-60)' : 'var(--ink-25)', borderBottom: '1px solid var(--grid-minor)', paddingBottom: 4, minHeight: 24, cursor: 'text' }}
+            style={{ fontFamily: 'var(--serif)', fontSize: 14.5, fontStyle: 'italic', color: ans ? 'var(--ink-60)' : 'var(--ink-25)', borderBottom: '1px solid var(--grid-minor)', paddingBottom: 4, minHeight: 26, cursor: 'text' }}
           >
             {ans || 'tap here to write…'}
           </div>
@@ -229,13 +229,13 @@ function DayArcWidget() {
   return (
     <Widget label="Day arc">
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 8 }}>
-        <div style={{ position: 'relative', height: 18, border: '1.5px solid var(--ink-80)' }}>
+        <div style={{ position: 'relative', height: 22, border: '1.5px solid var(--ink-80)' }}>
           <div style={{ position: 'absolute', inset: 0, right: `${(1 - pct) * 100}%`, background: 'var(--ink-80)' }} />
           {[6, 12, 18].map(hh => (
             <div key={hh} style={{ position: 'absolute', left: `${hh / 24 * 100}%`, top: 0, bottom: 0, width: 1, background: 'var(--page)', opacity: 0.4 }} />
           ))}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--mono)', fontSize: 10.5, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>
           <span>00h</span>
           <span style={{ color: 'var(--ink-80)', fontWeight: 700 }}>{Math.round(pct * 100)}% · {seg}</span>
           <span>24h</span>
@@ -259,7 +259,7 @@ function ScratchWidget() {
         placeholder="thoughts from the margin…"
         style={{
           flex: 1, width: '100%', minHeight: 60, background: 'transparent', border: 'none',
-          fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-80)',
+          fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--ink-80)',
           outline: 'none', resize: 'none', lineHeight: 1.7,
         }}
       />
@@ -329,7 +329,7 @@ function PatternWidget() {
 
   return (
     <Widget label="Daily pattern" hint="tap · new" onClick={() => setV(x => x + 1)}>
-      <canvas ref={canvasRef} width={200} height={72}
+      <canvas ref={canvasRef} width={200} height={88}
         style={{ width: '100%', height: 'auto', display: 'block', imageRendering: 'crisp-edges' }}
       />
     </Widget>
@@ -350,14 +350,14 @@ function CompoundWidget() {
   const hr = Math.floor(stats.min / 60), min = stats.min % 60
   return (
     <Widget label="Compound focus">
-      <div style={{ fontFamily: 'var(--serif)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--ink-100)', lineHeight: 1, marginBottom: 6 }}>
+      <div style={{ fontFamily: 'var(--serif)', fontSize: 32, fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--ink-100)', lineHeight: 1, marginBottom: 8 }}>
         {hr > 0 ? `${hr}h ${min}m` : `${min}m`}
       </div>
-      <div style={{ fontFamily: 'var(--mono)', fontSize: 9.5, color: 'var(--ink-40)', letterSpacing: '0.10em', textTransform: 'uppercase' }}>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-40)', letterSpacing: '0.10em', textTransform: 'uppercase' }}>
         {stats.sessions} sessions total
       </div>
       {stats.sessions > 0 && (
-        <div style={{ fontFamily: 'var(--serif)', fontSize: 11.5, fontStyle: 'italic', color: 'var(--ink-60)', marginTop: 7, lineHeight: 1.45 }}>
+        <div style={{ fontFamily: 'var(--serif)', fontSize: 13.5, fontStyle: 'italic', color: 'var(--ink-60)', marginTop: 8, lineHeight: 1.45 }}>
           At this pace: {Math.round(stats.min / 60 * 365 / Math.max(1, Object.keys(localStorage).filter(k => k.startsWith('flip-day-')).length))}h/year.
         </div>
       )}
@@ -371,9 +371,9 @@ export default function Widgets() {
     <div style={{
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
-      gap: 10,
+      gap: 14,
       width: '100%',
-      maxWidth: 640,
+      maxWidth: 860,
     }}>
       <QuoteWidget />
       <ScienceWidget />
