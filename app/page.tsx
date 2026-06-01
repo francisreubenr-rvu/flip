@@ -205,7 +205,7 @@ export default function FlipPage() {
             </>
           )}
         </div>
-        <RocketOrbit><InkStampClock compact /></RocketOrbit>
+        <InkStampClock compact />
       </header>
 
       {/* ── Sidebar margin stats ────────────────────────────────────────── */}
@@ -220,6 +220,9 @@ export default function FlipPage() {
           <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--ink-40)' }}>{yrPct}% of yr</span>
         </div>
       </div>
+
+      {/* ── Global rocket orbit (viewport-centred, fixed canvases) ─────── */}
+      <RocketOrbit />
 
       {/* ── Golf-sphere page nav ────────────────────────────────────────── */}
       <GolfNav page={page} onNavigate={scrollToPage} />
@@ -294,52 +297,115 @@ export default function FlipPage() {
               </button>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center', maxWidth: 600, width: '100%' }}>
-              <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 3vw, 48px)', fontStyle: 'italic', color: 'var(--ink-100)', letterSpacing: '-0.01em', textAlign: 'center' }}>
-                {intention}
-              </div>
-              {ifThen && (
-                <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(16px, 2vw, 24px)', fontStyle: 'italic', color: 'var(--ink-60)' }}>
-                  if stuck → {ifThen}
+            /* ── Committed view: notebook-page aesthetic ──────────────── */
+            <div style={{ width: '100%', maxWidth: 660, position: 'relative' }}>
+
+              {/* Margin annotation: sessions + time rotated in left gutter */}
+              {focusMin > 0 && (
+                <div style={{
+                  position: 'absolute', left: -72, top: '50%',
+                  transform: 'translateY(-50%) rotate(-90deg)',
+                  transformOrigin: 'center center',
+                  fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.16em',
+                  color: 'var(--ink-25)', textTransform: 'uppercase', whiteSpace: 'nowrap',
+                  pointerEvents: 'none',
+                }}>
+                  {sessions.length} {sessions.length === 1 ? 'session' : 'sessions'} · {focusMin} min
                 </div>
               )}
-              <button className="intent-edit-btn" onClick={() => setCommitted(false)}>edit intention</button>
 
-              {/* Session log */}
-              {sessions.length > 0 && (
+              {/* Intention — the hero element */}
+              <div style={{ position: 'relative', paddingBottom: 18, marginBottom: 8 }}>
                 <div style={{
-                  width: '100%', borderTop: '1px solid var(--grid-major)',
-                  paddingTop: 16, marginTop: 8,
-                  display: 'flex', flexDirection: 'column', gap: 8,
+                  fontFamily: 'var(--serif)',
+                  fontSize: 'clamp(36px, 4.5vw, 68px)',
+                  fontStyle: 'italic',
+                  fontWeight: 700,
+                  color: 'var(--ink-100)',
+                  letterSpacing: '-0.02em',
+                  lineHeight: 1.15,
                 }}>
-                  <div style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--ink-40)', letterSpacing: '0.10em', textTransform: 'uppercase' }}>
-                    Today's Sessions
+                  {intention}
+                </div>
+                {/* Hand-ruled baseline beneath the intention */}
+                <svg width="100%" height="6" style={{ position: 'absolute', bottom: 0, left: 0 }} aria-hidden="true">
+                  <path
+                    d="M0 3 Q 15% 1.5, 30% 3.5 T 60% 2.5 T 90% 3.5 T 100% 3"
+                    fill="none"
+                    stroke="rgba(62,92,185,0.45)"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+
+              {/* If-stuck: parenthetical annotation */}
+              {ifThen && (
+                <div style={{
+                  fontFamily: 'var(--serif)',
+                  fontSize: 'clamp(14px, 1.6vw, 20px)',
+                  fontStyle: 'italic',
+                  color: 'var(--ink-40)',
+                  paddingLeft: 20,
+                  marginBottom: 24,
+                  letterSpacing: '0.005em',
+                }}>
+                  ({ifThen})
+                </div>
+              )}
+
+              {/* Edit + calendar controls */}
+              <div style={{ display: 'flex', gap: 24, alignItems: 'center', marginBottom: sessions.length > 0 ? 32 : 0 }}>
+                <button className="intent-edit-btn" onClick={() => setCommitted(false)}>edit</button>
+                <button onClick={() => setShowCalendar(c => !c)} style={{
+                  fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '0.12em',
+                  color: 'var(--ink-25)', background: 'none', border: 'none', cursor: 'pointer',
+                  textTransform: 'uppercase',
+                }}>
+                  {showCalendar ? '− calendar' : '+ calendar'}
+                </button>
+              </div>
+
+              {showCalendar && <Calendar />}
+
+              {/* Session log: hand-ruled table */}
+              {sessions.length > 0 && (
+                <div style={{ borderTop: '1px solid var(--grid-major)', paddingTop: 20 }}>
+                  {/* Table header */}
+                  <div style={{
+                    display: 'grid', gridTemplateColumns: '28px 1fr 60px 52px',
+                    fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--ink-25)',
+                    letterSpacing: '0.14em', textTransform: 'uppercase',
+                    paddingBottom: 8, borderBottom: '1px solid var(--grid-minor)',
+                    marginBottom: 6,
+                  }}>
+                    <span>#</span><span>time</span><span>dur</span><span></span>
                   </div>
                   {sessions.map((s, i) => (
                     <div key={i} style={{
-                      fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--ink-60)',
-                      display: 'flex', gap: 16, alignItems: 'baseline',
+                      display: 'grid', gridTemplateColumns: '28px 1fr 60px 52px',
+                      alignItems: 'baseline',
+                      fontFamily: 'var(--mono)', fontSize: 12,
+                      padding: '7px 0',
+                      borderBottom: '1px solid var(--grid-minor)',
                     }}>
-                      <span style={{ color: 'var(--accent)', fontWeight: 700 }}>{String(i+1).padStart(2,'0')}</span>
-                      <span style={{ color: 'var(--ink-25)' }}>{s.start}–{new Date(new Date(`2000-01-01 ${s.start}`).getTime() + s.duration * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</span>
-                      <span style={{ color: 'var(--ink-40)' }}>{s.duration} min</span>
+                      {/* pencil tick in margin */}
+                      <span style={{ color: 'var(--accent)', opacity: 0.6, fontSize: 10 }}>✓</span>
+                      <span style={{ color: 'var(--ink-40)' }}>{s.start}</span>
+                      <span style={{ color: 'var(--ink-60)', fontWeight: 600 }}>{s.duration}′</span>
+                      {/* vertical hairline between cols rendered via border is enough */}
+                      <span></span>
                     </div>
                   ))}
-                  <div style={{ fontFamily: 'var(--serif)', fontSize: 16, fontStyle: 'italic', color: 'var(--ink-80)', marginTop: 8 }}>
-                    {focusMin} minutes of deep work today
+                  {/* Summary in gutter style */}
+                  <div style={{
+                    fontFamily: 'var(--serif)', fontSize: 15, fontStyle: 'italic',
+                    color: 'var(--ink-60)', marginTop: 14, letterSpacing: '-0.01em',
+                  }}>
+                    {focusMin} minutes on the page today.
                   </div>
                 </div>
               )}
-
-              {/* Calendar toggle */}
-              <button onClick={() => setShowCalendar(c => !c)} style={{
-                fontFamily: 'var(--mono)', fontSize: 12, letterSpacing: '0.10em',
-                color: 'var(--ink-40)', background: 'none', border: 'none', cursor: 'pointer',
-                marginTop: 8, textTransform: 'uppercase',
-              }}>
-                {showCalendar ? 'hide calendar' : 'show calendar'}
-              </button>
-              {showCalendar && <Calendar />}
             </div>
           )}
         </div>
@@ -434,10 +500,20 @@ export default function FlipPage() {
       }}>
         <div style={{ fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>
           {pageLabel[page]}
-          {!ambientOn && (
-            <span style={{ marginLeft: 16, fontSize: 11, color: 'var(--ink-25)', animation: 'dotPulse 3s ease-in-out infinite' }}>
-              · tap anywhere to begin ambient
-            </span>
+          {!ambientOn ? (
+            <button
+              onClick={startAmbient}
+              style={{
+                marginLeft: 16, fontSize: 11, color: 'var(--ink-25)',
+                background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+                fontFamily: 'var(--mono)', letterSpacing: '0.10em',
+                animation: 'dotPulse 3s ease-in-out infinite',
+              }}
+            >
+              · ♪ begin ambient
+            </button>
+          ) : (
+            <span style={{ marginLeft: 16, fontSize: 11, color: 'var(--accent)', opacity: 0.7 }}>· ♪ ambient on</span>
           )}
         </div>
 
