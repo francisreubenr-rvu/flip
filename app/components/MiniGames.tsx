@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { RefreshCw } from 'lucide-react'
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   GAME 1: Tic Tac Toe (X vs AI — minimax, perfect play)
+   GAME 1: Tic Tac Toe (X vs AI — minimax, 40% random blunder)
    ─────────────────────────────────────────────────────────────────────────── */
 
 type Cell = null | 'X' | 'O'
@@ -32,9 +32,11 @@ function minimax(b: Cell[], isO: boolean): number {
 }
 
 function bestMove(b: Cell[]) {
+  const open = b.map((c, i) => c ? -1 : i).filter(i => i >= 0)
+  // 40% of the time play randomly — gives the user a real chance to win
+  if (Math.random() < 0.4) return open[Math.floor(Math.random() * open.length)]
   let best = -Infinity, move = -1
-  b.forEach((cell, i) => {
-    if (cell) return
+  open.forEach(i => {
     const nb = [...b]; nb[i] = 'O'
     const s = minimax(nb, false)
     if (s > best) { best = s; move = i }
