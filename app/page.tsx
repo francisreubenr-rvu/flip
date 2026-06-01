@@ -9,6 +9,7 @@ import Calendar from './components/Calendar'
 import Folio from './components/Folio'
 import RocketOrbit from './components/RocketOrbit'
 import GolfNav from './components/GolfNav'
+import Widgets from './components/Widgets'
 
 type Mode = 'work' | 'short-break' | 'long-break'
 
@@ -253,8 +254,8 @@ export default function FlipPage() {
             scrollSnapAlign: 'start',
             minHeight: '100%',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
-            justifyContent: 'center', gap: 28,
-            padding: '40px 80px 40px 100px',
+            justifyContent: committed ? 'flex-start' : 'center', gap: 28,
+            padding: committed ? '52px 80px 60px 100px' : '40px 80px 40px 100px',
           }}
         >
           {/* Date header */}
@@ -298,19 +299,16 @@ export default function FlipPage() {
             </div>
           ) : (
             /* ── Committed view: notebook-page aesthetic ──────────────── */
-            <div style={{ width: '100%', maxWidth: 660, position: 'relative' }}>
+            <div style={{ maxWidth: 660, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
 
-              {/* Margin annotation: sessions + time rotated in left gutter */}
+              {/* Margin annotation in page gutter */}
               {focusMin > 0 && (
                 <div style={{
-                  position: 'absolute', left: -72, top: '50%',
-                  transform: 'translateY(-50%) rotate(-90deg)',
-                  transformOrigin: 'center center',
                   fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.16em',
-                  color: 'var(--ink-25)', textTransform: 'uppercase', whiteSpace: 'nowrap',
-                  pointerEvents: 'none',
+                  color: 'var(--ink-25)', textTransform: 'uppercase',
+                  marginBottom: 4,
                 }}>
-                  {sessions.length} {sessions.length === 1 ? 'session' : 'sessions'} · {focusMin} min
+                  {sessions.length} {sessions.length === 1 ? 'session' : 'sessions'} · {focusMin} min focused
                 </div>
               )}
 
@@ -370,44 +368,36 @@ export default function FlipPage() {
 
               {/* Session log: hand-ruled table */}
               {sessions.length > 0 && (
-                <div style={{ borderTop: '1px solid var(--grid-major)', paddingTop: 20 }}>
-                  {/* Table header */}
+                <div style={{ borderTop: '1px solid var(--grid-major)', paddingTop: 20, width: '100%', textAlign: 'left' }}>
                   <div style={{
-                    display: 'grid', gridTemplateColumns: '28px 1fr 60px 52px',
+                    display: 'grid', gridTemplateColumns: '28px 1fr 60px',
                     fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--ink-25)',
                     letterSpacing: '0.14em', textTransform: 'uppercase',
-                    paddingBottom: 8, borderBottom: '1px solid var(--grid-minor)',
-                    marginBottom: 6,
+                    paddingBottom: 8, borderBottom: '1px solid var(--grid-minor)', marginBottom: 6,
                   }}>
-                    <span>#</span><span>time</span><span>dur</span><span></span>
+                    <span>#</span><span>time</span><span>dur</span>
                   </div>
                   {sessions.map((s, i) => (
                     <div key={i} style={{
-                      display: 'grid', gridTemplateColumns: '28px 1fr 60px 52px',
-                      alignItems: 'baseline',
-                      fontFamily: 'var(--mono)', fontSize: 12,
-                      padding: '7px 0',
-                      borderBottom: '1px solid var(--grid-minor)',
+                      display: 'grid', gridTemplateColumns: '28px 1fr 60px',
+                      alignItems: 'baseline', fontFamily: 'var(--mono)', fontSize: 12,
+                      padding: '7px 0', borderBottom: '1px solid var(--grid-minor)',
                     }}>
-                      {/* pencil tick in margin */}
-                      <span style={{ color: 'var(--accent)', opacity: 0.6, fontSize: 10 }}>✓</span>
+                      <span style={{ color: 'var(--accent)', opacity: 0.65, fontSize: 10 }}>✓</span>
                       <span style={{ color: 'var(--ink-40)' }}>{s.start}</span>
                       <span style={{ color: 'var(--ink-60)', fontWeight: 600 }}>{s.duration}′</span>
-                      {/* vertical hairline between cols rendered via border is enough */}
-                      <span></span>
                     </div>
                   ))}
-                  {/* Summary in gutter style */}
-                  <div style={{
-                    fontFamily: 'var(--serif)', fontSize: 15, fontStyle: 'italic',
-                    color: 'var(--ink-60)', marginTop: 14, letterSpacing: '-0.01em',
-                  }}>
+                  <div style={{ fontFamily: 'var(--serif)', fontSize: 14, fontStyle: 'italic', color: 'var(--ink-60)', marginTop: 12, letterSpacing: '-0.01em' }}>
                     {focusMin} minutes on the page today.
                   </div>
                 </div>
               )}
             </div>
           )}
+
+          {/* ── E-ink widgets (always visible on daily page) ─────────── */}
+          {committed && <Widgets />}
         </div>
 
         {/* ── PAGE 1: FOCUS ────────────────────────────────────────────── */}
