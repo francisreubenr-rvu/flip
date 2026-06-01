@@ -13,6 +13,18 @@ import Widgets from './components/Widgets'
 
 type Mode = 'work' | 'short-break' | 'long-break'
 
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 640px)')
+    setMobile(mq.matches)
+    const cb = (e: MediaQueryListEvent) => setMobile(e.matches)
+    mq.addEventListener('change', cb)
+    return () => mq.removeEventListener('change', cb)
+  }, [])
+  return mobile
+}
+
 /* ─── Persistence ────────────────────────────────────────────────────────── */
 
 type SessionLog = { start: string; end: string; duration: number; intention: string }
@@ -59,6 +71,7 @@ export default function FlipPage() {
   const pageRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const { day, week } = mounted ? weekInfo() : { day: 0, week: 0 }
+  const isMobile = useIsMobile()
   const weeksLeft = 52 - week
   const yrPct = mounted ? Math.round((day / 365) * 100) : 0
   const key = mounted ? todayKey() : ''
@@ -195,10 +208,12 @@ export default function FlipPage() {
         <div className="topbar-brand">fl<span>i</span>p</div>
         <div className="topbar-rhythm">
           <Folio />
-          <span className="topbar-rhythm-sep">·</span>
-          <span>WK{week} DY{day}</span>
-          <span className="topbar-rhythm-sep">·</span>
-          <span>{dayPct}% spent</span>
+          {!isMobile && <>
+            <span className="topbar-rhythm-sep">·</span>
+            <span>WK{week} DY{day}</span>
+            <span className="topbar-rhythm-sep">·</span>
+            <span>{dayPct}% spent</span>
+          </>}
           {ambientOn && (
             <>
               <span className="topbar-rhythm-sep">·</span>
@@ -209,24 +224,26 @@ export default function FlipPage() {
         <InkStampClock compact />
       </header>
 
-      {/* ── Sidebar margin stats ────────────────────────────────────────── */}
-      <div style={{
-        position: 'fixed', left: 20, top: '50%', transform: 'translateY(-50%)',
-        zIndex: 80, pointerEvents: 'none', maxWidth: 50,
-      }}>
-        <div style={{ fontFamily: 'var(--mono)', fontSize: 15, fontWeight: 700, color: 'var(--ink-60)', letterSpacing: '0.08em', lineHeight: 1.4 }}>
-          <span>WK{week}</span><br/>
-          <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--ink-40)' }}>{weeksLeft} left</span><br/>
-          <span style={{ display: 'block', marginTop: 8 }}>DY{day}</span><br/>
-          <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--ink-40)' }}>{yrPct}% of yr</span>
+      {/* ── Sidebar margin stats (desktop only) ────────────────────────── */}
+      {!isMobile && (
+        <div style={{
+          position: 'fixed', left: 20, top: '50%', transform: 'translateY(-50%)',
+          zIndex: 80, pointerEvents: 'none', maxWidth: 50,
+        }}>
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 15, fontWeight: 700, color: 'var(--ink-60)', letterSpacing: '0.08em', lineHeight: 1.4 }}>
+            <span>WK{week}</span><br/>
+            <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--ink-40)' }}>{weeksLeft} left</span><br/>
+            <span style={{ display: 'block', marginTop: 8 }}>DY{day}</span><br/>
+            <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--ink-40)' }}>{yrPct}% of yr</span>
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* ── Global rocket orbit (viewport-centred, fixed canvases) ─────── */}
-      <RocketOrbit />
+      {/* ── Global rocket orbit (desktop only — costly on mobile) ──────── */}
+      {!isMobile && <RocketOrbit />}
 
-      {/* ── Golf-sphere page nav ────────────────────────────────────────── */}
-      <GolfNav page={page} onNavigate={scrollToPage} />
+      {/* ── Golf-sphere page nav (desktop only) ────────────────────────── */}
+      {!isMobile && <GolfNav page={page} onNavigate={scrollToPage} />}
 
       {/* ── Hidden YouTube background player (injected after first gesture) ── */}
       {ambientOn && (
@@ -255,12 +272,14 @@ export default function FlipPage() {
             minHeight: '100%',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: committed ? 'flex-start' : 'center', gap: 28,
-            padding: committed ? '52px 80px 60px 100px' : '40px 80px 40px 100px',
+            padding: isMobile
+              ? '20px 16px 28px'
+              : (committed ? '52px 80px 60px 100px' : '40px 80px 40px 100px'),
           }}
         >
           {/* Date header */}
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(52px, 8vw, 116px)', fontStyle: 'italic', fontWeight: 700, color: 'var(--ink-100)', letterSpacing: '-0.03em' }}>
+            <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 8vw, 116px)', fontStyle: 'italic', fontWeight: 700, color: 'var(--ink-100)', letterSpacing: '-0.03em' }}>
               {dateLong}
             </div>
             <div style={{ fontFamily: 'var(--mono)', fontSize: 14, color: 'var(--ink-40)', letterSpacing: '0.14em', marginTop: 8 }}>
@@ -270,8 +289,8 @@ export default function FlipPage() {
 
           {/* Intention block */}
           {!committed ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center', maxWidth: 600, width: '100%' }}>
-              <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 3.5vw, 52px)', fontStyle: 'italic', color: 'var(--ink-60)', textAlign: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center', maxWidth: isMobile ? '100%' : 600, width: '100%' }}>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(20px, 3.5vw, 52px)', fontStyle: 'italic', color: 'var(--ink-60)', textAlign: 'center' }}>
                 What will you focus on today?
               </div>
               <input
@@ -282,7 +301,7 @@ export default function FlipPage() {
                 onKeyDown={e => e.key === 'Enter' && intention.trim() && commitIntention()}
                 placeholder="one specific thing, written in your own hand"
                 autoFocus
-                style={{ textAlign: 'center', fontSize: 'clamp(24px, 3.2vw, 46px)' }}
+                style={{ textAlign: 'center', fontSize: 'clamp(18px, 3.2vw, 46px)' }}
               />
               <input
                 className="intent-input"
@@ -299,7 +318,7 @@ export default function FlipPage() {
             </div>
           ) : (
             /* ── Committed view: notebook-page aesthetic ──────────────── */
-            <div style={{ maxWidth: 660, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
+            <div style={{ maxWidth: isMobile ? '100%' : 660, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
 
               {/* Margin annotation in page gutter */}
               {focusMin > 0 && (
@@ -316,7 +335,7 @@ export default function FlipPage() {
               <div style={{ position: 'relative', paddingBottom: 18, marginBottom: 8 }}>
                 <div style={{
                   fontFamily: 'var(--serif)',
-                  fontSize: 'clamp(56px, 8.5vw, 128px)',
+                  fontSize: 'clamp(32px, 8.5vw, 128px)',
                   fontStyle: 'italic',
                   fontWeight: 700,
                   color: 'var(--ink-100)',
@@ -408,7 +427,7 @@ export default function FlipPage() {
             minHeight: '100%',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: 'center', gap: 24,
-            padding: '40px 80px 40px 100px',
+            padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
             background: 'var(--page-cream)',
           }}
         >
@@ -429,7 +448,7 @@ export default function FlipPage() {
             minHeight: '100%',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: 'center', gap: 28,
-            padding: '40px 80px 40px 100px',
+            padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
           }}
         >
           <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(48px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
@@ -446,7 +465,7 @@ export default function FlipPage() {
             minHeight: '100%',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: 'center', gap: 24,
-            padding: '40px 80px 40px 100px',
+            padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
           }}
         >
           <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(48px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
@@ -467,7 +486,7 @@ export default function FlipPage() {
             minHeight: '100%',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: 'flex-start',
-            gap: 20, padding: '40px 80px 40px 100px',
+            gap: 20, padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
           }}
         >
           <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
@@ -484,7 +503,7 @@ export default function FlipPage() {
       {/* ── Bottom page navigation ──────────────────────────────────────── */}
       <div style={{
         borderTop: '1px solid var(--grid-major)',
-        padding: '12px 28px 12px 76px',
+        padding: isMobile ? '10px 16px' : '12px 28px 12px 76px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         background: 'var(--page)',
       }}>

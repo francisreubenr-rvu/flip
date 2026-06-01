@@ -1,6 +1,18 @@
 'use client'
 import { useState, useEffect, useRef, useCallback } from 'react'
 
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 640px)')
+    setMobile(mq.matches)
+    const cb = (e: MediaQueryListEvent) => setMobile(e.matches)
+    mq.addEventListener('change', cb)
+    return () => mq.removeEventListener('change', cb)
+  }, [])
+  return mobile
+}
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const QUOTES = [
@@ -81,12 +93,13 @@ function lsSet(k: string, v: string) {
 
 // ─── E-ink Widget Shell ───────────────────────────────────────────────────────
 
-function Widget({ label, hint, onClick, children, cols = 1 }: {
+function Widget({ label, hint, onClick, children, cols = 1, isMobile = false }: {
   label: string
   hint?: string
   onClick?: () => void
   children: React.ReactNode
   cols?: number
+  isMobile?: boolean
 }) {
   const [flash, setFlash] = useState(false)
   const trigger = () => {
@@ -97,13 +110,13 @@ function Widget({ label, hint, onClick, children, cols = 1 }: {
     <div
       onClick={onClick ? trigger : undefined}
       style={{
-        gridColumn: cols > 1 ? `span ${cols}` : undefined,
+        gridColumn: (cols > 1 && !isMobile) ? `span ${cols}` : undefined,
         border: '1.5px solid var(--ink-80)',
         background: flash ? 'var(--ink-80)' : 'var(--page)',
-        padding: '18px 22px 20px',
+        padding: isMobile ? '13px 15px 14px' : '18px 22px 20px',
         cursor: onClick ? 'pointer' : 'default',
         display: 'flex', flexDirection: 'column',
-        minHeight: 140,
+        minHeight: isMobile ? 100 : 140,
         transition: 'background 0.05s, color 0.05s',
         color: flash ? 'var(--page)' : 'var(--ink-100)',
       }}
@@ -114,11 +127,11 @@ function Widget({ label, hint, onClick, children, cols = 1 }: {
         borderBottom: '1px solid var(--grid-major)',
         paddingBottom: 7, marginBottom: 10,
       }}>
-        <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: flash ? 'var(--page)' : 'var(--ink-40)' }}>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: isMobile ? 8.5 : 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: flash ? 'var(--page)' : 'var(--ink-40)' }}>
           {label}
         </span>
         {hint && (
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 9.5, color: flash ? 'var(--page)' : 'var(--ink-25)', letterSpacing: '0.10em' }}>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: isMobile ? 8 : 9.5, color: flash ? 'var(--page)' : 'var(--ink-25)', letterSpacing: '0.10em' }}>
             {hint}
           </span>
         )}
@@ -131,63 +144,64 @@ function Widget({ label, hint, onClick, children, cols = 1 }: {
 }
 
 // ─── W1 · Quote ───────────────────────────────────────────────────────────────
-function QuoteWidget() {
+function QuoteWidget({ isMobile }: { isMobile: boolean }) {
   const s = todaySeed()
   const [i, setI] = useState(() => Math.floor(sr(s, 0) * QUOTES.length))
   const q = QUOTES[i]
   return (
-    <Widget label="Quotation" hint="tap · next" onClick={() => setI(x => (x + 1) % QUOTES.length)} cols={2}>
-      <div style={{ fontFamily: 'var(--serif)', fontSize: 18, fontStyle: 'italic', color: 'var(--ink-80)', lineHeight: 1.55, marginBottom: 10 }}>
+    <Widget label="Quotation" hint="tap · next" onClick={() => setI(x => (x + 1) % QUOTES.length)} cols={2} isMobile={isMobile}>
+      <div style={{ fontFamily: 'var(--serif)', fontSize: isMobile ? 14 : 18, fontStyle: 'italic', color: 'var(--ink-80)', lineHeight: 1.55, marginBottom: 8 }}>
         &ldquo;{q.text}&rdquo;
       </div>
-      <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>— {q.author}</div>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: isMobile ? 9.5 : 11, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>— {q.author}</div>
     </Widget>
   )
 }
 
 // ─── W2 · Focus Science ───────────────────────────────────────────────────────
-function ScienceWidget() {
+function ScienceWidget({ isMobile }: { isMobile: boolean }) {
   const s = todaySeed()
   const [i, setI] = useState(() => Math.floor(sr(s, 1) * FACTS.length))
   const [open, setOpen] = useState(false)
   const f = FACTS[i]
   return (
-    <Widget label="Focus science" hint={open ? 'tap · next' : 'tap · reveal'} onClick={() => open ? (setI(x => (x+1) % FACTS.length), setOpen(false)) : setOpen(true)}>
-      <div style={{ fontFamily: 'var(--mono)', fontSize: 12.5, fontWeight: 700, color: 'var(--ink-80)', letterSpacing: '0.04em', marginBottom: 8 }}>
+    <Widget label="Focus science" hint={open ? 'tap · next' : 'tap · reveal'} onClick={() => open ? (setI(x => (x+1) % FACTS.length), setOpen(false)) : setOpen(true)} isMobile={isMobile}>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: isMobile ? 10.5 : 12.5, fontWeight: 700, color: 'var(--ink-80)', letterSpacing: '0.04em', marginBottom: 6 }}>
         {f.title}
       </div>
       {open
-        ? <div style={{ fontFamily: 'var(--serif)', fontSize: 14.5, fontStyle: 'italic', color: 'var(--ink-60)', lineHeight: 1.5 }}>{f.body}</div>
-        : <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--ink-25)', letterSpacing: '0.14em', textTransform: 'uppercase' }}>tap to reveal</div>
+        ? <div style={{ fontFamily: 'var(--serif)', fontSize: isMobile ? 12.5 : 14.5, fontStyle: 'italic', color: 'var(--ink-60)', lineHeight: 1.5 }}>{f.body}</div>
+        : <div style={{ fontFamily: 'var(--mono)', fontSize: isMobile ? 8.5 : 10, color: 'var(--ink-25)', letterSpacing: '0.14em', textTransform: 'uppercase' }}>tap to reveal</div>
       }
     </Widget>
   )
 }
 
 // ─── W3 · Word ────────────────────────────────────────────────────────────────
-function WordWidget() {
+function WordWidget({ isMobile }: { isMobile: boolean }) {
   const s = todaySeed()
   const [i] = useState(() => Math.floor(sr(s, 2) * WORDS.length))
   const [stage, setStage] = useState(0)
   const w = WORDS[i]
   return (
-    <Widget label="Word" hint={stage < 2 ? 'tap · reveal' : undefined} onClick={() => setStage(x => Math.min(x + 1, 2))}>
-      <div style={{ fontFamily: 'var(--serif)', fontSize: 26, fontStyle: 'italic', color: 'var(--ink-100)', letterSpacing: '-0.01em', marginBottom: 8 }}>{w.word}</div>
-      {stage >= 1 && <div style={{ fontFamily: 'var(--serif)', fontSize: 14, fontStyle: 'italic', color: 'var(--ink-60)', lineHeight: 1.5, marginBottom: 6 }}>{w.def}</div>}
-      {stage >= 2 && <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--ink-25)', letterSpacing: '0.10em' }}>{w.origin}</div>}
+    <Widget label="Word" hint={stage < 2 ? 'tap · reveal' : undefined} onClick={() => setStage(x => Math.min(x + 1, 2))} isMobile={isMobile}>
+      <div style={{ fontFamily: 'var(--serif)', fontSize: isMobile ? 20 : 26, fontStyle: 'italic', color: 'var(--ink-100)', letterSpacing: '-0.01em', marginBottom: 6 }}>{w.word}</div>
+      {stage >= 1 && <div style={{ fontFamily: 'var(--serif)', fontSize: isMobile ? 12 : 14, fontStyle: 'italic', color: 'var(--ink-60)', lineHeight: 1.5, marginBottom: 5 }}>{w.def}</div>}
+      {stage >= 2 && <div style={{ fontFamily: 'var(--mono)', fontSize: isMobile ? 8.5 : 10, color: 'var(--ink-25)', letterSpacing: '0.10em' }}>{w.origin}</div>}
     </Widget>
   )
 }
 
 // ─── W4 · Reflection Prompt ───────────────────────────────────────────────────
-function PromptWidget() {
+function PromptWidget({ isMobile }: { isMobile: boolean }) {
   const s = todaySeed()
   const [i, setI] = useState(() => Math.floor(sr(s, 3) * PROMPTS.length))
   const [ans, setAns] = useState(() => lsGet(`flip-prompt-${s}`))
   const [editing, setEditing] = useState(false)
+  const fs = isMobile ? 13 : 16
   return (
-    <Widget label="Reflection" hint={editing ? undefined : 'tap prompt · next'} onClick={editing ? undefined : () => setI(x => (x + 1) % PROMPTS.length)} cols={2}>
-      <div style={{ fontFamily: 'var(--serif)', fontSize: 16, fontStyle: 'italic', color: 'var(--ink-80)', lineHeight: 1.55, marginBottom: 12 }}>
+    <Widget label="Reflection" hint={editing ? undefined : 'tap prompt · next'} onClick={editing ? undefined : () => setI(x => (x + 1) % PROMPTS.length)} cols={2} isMobile={isMobile}>
+      <div style={{ fontFamily: 'var(--serif)', fontSize: fs, fontStyle: 'italic', color: 'var(--ink-80)', lineHeight: 1.55, marginBottom: 10 }}>
         {PROMPTS[i]}
       </div>
       {editing
@@ -199,11 +213,11 @@ function PromptWidget() {
             onClick={e => e.stopPropagation()}
             rows={2}
             placeholder="write here…"
-            style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--grid-major)', fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 14.5, color: 'var(--ink-80)', outline: 'none', resize: 'none', lineHeight: 1.5 }}
+            style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--grid-major)', fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: fs - 1.5, color: 'var(--ink-80)', outline: 'none', resize: 'none', lineHeight: 1.5 }}
           />
         : <div
             onClick={e => { e.stopPropagation(); setEditing(true) }}
-            style={{ fontFamily: 'var(--serif)', fontSize: 14.5, fontStyle: 'italic', color: ans ? 'var(--ink-60)' : 'var(--ink-25)', borderBottom: '1px solid var(--grid-minor)', paddingBottom: 4, minHeight: 26, cursor: 'text' }}
+            style={{ fontFamily: 'var(--serif)', fontSize: fs - 1.5, fontStyle: 'italic', color: ans ? 'var(--ink-60)' : 'var(--ink-25)', borderBottom: '1px solid var(--grid-minor)', paddingBottom: 4, minHeight: 24, cursor: 'text' }}
           >
             {ans || 'tap here to write…'}
           </div>
@@ -213,7 +227,7 @@ function PromptWidget() {
 }
 
 // ─── W5 · Day Arc ─────────────────────────────────────────────────────────────
-function DayArcWidget() {
+function DayArcWidget({ isMobile }: { isMobile: boolean }) {
   const [pct, setPct] = useState(0)
   useEffect(() => {
     const calc = () => {
@@ -227,15 +241,15 @@ function DayArcWidget() {
   const h = new Date().getHours()
   const seg = h < 6 ? 'night' : h < 12 ? 'morning' : h < 17 ? 'afternoon' : h < 21 ? 'evening' : 'night'
   return (
-    <Widget label="Day arc">
+    <Widget label="Day arc" isMobile={isMobile}>
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 8 }}>
-        <div style={{ position: 'relative', height: 22, border: '1.5px solid var(--ink-80)' }}>
+        <div style={{ position: 'relative', height: isMobile ? 16 : 22, border: '1.5px solid var(--ink-80)' }}>
           <div style={{ position: 'absolute', inset: 0, right: `${(1 - pct) * 100}%`, background: 'var(--ink-80)' }} />
           {[6, 12, 18].map(hh => (
             <div key={hh} style={{ position: 'absolute', left: `${hh / 24 * 100}%`, top: 0, bottom: 0, width: 1, background: 'var(--page)', opacity: 0.4 }} />
           ))}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--mono)', fontSize: 10.5, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--mono)', fontSize: isMobile ? 9 : 10.5, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>
           <span>00h</span>
           <span style={{ color: 'var(--ink-80)', fontWeight: 700 }}>{Math.round(pct * 100)}% · {seg}</span>
           <span>24h</span>
@@ -246,12 +260,12 @@ function DayArcWidget() {
 }
 
 // ─── W6 · Scratch Pad ────────────────────────────────────────────────────────
-function ScratchWidget() {
+function ScratchWidget({ isMobile }: { isMobile: boolean }) {
   const s = todaySeed()
   const [text, setText] = useState(() => lsGet(`flip-scratch-${s}`))
   const lines = text.split('\n').filter(Boolean).length
   return (
-    <Widget label={`Margin notes · ${lines}`}>
+    <Widget label={`Margin notes · ${lines}`} isMobile={isMobile}>
       <textarea
         value={text}
         onChange={e => { setText(e.target.value); lsSet(`flip-scratch-${s}`, e.target.value) }}
@@ -259,7 +273,7 @@ function ScratchWidget() {
         placeholder="thoughts from the margin…"
         style={{
           flex: 1, width: '100%', minHeight: 60, background: 'transparent', border: 'none',
-          fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--ink-80)',
+          fontFamily: 'var(--mono)', fontSize: isMobile ? 11 : 13, color: 'var(--ink-80)',
           outline: 'none', resize: 'none', lineHeight: 1.7,
         }}
       />
@@ -268,7 +282,7 @@ function ScratchWidget() {
 }
 
 // ─── W7 · Generative E-ink Art ────────────────────────────────────────────────
-function PatternWidget() {
+function PatternWidget({ isMobile }: { isMobile: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const s = todaySeed()
   const [v, setV] = useState(0)
@@ -328,8 +342,8 @@ function PatternWidget() {
   useEffect(() => { draw() }, [draw])
 
   return (
-    <Widget label="Daily pattern" hint="tap · new" onClick={() => setV(x => x + 1)}>
-      <canvas ref={canvasRef} width={200} height={88}
+    <Widget label="Daily pattern" hint="tap · new" onClick={() => setV(x => x + 1)} isMobile={isMobile}>
+      <canvas ref={canvasRef} width={200} height={isMobile ? 68 : 88}
         style={{ width: '100%', height: 'auto', display: 'block', imageRendering: 'crisp-edges' }}
       />
     </Widget>
@@ -337,7 +351,7 @@ function PatternWidget() {
 }
 
 // ─── W8 · Compound Focus ──────────────────────────────────────────────────────
-function CompoundWidget() {
+function CompoundWidget({ isMobile }: { isMobile: boolean }) {
   const [stats] = useState(() => {
     try {
       const keys = Object.keys(localStorage).filter(k => k.startsWith('flip-day-'))
@@ -349,15 +363,15 @@ function CompoundWidget() {
   })
   const hr = Math.floor(stats.min / 60), min = stats.min % 60
   return (
-    <Widget label="Compound focus">
-      <div style={{ fontFamily: 'var(--serif)', fontSize: 32, fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--ink-100)', lineHeight: 1, marginBottom: 8 }}>
+    <Widget label="Compound focus" isMobile={isMobile}>
+      <div style={{ fontFamily: 'var(--serif)', fontSize: isMobile ? 26 : 32, fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--ink-100)', lineHeight: 1, marginBottom: 6 }}>
         {hr > 0 ? `${hr}h ${min}m` : `${min}m`}
       </div>
-      <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-40)', letterSpacing: '0.10em', textTransform: 'uppercase' }}>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: isMobile ? 9.5 : 11, color: 'var(--ink-40)', letterSpacing: '0.10em', textTransform: 'uppercase' }}>
         {stats.sessions} sessions total
       </div>
       {stats.sessions > 0 && (
-        <div style={{ fontFamily: 'var(--serif)', fontSize: 13.5, fontStyle: 'italic', color: 'var(--ink-60)', marginTop: 8, lineHeight: 1.45 }}>
+        <div style={{ fontFamily: 'var(--serif)', fontSize: isMobile ? 11.5 : 13.5, fontStyle: 'italic', color: 'var(--ink-60)', marginTop: 7, lineHeight: 1.45 }}>
           At this pace: {Math.round(stats.min / 60 * 365 / Math.max(1, Object.keys(localStorage).filter(k => k.startsWith('flip-day-')).length))}h/year.
         </div>
       )}
@@ -367,22 +381,23 @@ function CompoundWidget() {
 
 // ─── Export ───────────────────────────────────────────────────────────────────
 export default function Widgets() {
+  const isMobile = useIsMobile()
   return (
     <div style={{
       display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 14,
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+      gap: isMobile ? 10 : 14,
       width: '100%',
-      maxWidth: 860,
+      maxWidth: isMobile ? '100%' : 860,
     }}>
-      <QuoteWidget />
-      <ScienceWidget />
-      <WordWidget />
-      <DayArcWidget />
-      <ScratchWidget />
-      <PromptWidget />
-      <PatternWidget />
-      <CompoundWidget />
+      <QuoteWidget isMobile={isMobile} />
+      <ScienceWidget isMobile={isMobile} />
+      <WordWidget isMobile={isMobile} />
+      <DayArcWidget isMobile={isMobile} />
+      <ScratchWidget isMobile={isMobile} />
+      <PromptWidget isMobile={isMobile} />
+      <PatternWidget isMobile={isMobile} />
+      <CompoundWidget isMobile={isMobile} />
     </div>
   )
 }

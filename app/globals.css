@@ -955,6 +955,15 @@ body::before {
   .focus-section, .sound-section, .rest-section, .play-section { padding-left: 56px; }
 }
 
+@media (max-width: 640px) {
+  body { padding: 0; }
+  .notebook { border-radius: 0; height: 100dvh; }
+  .notebook::before { display: none; }
+  .topbar { padding: 8px 14px; }
+  .topbar-brand { font-size: 28px; }
+  .topbar-rhythm { gap: 12px; font-size: 12px; }
+}
+
 /* ─── UTIL ─────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
