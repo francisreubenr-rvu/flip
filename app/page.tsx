@@ -260,7 +260,7 @@ export default function FlipPage() {
         >
           {/* Date header */}
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(36px, 5vw, 64px)', fontStyle: 'italic', fontWeight: 700, color: 'var(--ink-100)', letterSpacing: '-0.02em' }}>
+            <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(52px, 8vw, 116px)', fontStyle: 'italic', fontWeight: 700, color: 'var(--ink-100)', letterSpacing: '-0.03em' }}>
               {dateLong}
             </div>
             <div style={{ fontFamily: 'var(--mono)', fontSize: 14, color: 'var(--ink-40)', letterSpacing: '0.14em', marginTop: 8 }}>
@@ -271,7 +271,7 @@ export default function FlipPage() {
           {/* Intention block */}
           {!committed ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center', maxWidth: 600, width: '100%' }}>
-              <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(22px, 2.5vw, 36px)', fontStyle: 'italic', color: 'var(--ink-60)', textAlign: 'center' }}>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 3.5vw, 52px)', fontStyle: 'italic', color: 'var(--ink-60)', textAlign: 'center' }}>
                 What will you focus on today?
               </div>
               <input
@@ -282,7 +282,7 @@ export default function FlipPage() {
                 onKeyDown={e => e.key === 'Enter' && intention.trim() && commitIntention()}
                 placeholder="one specific thing, written in your own hand"
                 autoFocus
-                style={{ textAlign: 'center', fontSize: 'clamp(20px, 2.5vw, 34px)' }}
+                style={{ textAlign: 'center', fontSize: 'clamp(24px, 3.2vw, 46px)' }}
               />
               <input
                 className="intent-input"
@@ -316,7 +316,7 @@ export default function FlipPage() {
               <div style={{ position: 'relative', paddingBottom: 18, marginBottom: 8 }}>
                 <div style={{
                   fontFamily: 'var(--serif)',
-                  fontSize: 'clamp(36px, 4.5vw, 68px)',
+                  fontSize: 'clamp(56px, 8.5vw, 128px)',
                   fontStyle: 'italic',
                   fontWeight: 700,
                   color: 'var(--ink-100)',

@@ -2,9 +2,9 @@
 import { useRef, useEffect, useCallback } from 'react'
 
 // ─── Sphere constants ─────────────────────────────────────────────────────────
-const R   = 200
-const CW  = R + 24
-const CH  = R * 2 + 80
+const R   = 110
+const CW  = R + 20
+const CH  = R * 2 + 60
 const SCX = CW          // sphere centre at right edge of canvas
 const SCY = CH / 2
 
