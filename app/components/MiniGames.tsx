@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { RefreshCw } from 'lucide-react'
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -49,6 +49,8 @@ function TicTacToe() {
   const [xTurn, setXTurn] = useState(true)
   const [result, setResult] = useState<{ mark: 'X' | 'O'; line: number[] } | 'draw' | null>(null)
   const [thinking, setThinking] = useState(false)
+  const aiTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  useEffect(() => () => { if (aiTimerRef.current) clearTimeout(aiTimerRef.current) }, [])
 
   const handleClick = (i: number) => {
     if (!xTurn || board[i] || result || thinking) return
@@ -57,7 +59,7 @@ function TicTacToe() {
     setBoard(nb)
     if (r) { setResult(r); return }
     setXTurn(false); setThinking(true)
-    setTimeout(() => {
+    aiTimerRef.current = setTimeout(() => {
       const ai = bestMove(nb)
       if (ai >= 0) {
         const nb2 = [...nb]; nb2[ai] = 'O'
@@ -68,7 +70,10 @@ function TicTacToe() {
     }, 320)
   }
 
-  const reset = () => { setBoard(Array(9).fill(null)); setXTurn(true); setResult(null); setThinking(false) }
+  const reset = () => {
+    if (aiTimerRef.current) { clearTimeout(aiTimerRef.current); aiTimerRef.current = null }
+    setBoard(Array(9).fill(null)); setXTurn(true); setResult(null); setThinking(false)
+  }
 
   const winLine = typeof result === 'object' && result !== null ? result.line : null
   const status = result

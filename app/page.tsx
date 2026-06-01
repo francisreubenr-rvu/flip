@@ -66,6 +66,8 @@ export default function FlipPage() {
   const [ambientOn, setAmbientOn] = useState(false)
   const hasStartedRef = useRef(false)
   const brownCtxRef = useRef<AudioContext | null>(null)
+  const ambientIframeRef = useRef<HTMLIFrameElement>(null)
+  const musicStopRef = useRef<(() => void) | null>(null)
 
   // ─── Scroll-snap refs ─────────────────────────────────────────────────────
   const pageRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -112,18 +114,21 @@ export default function FlipPage() {
   useEffect(() => {
     if (!('wakeLock' in navigator)) return
     let lock: WakeLockSentinel | null = null
+    let acquiring = false
 
     const acquire = async () => {
-      if (document.visibilityState !== 'visible') return
+      if (document.visibilityState !== 'visible' || acquiring || lock) return
+      acquiring = true
       try {
         lock = await navigator.wakeLock.request('screen')
-        // Re-acquire immediately when the browser releases the lock (screen dim, etc.)
         lock.addEventListener('release', () => { lock = null; acquire() })
-      } catch {}
+      } catch {
+      } finally {
+        acquiring = false
+      }
     }
 
     acquire()
-    // Backup: re-acquire on visibility change and every 15 s in case release event fires late
     const onVis = () => { if (document.visibilityState === 'visible' && !lock) acquire() }
     const timer = setInterval(() => { if (!lock) acquire() }, 15000)
     document.addEventListener('visibilitychange', onVis)
@@ -139,6 +144,10 @@ export default function FlipPage() {
   const startAmbient = useCallback(async () => {
     if (hasStartedRef.current) return
     hasStartedRef.current = true
+    // Set src synchronously — iOS Safari requires iframe load to happen in the user-gesture call stack
+    if (ambientIframeRef.current) {
+      ambientIframeRef.current.src = 'https://www.youtube.com/embed/XNBV9PcH8ik?autoplay=1&loop=1&playlist=XNBV9PcH8ik&controls=0&rel=0&playsinline=1'
+    }
     setAmbientOn(true)
     try {
       const ctx = new (window.AudioContext || (window as any).webkitAudioContext)()
@@ -166,8 +175,10 @@ export default function FlipPage() {
   const stopAmbient = useCallback(() => {
     hasStartedRef.current = false
     setAmbientOn(false)
+    if (ambientIframeRef.current) ambientIframeRef.current.src = 'about:blank'
     brownCtxRef.current?.close()
     brownCtxRef.current = null
+    musicStopRef.current?.()
   }, [])
 
   // Tap-anywhere ambient start — desktop only; mobile uses the Sound page button
@@ -268,15 +279,14 @@ export default function FlipPage() {
       {/* ── Golf-sphere page nav (desktop only) ────────────────────────── */}
       {!isMobile && <GolfNav page={page} onNavigate={scrollToPage} />}
 
-      {/* ── Hidden YouTube background player (injected after first gesture) ── */}
-      {ambientOn && (
-        <iframe
-          src="https://www.youtube.com/embed/XNBV9PcH8ik?autoplay=1&loop=1&playlist=XNBV9PcH8ik&controls=0&rel=0"
-          allow="autoplay; encrypted-media"
-          aria-hidden="true"
-          style={{ position: 'fixed', width: 1, height: 1, opacity: 0, pointerEvents: 'none', border: 'none', bottom: 0, right: 0 } as CSSProperties}
-        />
-      )}
+      {/* Always in DOM so startAmbient can set .src synchronously in the user-gesture call stack */}
+      <iframe
+        ref={ambientIframeRef}
+        src="about:blank"
+        allow="autoplay; encrypted-media"
+        aria-hidden="true"
+        style={{ position: 'fixed', width: 1, height: 1, opacity: 0, pointerEvents: 'none', border: 'none', bottom: 0, right: 0 } as CSSProperties}
+      />
 
       {/* ── Scroll-snap page area ────────────────────────────────────────── */}
       <div style={{
@@ -495,7 +505,7 @@ export default function FlipPage() {
             </button>
           )}
 
-          <MusicPlayer onPlay={startAmbient} />
+          <MusicPlayer onPlay={startAmbient} stopRef={musicStopRef} />
         </div>
 
         {/* ── PAGE 3: REST ──────────────────────────────────────────────── */}

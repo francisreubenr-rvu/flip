@@ -1,7 +1,7 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 import { Play, Pause } from 'lucide-react'
-import type { CSSProperties } from 'react'
+import type { CSSProperties, MutableRefObject } from 'react'
 
 const CHANNELS = [
   { id: 'rain',     label: 'Rain',     sub: 'thunderstorm + ambience', ytId: '3MBTtuEXMpc',  note: 'Storm sounds mask speech-frequency distractors without semantic content.' },
@@ -12,18 +12,22 @@ const CHANNELS = [
 ]
 
 function ytSrc(id: string) {
-  return `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&controls=0&rel=0&enablejsapi=0`
+  return `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&controls=0&rel=0&enablejsapi=0&playsinline=1`
 }
 
-export default function MusicPlayer({ onPlay }: { onPlay?: () => void }) {
+const BARS = Array.from({ length: 52 }, (_, i) => ({
+  h: (Math.abs(Math.sin(i * 0.5 + 1) * 60 + Math.sin(i * 1.3) * 30) + 10).toFixed(2),
+  d: ((i % 7) * 0.07).toFixed(2),
+  dur: (0.5 + (i % 5) * 0.16).toFixed(2),
+}))
+
+export default function MusicPlayer({ onPlay, stopRef }: { onPlay?: () => void; stopRef?: MutableRefObject<(() => void) | null> }) {
   const [playing, setPlaying] = useState(false)
   const [ch, setCh] = useState(CHANNELS[0])
   const [elapsed, setElapsed] = useState(0)
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const timRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const chRef = useRef(ch)  // keep a ref so event handlers always see the current channel
 
-  useEffect(() => { chRef.current = ch }, [ch])
   useEffect(() => () => { if (timRef.current) clearInterval(timRef.current) }, [])
 
   const startTimer = () => {
@@ -42,13 +46,21 @@ export default function MusicPlayer({ onPlay }: { onPlay?: () => void }) {
     if (iframeRef.current) iframeRef.current.src = 'about:blank'
   }
 
+  const stopPlayback = () => {
+    clearIframe()
+    setPlaying(false)
+    if (timRef.current) { clearInterval(timRef.current); timRef.current = null }
+  }
+
+  useEffect(() => {
+    if (stopRef) stopRef.current = stopPlayback
+  })
+
   const toggle = () => {
     if (playing) {
-      clearIframe()
-      setPlaying(false)
-      if (timRef.current) clearInterval(timRef.current)
+      stopPlayback()
     } else {
-      loadChannel(ch)       // synchronous — must happen before any await/setState
+      loadChannel(ch)
       setPlaying(true)
       startTimer()
       onPlay?.()
@@ -56,24 +68,16 @@ export default function MusicPlayer({ onPlay }: { onPlay?: () => void }) {
   }
 
   const selectChannel = (c: typeof CHANNELS[0]) => {
+    if (c.id === ch.id && playing) return  // already playing this channel — no-op
     onPlay?.()
     setCh(c)
-    chRef.current = c
-    loadChannel(c)        // always load — on mobile there's no separate Play tap
-    if (!playing) {
-      setPlaying(true)
-      startTimer()
-    }
+    loadChannel(c)                 // synchronous — iOS Safari autoplay requires this
+    startTimer()                   // always reset elapsed on channel change
+    if (!playing) setPlaying(true)
   }
 
   const fmt = (s: number) =>
     `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`
-
-  const bars = Array.from({ length: 52 }, (_, i) => ({
-    h: (Math.abs(Math.sin(i * 0.5 + 1) * 60 + Math.sin(i * 1.3) * 30) + 10).toFixed(2),
-    d: ((i % 7) * 0.07).toFixed(2),
-    dur: (0.5 + (i % 5) * 0.16).toFixed(2),
-  }))
 
   const hidden: CSSProperties = {
     position: 'fixed', width: 1, height: 1, opacity: 0,
@@ -114,7 +118,7 @@ export default function MusicPlayer({ onPlay }: { onPlay?: () => void }) {
         </div>
 
         <div className="waveform-big">
-          {bars.map((b, i) => (
+          {BARS.map((b, i) => (
             <div key={i} className={`wave-bar ${playing ? 'live' : ''}`} style={{
               height: `${b.h}%`,
               ...(playing ? { animationDuration: `${b.dur}s`, animationDelay: `${b.d}s` } : {}),
