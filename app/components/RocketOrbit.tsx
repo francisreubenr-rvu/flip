@@ -1,5 +1,6 @@
 'use client'
 import { useRef, useEffect } from 'react'
+import { keplerStep } from '../lib/physics'
 
 const DEG = Math.PI / 180
 
@@ -216,17 +217,18 @@ export default function RocketOrbit() {
       const rocketTilt  = -12 * DEG + Math.sin(t * 0.031) * 0.38 + Math.sin(t * 0.019) * 0.20
       const rocketA     = vw * (0.37 + Math.sin(t * 0.024) * 0.02)
       const rocketB     = vh * (0.34 + Math.cos(t * 0.021) * 0.015)
-      θRef.current     += 0.000162 * dt
+      // Kepler: speed ∝ (1+e·cosν)² — rocket ~3× faster at periapsis vs apoapsis
+      θRef.current     += keplerStep(θRef.current,     0.28, 0.000162,  dt)
 
       // ── Planet orbits ─────────────────────────────────────────────────
       const innerA = vw * 0.16,  innerB = vh * 0.14,  innerTilt = -22 * DEG
       const outerA = vw * 0.44,  outerB = vh * 0.42,  outerTilt =  14 * DEG
-      θPRef.current[0] += 0.00042  * dt  // inner planet: fast
-      θPRef.current[1] += 0.000038 * dt  // outer planet: slow
+      θPRef.current[0] += keplerStep(θPRef.current[0], 0.12, 0.00042,   dt)
+      θPRef.current[1] += keplerStep(θPRef.current[1], 0.08, 0.000038,  dt)
 
       // ── Asteroid belt ─────────────────────────────────────────────────
       const beltA = vw * 0.29, beltB = vh * 0.26, beltTilt = -5 * DEG
-      θARef.current += 0.000022 * dt
+      θARef.current    += keplerStep(θARef.current,    0.05, 0.000022,  dt)
 
       // ── Clear ─────────────────────────────────────────────────────────
       bctx.clearRect(0, 0, vw, vh); fctx.clearRect(0, 0, vw, vh)
