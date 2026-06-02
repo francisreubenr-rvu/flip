@@ -1,19 +1,15 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { Play, Pause } from 'lucide-react'
-import type { CSSProperties, MutableRefObject } from 'react'
+import type { MutableRefObject } from 'react'
 
 const CHANNELS = [
-  { id: 'rain',     label: 'Rain',     sub: 'thunderstorm + ambience', ytId: '3MBTtuEXMpc',  note: 'Storm sounds mask speech-frequency distractors without semantic content.' },
-  { id: 'binaural', label: 'Binaural', sub: 'theta 6Hz beats',         ytId: '_E95KdGPNdA',  note: 'Theta binaural beats (6Hz). Memory + attention effects. Use headphones.' },
-  { id: 'cafe',     label: 'Café',     sub: 'coffee shop voices',      ytId: 'BPyp3GHk-d4',  note: 'Background murmur provides auditory presence without lyrical interference.' },
-  { id: 'forest',   label: 'Forest',   sub: 'birds + nature',          ytId: 'CqXeTN-xkm0',  note: 'Nature sounds: strongest cross-study evidence for attention restoration.' },
-  { id: 'brown',    label: 'Brown',    sub: 'pure low frequency',      ytId: 'IOijfCTQPGQ',  note: 'Deep low-frequency masking. Preferred for high-load reading and writing.' },
+  { id: 'rain',     label: 'Rain',     sub: 'thunderstorm + ambience', src: '/audio/rain.mp3',     note: 'Storm sounds mask speech-frequency distractors without semantic content.' },
+  { id: 'binaural', label: 'Binaural', sub: 'theta 6Hz beats',         src: '/audio/binaural.mp3', note: 'Theta binaural beats (6Hz). Memory + attention effects. Use headphones.' },
+  { id: 'cafe',     label: 'Café',     sub: 'coffee shop voices',      src: '/audio/cafe.mp3',     note: 'Background murmur provides auditory presence without lyrical interference.' },
+  { id: 'forest',   label: 'Forest',   sub: 'birds + nature',          src: '/audio/forest.mp3',   note: 'Nature sounds: strongest cross-study evidence for attention restoration.' },
+  { id: 'brown',    label: 'Brown',    sub: 'pure low frequency',      src: '/audio/brown.mp3',    note: 'Deep low-frequency masking. Preferred for high-load reading and writing.' },
 ]
-
-function ytSrc(id: string) {
-  return `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&controls=0&rel=0&enablejsapi=0&playsinline=1`
-}
 
 const BARS = Array.from({ length: 52 }, (_, i) => ({
   h: (Math.abs(Math.sin(i * 0.5 + 1) * 60 + Math.sin(i * 1.3) * 30) + 10).toFixed(2),
@@ -25,9 +21,13 @@ export default function MusicPlayer({ onPlay, stopRef }: { onPlay?: () => void; 
   const [playing, setPlaying] = useState(false)
   const [ch, setCh] = useState(CHANNELS[0])
   const [elapsed, setElapsed] = useState(0)
-  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const [resumeNeeded, setResumeNeeded] = useState(false)
+  const audioRef = useRef<HTMLAudioElement>(null)
   const timRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  // Stable ref so the visibilitychange closure always sees current playing state
+  const playingRef = useRef(false)
 
+  useEffect(() => { playingRef.current = playing }, [playing])
   useEffect(() => () => { if (timRef.current) clearInterval(timRef.current) }, [])
 
   const startTimer = () => {
@@ -36,64 +36,92 @@ export default function MusicPlayer({ onPlay, stopRef }: { onPlay?: () => void; 
     timRef.current = setInterval(() => setElapsed(e => e + 1), 1000)
   }
 
-  // Sets iframe.src synchronously inside the user-gesture call stack so
-  // iOS Safari counts it as a user-triggered autoplay (not a deferred React render).
-  const loadChannel = (c: typeof CHANNELS[0]) => {
-    if (iframeRef.current) iframeRef.current.src = ytSrc(c.ytId)
-  }
+  const setupMediaSession = useCallback((channel: typeof CHANNELS[0]) => {
+    if (!('mediaSession' in navigator)) return
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: channel.label,
+      artist: channel.sub,
+      album: 'Flip · Focus',
+    })
+    navigator.mediaSession.setActionHandler('play', () => {
+      audioRef.current?.play()
+      setPlaying(true)
+      setResumeNeeded(false)
+    })
+    navigator.mediaSession.setActionHandler('pause', () => {
+      audioRef.current?.pause()
+      setPlaying(false)
+    })
+    navigator.mediaSession.setActionHandler('stop', () => {
+      audioRef.current?.pause()
+      if (audioRef.current) audioRef.current.currentTime = 0
+      setPlaying(false)
+      setResumeNeeded(false)
+    })
+  }, [])
 
-  const clearIframe = () => {
-    if (iframeRef.current) iframeRef.current.src = 'about:blank'
-  }
-
-  const stopPlayback = () => {
-    clearIframe()
+  const stopPlayback = useCallback(() => {
+    const audio = audioRef.current
+    if (audio) { audio.pause(); audio.currentTime = 0 }
     setPlaying(false)
+    setResumeNeeded(false)
     if (timRef.current) { clearInterval(timRef.current); timRef.current = null }
-  }
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none'
+  }, [])
 
   useEffect(() => {
     if (stopRef) stopRef.current = stopPlayback
   })
 
-  const toggle = () => {
-    if (playing) {
-      stopPlayback()
-    } else {
-      loadChannel(ch)
+  // When the tab regains visibility and the audio was silently interrupted (iOS, Android)
+  useEffect(() => {
+    const onVisibility = () => {
+      if (!document.hidden && playingRef.current && audioRef.current?.paused) {
+        setResumeNeeded(true)
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => document.removeEventListener('visibilitychange', onVisibility)
+  }, [])
+
+  useEffect(() => {
+    if (!('mediaSession' in navigator)) return
+    navigator.mediaSession.playbackState = playing ? 'playing' : 'paused'
+  }, [playing])
+
+  const startPlaying = useCallback(async (channel: typeof CHANNELS[0]) => {
+    const audio = audioRef.current
+    if (!audio) return
+    if (!audio.src.endsWith(channel.src)) audio.src = channel.src
+    try {
+      await audio.play()
       setPlaying(true)
+      setResumeNeeded(false)
+      setupMediaSession(channel)
       startTimer()
       onPlay?.()
+    } catch {
+      // Autoplay blocked — user must interact first (shouldn't happen since we're in a click handler)
+      setPlaying(false)
     }
+  }, [onPlay, setupMediaSession])
+
+  const toggle = () => {
+    if (playing) { stopPlayback() } else { startPlaying(ch) }
   }
 
   const selectChannel = (c: typeof CHANNELS[0]) => {
-    if (c.id === ch.id && playing) return  // already playing this channel — no-op
-    onPlay?.()
+    if (c.id === ch.id && playing) return
     setCh(c)
-    loadChannel(c)                 // synchronous — iOS Safari autoplay requires this
-    startTimer()                   // always reset elapsed on channel change
-    if (!playing) setPlaying(true)
+    startPlaying(c)
   }
 
   const fmt = (s: number) =>
     `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`
 
-  const hidden: CSSProperties = {
-    position: 'fixed', width: 1, height: 1, opacity: 0,
-    border: 'none', bottom: 0, left: 0, pointerEvents: 'none',
-  }
-
   return (
     <div className="sound-layout">
-      {/* Always in DOM so we can set .src synchronously in the click handler */}
-      <iframe
-        ref={iframeRef}
-        src="about:blank"
-        allow="autoplay; encrypted-media"
-        aria-hidden="true"
-        style={hidden}
-      />
+      <audio ref={audioRef} loop preload="none" />
 
       <div className="channel-list">
         {CHANNELS.map((c, i) => (
@@ -131,9 +159,15 @@ export default function MusicPlayer({ onPlay, stopRef }: { onPlay?: () => void; 
             {playing ? <Pause size={18} /> : <Play size={18} />}
           </button>
           <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-25)', letterSpacing: '0.1em' }}>
-            {playing ? 'streaming from youtube' : 'tap to stream'}
+            {playing ? 'playing' : 'tap to play'}
           </span>
         </div>
+
+        {resumeNeeded && (
+          <button className="resume-banner" onClick={() => startPlaying(ch)}>
+            audio paused — tap to resume
+          </button>
+        )}
 
         <div className="sound-footnote">{ch.note}</div>
       </div>

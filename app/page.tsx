@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useCallback, useRef, type CSSProperties } from 'react'
+import { useRouter } from 'next/navigation'
 import InkStampClock from './components/InkStampClock'
 import Pomodoro from './components/Pomodoro'
 import MusicPlayer from './components/MusicPlayer'
@@ -10,6 +11,7 @@ import Folio from './components/Folio'
 import RocketOrbit from './components/RocketOrbit'
 import GolfNav from './components/GolfNav'
 import Widgets from './components/Widgets'
+import { useAuth } from './lib/auth'
 
 type Mode = 'work' | 'short-break' | 'long-break'
 
@@ -51,6 +53,27 @@ export default function FlipPage() {
   const [dayPct, setDayPct] = useState(0)
   const [page, setPage] = useState(0)
   const totalPages = 5
+  const [isDark, setIsDark] = useState(false)
+
+  const { user, loading: authLoading, signOut } = useAuth()
+  const router = useRouter()
+
+  // Auth guard
+  useEffect(() => {
+    if (!authLoading && !user) router.replace('/signin')
+  }, [user, authLoading, router])
+
+  // Sync dark theme state from <html data-theme>
+  useEffect(() => {
+    setIsDark(document.documentElement.dataset.theme === 'dark')
+  }, [])
+
+  const toggleTheme = () => {
+    const next = !isDark
+    setIsDark(next)
+    document.documentElement.dataset.theme = next ? 'dark' : ''
+    try { localStorage.setItem('flip-theme', next ? 'dark' : 'light') } catch {}
+  }
 
   // Daily state
   const [intention, setIntention] = useState('')
@@ -232,7 +255,7 @@ export default function FlipPage() {
 
   const pageLabel = ['Daily Page', 'Focus', 'Sound', 'Rest', 'Play']
 
-  if (!mounted) return null
+  if (!mounted || authLoading || !user) return null
 
   return (
     <div className="notebook" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -256,6 +279,15 @@ export default function FlipPage() {
           )}
         </div>
         <InkStampClock compact />
+        <div className="topbar-user">
+          <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme" title={isDark ? 'Switch to light' : 'Switch to dark'}>
+            {isDark ? '☀' : '☾'}
+          </button>
+          <div className="topbar-avatar" title={user.email ?? ''}>
+            {(user.user_metadata?.display_name as string)?.[0]?.toUpperCase() ?? user.email?.[0]?.toUpperCase() ?? '?'}
+          </div>
+          <button className="topbar-signout" onClick={signOut}>sign out</button>
+        </div>
       </header>
 
       {/* ── Sidebar margin stats (desktop only) ────────────────────────── */}

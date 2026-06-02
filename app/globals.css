@@ -760,6 +760,13 @@ body::before {
   border-top: 1px solid var(--grid-minor); padding-top: 14px;
 }
 
+.resume-banner {
+  display: block; width: 100%; text-align: center;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent); border: 1px solid var(--accent); border-radius: 2px;
+  padding: 6px 12px; background: transparent; cursor: pointer;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    SECTION 04 — REST
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -997,3 +1004,247 @@ body::before {
 ::-webkit-scrollbar-thumb { background: var(--grid-major); border-radius: 2px; }
 :focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
 ::selection { background: var(--accent-dim); color: var(--ink-100); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK THEME — Night Journal
+   Scene: same notebook, but the lights are off. Deep indigo-black paper,
+   warm-white ink. The red margin line stays lit.
+   Apply via: <html data-theme="dark">
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="dark"] {
+  /* Paper surfaces — deep indigo-black (Rhodia Black / Leuchtturm Onyx) */
+  --page:       oklch(9%  0.018 252);
+  --page-cream: oklch(11% 0.016 250);
+  --page-buff:  oklch(13% 0.014 248);
+  --page-deep:  oklch(16% 0.012 246);
+  --desk:       oklch(5%  0.010 40);
+
+  /* Grid lines — lighter on dark, same Rhodia blue cast */
+  --grid-minor: rgba(130, 165, 255, 0.07);
+  --grid-major: rgba(130, 165, 255, 0.14);
+
+  /* Ink — warm white (reversed from the light theme) */
+  --ink-100: oklch(92% 0.010 80);
+  --ink-80:  oklch(80% 0.012 82);
+  --ink-60:  oklch(65% 0.010 80);
+  --ink-40:  oklch(50% 0.008 78);
+  --ink-25:  oklch(35% 0.006 76);
+
+  /* Accent — same red, fractionally brighter to pop on dark */
+  --accent:      oklch(60% 0.22 22);
+  --accent-dim:  oklch(60% 0.22 22 / 0.14);
+  --accent-glow: oklch(60% 0.22 22 / 0.32);
+  --margin:      oklch(60% 0.22 22);
+
+  /* Semantic */
+  --work-color:  oklch(60% 0.22 22);
+  --break-color: oklch(54% 0.16 152);
+  --rest-color:  oklch(65% 0.15 12);
+
+  /* Flip clock panels — push deeper so they still contrast against the dark page */
+  --panel-bg:    oklch(6%  0.015 252);
+  --panel-text:  oklch(88% 0.010 80);
+  --panel-seam:  oklch(3%  0.008 248);
+}
+
+/* Body background */
+[data-theme="dark"] body {
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 50%, oklch(11% 0.018 252 / 0.8), oklch(6% 0.012 248 / 0.4)),
+    oklch(7% 0.014 250);
+  box-shadow: inset 0 0 120px oklch(0% 0 0 / 0.6);
+}
+
+/* Topbar frosted glass */
+[data-theme="dark"] .topbar-bg {
+  background: oklch(9% 0.018 252 / 0.85);
+  border-bottom-color: var(--grid-major);
+}
+
+/* Notebook shadow — no warm edge on dark */
+[data-theme="dark"] .notebook {
+  box-shadow:
+    0 20px 80px oklch(0% 0 0 / 0.8),
+    0 6px 24px oklch(0% 0 0 / 0.6),
+    0 0 0 1px oklch(100% 0 0 / 0.04);
+}
+
+/* Flip digit frame border */
+[data-theme="dark"] .flip-digit-frame {
+  border-color: oklch(14% 0.02 250);
+  box-shadow:
+    0 1px 0 0 oklch(20% 0.02 250) inset,
+    0 4px 20px oklch(0% 0 0 / 0.5),
+    0 1px 3px oklch(0% 0 0 / 0.3);
+}
+
+/* Flip panels are already dark — push slightly darker in dark theme */
+[data-theme="dark"] .flip-half-top  { background: oklch(12% 0.022 252); }
+[data-theme="dark"] .flip-half-bot  { background: oklch(8%  0.018 248); }
+[data-theme="dark"] .flip-anim-top  { background: oklch(12% 0.022 252); }
+[data-theme="dark"] .flip-anim-bot  { background: oklch(8%  0.018 248); }
+
+/* Mode chip tint backgrounds */
+[data-theme="dark"] .mode-chip.work-active  { background: oklch(60% 0.22 22  / 0.10); }
+[data-theme="dark"] .mode-chip.break-active { background: oklch(54% 0.16 152 / 0.10); }
+[data-theme="dark"] .mode-chip.rest-active  { background: oklch(65% 0.15 12  / 0.10); }
+
+/* Brand wordmark hover */
+[data-theme="dark"] .brand-wordmark:hover { color: oklch(75% 0.01 80); }
+
+/* Sound stage card */
+[data-theme="dark"] .sound-stage { background: var(--page-cream); }
+[data-theme="dark"] .play-stage  { background: var(--page-cream); }
+
+/* ─── THEME TOGGLE ─────────────────────────────────────────────────────── */
+.theme-toggle {
+  background: none; border: none; cursor: pointer;
+  font-size: 16px; line-height: 1;
+  color: var(--ink-40); padding: 2px 4px;
+  border-radius: 3px;
+  transition: color 0.15s, background 0.15s;
+}
+.theme-toggle:hover { color: var(--ink-80); background: var(--accent-dim); }
+
+/* ─── TOPBAR USER ──────────────────────────────────────────────────────── */
+.topbar-user {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+}
+
+.topbar-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  color: var(--accent); letter-spacing: 0;
+  flex-shrink: 0;
+}
+
+.topbar-signout {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-40); background: none; border: none; cursor: pointer;
+  padding: 2px 0; transition: color 0.15s;
+}
+.topbar-signout:hover { color: var(--accent); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AUTH PAGES — Sign In / Create Account
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.auth-notebook {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Margin annotation */
+.auth-margin-num {
+  position: absolute;
+  top: 48px; left: 8px; width: 52px;
+  font-family: var(--mono); font-size: 14px; font-weight: 700;
+  color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase;
+  text-align: right; writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.auth-form {
+  display: flex; flex-direction: column; gap: 32px;
+  width: 100%; max-width: 440px;
+  padding: 0 40px;
+}
+
+.auth-brand {
+  font-family: var(--serif); font-size: 40px; font-style: italic;
+  color: var(--ink-100); letter-spacing: -0.02em; line-height: 1;
+  text-decoration: none;
+  align-self: flex-start;
+}
+.auth-brand span { color: var(--accent); font-style: normal; }
+
+.auth-heading { display: flex; flex-direction: column; gap: 6px; }
+
+.auth-eyebrow {
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  color: var(--accent); letter-spacing: 0.22em; text-transform: uppercase;
+}
+
+.auth-title {
+  font-family: var(--serif); font-size: 42px; font-style: italic;
+  color: var(--ink-100); letter-spacing: -0.02em; line-height: 1.1;
+  font-weight: 400;
+}
+
+.auth-fields { display: flex; flex-direction: column; gap: 28px; }
+
+.auth-field { display: flex; flex-direction: column; gap: 8px; }
+
+.auth-label {
+  font-family: var(--serif); font-size: 20px; font-style: italic;
+  color: var(--ink-60);
+}
+
+.auth-optional {
+  font-family: var(--mono); font-size: 13px; font-style: normal;
+  color: var(--ink-25); letter-spacing: 0.06em;
+}
+
+.auth-input {
+  width: 100%; background: transparent;
+  border: none; border-bottom: 1px solid var(--grid-major);
+  padding: 10px 0;
+  font-family: var(--serif); font-size: 28px;
+  color: var(--ink-100); outline: none;
+  transition: border-color 0.2s var(--ease-out-quart);
+}
+.auth-input:focus  { border-bottom-color: var(--accent); }
+.auth-input::placeholder { color: var(--ink-25); font-style: italic; }
+
+.auth-error {
+  font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em;
+  color: var(--accent); padding: 10px 0;
+  border-top: 1px solid var(--accent-dim);
+}
+
+.auth-submit {
+  display: block;
+  font-family: var(--mono); font-size: 15px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--page); background: var(--accent);
+  border: none; border-radius: 2px; cursor: pointer;
+  padding: 16px 28px;
+  transition: background 0.15s var(--ease-out-quart), opacity 0.15s;
+  width: 100%;
+}
+.auth-submit:hover    { background: oklch(56% 0.22 22); }
+.auth-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.auth-footer {
+  font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em;
+  color: var(--ink-40); text-align: center;
+}
+
+.auth-link {
+  color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid var(--accent-dim);
+  transition: border-color 0.15s;
+}
+.auth-link:hover { border-bottom-color: var(--accent); }
+
+.auth-sent-note {
+  font-family: var(--serif); font-size: 20px; font-style: italic;
+  color: var(--ink-60); line-height: 1.5;
+}
+.auth-sent-note strong { color: var(--ink-100); font-style: normal; }
+
+@media (max-width: 640px) {
+  .auth-form         { padding: 0 24px; gap: 24px; }
+  .auth-title        { font-size: 32px; }
+  .auth-input        { font-size: 22px; }
+  .auth-margin-num   { display: none; }
+}
