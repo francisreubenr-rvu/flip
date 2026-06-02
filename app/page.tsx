@@ -9,6 +9,7 @@ import BreathingOrb from './components/BreathingOrb'
 import Calendar from './components/Calendar'
 import Folio from './components/Folio'
 import RocketOrbit from './components/RocketOrbit'
+import OceanWorld  from './components/OceanWorld'
 import GolfNav from './components/GolfNav'
 import Widgets from './components/Widgets'
 import { useAuth } from './lib/auth'
@@ -306,7 +307,8 @@ export default function FlipPage() {
       )}
 
       {/* ── Global rocket orbit (desktop only — costly on mobile) ──────── */}
-      {!isMobile && <RocketOrbit />}
+      {!isMobile && isDark  && <RocketOrbit />}
+      {!isMobile && !isDark && <OceanWorld />}
 
       {/* ── Golf-sphere page nav (desktop only) ────────────────────────── */}
       {!isMobile && <GolfNav page={page} onNavigate={scrollToPage} />}
