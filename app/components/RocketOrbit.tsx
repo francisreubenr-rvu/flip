@@ -242,6 +242,7 @@ export default function RocketOrbit() {
     let burnIntensity = 0
     let burnTimer = 0
     let scrollPerturb = 0
+    let scrollRoll = 0
     let cursorPos: Vec2 | null = null
     let clickTarget: Vec2 | null = null
 
@@ -265,7 +266,7 @@ export default function RocketOrbit() {
     }
     sync(); window.addEventListener('resize', sync)
 
-    const onScroll = () => { scrollPerturb = Math.min(scrollPerturb + 0.3, 2.0) }
+    const onScroll = () => { scrollPerturb = Math.min(scrollPerturb + 0.3, 2.0); scrollRoll += Math.PI * 1.5 }
     const onMouseMove = (e: MouseEvent) => { cursorPos = { x: e.clientX, y: e.clientY } }
     const onClick = (e: MouseEvent) => {
       clickTarget = { x: e.clientX, y: e.clientY }
@@ -466,7 +467,8 @@ export default function RocketOrbit() {
       const θR  = θRef.current
       const rPos = orbitPt(θR, cx, cy, rocketA, rocketB, rocketTilt)
       const rSc  = orbitScale(θR)
-      const rAng = orbitTangent(θR, rocketA, rocketB, rocketTilt)
+      scrollRoll *= 0.86
+      const rAng = orbitTangent(θR, rocketA, rocketB, rocketTilt) + scrollRoll
       const far  = orbitDepth(θR) < 0
 
       if (far) drawRocket(bctx, rPos.x, rPos.y, rSc, rAng, now)
