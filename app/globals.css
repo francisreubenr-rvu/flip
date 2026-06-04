@@ -30,10 +30,32 @@
   /* ── Margin line ── */
   --margin: oklch(52% 0.22 22);
 
-  /* ── Accent ── */
-  --accent:      oklch(52% 0.22 22);
-  --accent-dim:  oklch(52% 0.22 22 / 0.1);
-  --accent-glow: oklch(52% 0.22 22 / 0.25);
+  /* Red ladder (rubrication scale) */
+  --red-100: oklch(30% 0.12 22);
+  --red-80:  oklch(40% 0.17 22);
+  --red-60:  oklch(52% 0.22 22);
+  --red-40:  oklch(68% 0.11 24);
+  --red-25:  oklch(86% 0.045 22);
+
+  /* Accent tokens (structural red) */
+  --accent:        oklch(52% 0.22 22);
+  --accent-hover:  oklch(60% 0.22 22);
+  --accent-quiet:  oklch(50% 0.12 25);
+  --accent-urgent: oklch(56% 0.25 25);
+  --accent-ember:  oklch(32% 0.08 28);
+  --accent-ink:    oklch(35% 0.14 22);
+  --accent-rest:   oklch(58% 0.07 38);
+  --accent-dim:    oklch(86% 0.045 22);
+  --accent-glow:   oklch(52% 0.22 22 / 0.12);
+
+  /* Semantic tokens (decouple error from decoration) */
+  --danger:        oklch(44% 0.26 16);
+  --warn:          oklch(58% 0.17 68);
+
+  /* Contextual surfaces */
+  --page-tint:         oklch(94% 0.012 30);
+  --rest-page-surface: oklch(91% 0.04 50);
+  --ink-warm-40:       oklch(62% 0.022 62);
 
   /* ── Flip clock panels (dark contrast on paper) ── */
   --panel-bg:    oklch(14% 0.02 250);
@@ -43,7 +65,7 @@
   /* ── Semantic ── */
   --work-color:  oklch(52% 0.22 22);
   --break-color: oklch(48% 0.16 152);
-  --rest-color:  oklch(62% 0.15 12);
+  --rest-color:  oklch(58% 0.07 38);
 
   /* ── Fonts ── */
   --serif: var(--font-serif), 'Instrument Serif', 'Times New Roman', serif;
@@ -827,7 +849,7 @@ body::before {
 @media (max-width: 740px) { .rest-prompts { grid-template-columns: 1fr; gap: 20px; } }
 
 .rest-prompt-card { text-align: left; padding-top: 16px; border-top: 1px solid var(--grid-major); }
-.rest-prompt-num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: 0.10em; margin-bottom: 6px; }
+.rest-prompt-num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--accent-rest); letter-spacing: 0.10em; margin-bottom: 6px; }
 .rest-prompt-text { font-family: var(--serif); font-size: 20px; font-style: italic; color: var(--ink-80); line-height: 1.4; }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1014,7 +1036,7 @@ body::before {
 
 [data-theme="dark"] {
   /* Paper surfaces — deep indigo-black (Rhodia Black / Leuchtturm Onyx) */
-  --page:       oklch(9%  0.018 252);
+  --page:       oklch(11% 0.025 18);
   --page-cream: oklch(11% 0.016 250);
   --page-buff:  oklch(13% 0.014 248);
   --page-deep:  oklch(16% 0.012 246);
@@ -1207,8 +1229,8 @@ body::before {
 
 .auth-error {
   font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em;
-  color: var(--accent); padding: 10px 0;
-  border-top: 1px solid var(--accent-dim);
+  color: var(--danger); padding: 10px 0;
+  border-top: 1px solid var(--danger);
 }
 
 .auth-submit {

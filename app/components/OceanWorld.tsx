@@ -1,6 +1,11 @@
 'use client'
 import { useRef, useEffect } from 'react'
-import { v2, step, separate, align, cohere, seek, flee, wander, type Vec2, type Boid } from '../lib/physics'
+import {
+  v2, step, separate, align, cohere, seek, flee, wander,
+  arrival, pursue, evade, containment, flowField, simplexFlow,
+  perceptionFilter, selfishHerdCohere, leaderFollow, pathFollow, utilityScore,
+  SpatialHash, type Vec2, type Boid,
+} from '../lib/physics'
 
 // ─── Depth system (z ∈ [0,1]: 0=far, 1=glass) ────────────────────────────────
 const dAlpha = (z: number) => 0.10 + z * 0.90
@@ -59,6 +64,9 @@ const CAUSTIC_SEEDS = Array.from({ length: 28 }, (_, i) => ({
   phase:  i * 0.449,
 }))
 
+const GHOST_FLOW = simplexFlow(0.0012, 0.00018, 1.0)
+const JELLY_FLOW = simplexFlow(0.0006, 0.00009, 0.6)
+
 const CREATURES = ['whale', 'shark', 'dolphin', 'manta', 'turtle', 'stingray', 'pufferfish', 'anglerfish'] as const
 type Creature = typeof CREATURES[number]
 
@@ -80,22 +88,26 @@ interface CreatureBoid extends Boid {
   type: Creature; dir: 1|-1; sz: number; spawnTime: number; lt: number
   state: string; stateTimer: number; bodyAngle: number; wanderTheta: number; lastBreachAt: number
   inflated: boolean
+  drives?: Record<string, number>
 }
-interface GhostFish   { x: number; y: number; sz: number; speed: number; dir: 1|-1; phase: number; zLayer: number }
+interface GhostFish extends Boid { sz: number; phase: number; zLayer: number; dir: 1|-1 }
 interface CausticCell { cx: number; cy: number; vx: number; vy: number; r: number; phase: number }
-interface JellyState  { x: number; y: number; sz: number; phase: number; driftDir: 1|-1; zLayer: number }
+interface JellyState extends Boid { sz: number; phase: number; driftDir: 1|-1; zLayer: number; restDepthFrac: number }
 interface BubbleState { x: number; y: number; r: number; speed: number; wobble: number; life: number }
 
 interface OceanSimState {
   fishBoids: FishBoid[]
   nextCreatureAt: number; creatureIdx: number; creature: CreatureBoid | null
+  dolphinFollowers: Boid[]
   ghostFish: GhostFish[]
   causticCells: CausticCell[]
   jellyfish: JellyState[]
   bubbles: BubbleState[]
   seahorsePhase: number
   octopusPhase: number; octopusVisible: boolean; octopusTimer: number
-  clownPhase: number
+  octopusBoid: Boid; octopusRestYFrac: number
+  clownBoids: FishBoid[]
+  lastRespawnAt?: number
 }
 
 // ─── Draw: water atmosphere ──────────────────────────────────────────────────
@@ -749,6 +761,16 @@ export default function OceanWorld() {
     }
     resize(); window.addEventListener('resize', resize)
 
+    // Cursor stimulus
+    let cursorPos: Vec2 | null = null
+    let cursorTarget: Vec2 | null = null
+    let cursorLastMove = 0
+    const onMouseMove = (e: MouseEvent) => {
+      cursorTarget = { x: e.clientX, y: e.clientY }
+      cursorLastMove = performance.now()
+    }
+    document.addEventListener('mousemove', onMouseMove)
+
     let startMs = 0, lastMs = 0
 
     const ω1 = Math.PI * 2 / 82000, ω2 = Math.PI * 2 / 63000
@@ -761,7 +783,12 @@ export default function OceanWorld() {
 
     // Ghost fish (positions use live vw/vh)
     const ghostFish: GhostFish[] = GHOST_SEEDS.map(s => ({
-      x: s.xFrac * vw, y: s.yFrac * vh, sz: s.sz, speed: s.speed, dir: s.dir, phase: s.phase, zLayer: s.zLayer,
+      pos: { x: s.xFrac * vw, y: s.yFrac * vh },
+      vel: { x: s.speed * s.dir * dSpeed(s.zLayer) * 60, y: 0 },
+      acc: { x: 0, y: 0 }, mass: 1,
+      maxSpeed: (s.speed + 0.006) * 60,
+      maxForce: 0.0002,
+      sz: s.sz, phase: s.phase, dir: s.dir, zLayer: s.zLayer,
     }))
 
     // Caustic cells
@@ -774,8 +801,15 @@ export default function OceanWorld() {
 
     // Jellyfish
     const jellyfish: JellyState[] = JELLY_SEEDS.map(s => ({
-      x: s.xFrac * vw, y: s.yFrac * vh, sz: s.sz, phase: s.phase, driftDir: s.driftDir, zLayer: s.zLayer,
+      pos: { x: s.xFrac * vw, y: s.yFrac * vh },
+      vel: { x: 0, y: 0 }, acc: { x: 0, y: 0 }, mass: 1,
+      maxSpeed: 0.018 * 60, maxForce: 0.00015,
+      sz: s.sz, phase: s.phase, driftDir: s.driftDir, zLayer: s.zLayer,
+      restDepthFrac: s.yFrac,
     }))
+
+    // Spatial hash for fish school neighbor queries
+    const schoolHash = new SpatialHash(90)
 
     // Bubbles — will be spawned dynamically from 3 sources
     const bubbles: BubbleState[] = []
@@ -784,10 +818,16 @@ export default function OceanWorld() {
 
     const sim: OceanSimState = {
       fishBoids, ghostFish, causticCells, jellyfish, bubbles,
-      nextCreatureAt: 3500, creatureIdx: 0, creature: null,
+      nextCreatureAt: 3500, creatureIdx: 0, creature: null, dolphinFollowers: [],
       seahorsePhase: 0,
       octopusPhase: 0, octopusVisible: true, octopusTimer: 18000,
-      clownPhase: 0,
+      octopusBoid: { pos: { x: vw * 0.48, y: vh * 0.92 }, vel: { x: 0, y: 0 }, acc: { x: 0, y: 0 }, mass: 1, maxSpeed: 0.03, maxForce: 0.0005 },
+      octopusRestYFrac: 0.92,
+      clownBoids: Array.from({ length: 2 }, (_, i) => ({
+        pos: { x: vw * 0.888 + Math.cos(i * Math.PI) * 28, y: vh * 0.90 - 24 },
+        vel: { x: 0, y: 0 }, acc: { x: 0, y: 0 }, mass: 1,
+        maxSpeed: 0.04, maxForce: 0.0003, sz: 8, depth: 0.92, phase: i * Math.PI, wanderTheta: 0,
+      })),
     }
 
     function spawnCreature(t: number): CreatureBoid {
@@ -812,6 +852,16 @@ export default function OceanWorld() {
       const dt = Math.min(now - lastMs, 50); lastMs = now
       const t  = now - startMs
 
+      // Cursor smoothing
+      if (cursorTarget) {
+        if (!cursorPos) cursorPos = { ...cursorTarget }
+        cursorPos.x += (cursorTarget.x - cursorPos.x) * 0.15
+        cursorPos.y += (cursorTarget.y - cursorPos.y) * 0.15
+        if (performance.now() - cursorLastMove > 2000) {
+          cursorTarget = null; cursorPos = null
+        }
+      }
+
       // School anchor
       const scx = vw * 0.5 + Math.cos(t * ω1) * vw * 0.21
       const scy = vh * 0.58 + Math.sin(t * ω2) * vh * 0.11
@@ -819,25 +869,47 @@ export default function OceanWorld() {
       const sdy =  vh * 0.11 * ω2 * Math.cos(t * ω2)
       const schoolAngle = Math.atan2(sdy, sdx)
 
-      const sharkStalking = sim.creature?.type === 'shark' && sim.creature.state === 'stalk'
+      const sharkStalking = sim.creature?.type === 'shark' && (sim.creature.state === 'stalk' || sim.creature.state === 'pursueSchool')
       const sharkPos = sharkStalking ? sim.creature!.pos : null
+
+      // Rebuild spatial hash
+      schoolHash.clear()
+      for (const b of sim.fishBoids) schoolHash.insert(b)
 
       // Fish boids
       const cosA = Math.cos(schoolAngle), sinA = Math.sin(schoolAngle)
       for (let i = 0; i < sim.fishBoids.length; i++) {
         const boid = sim.fishBoids[i]
-        const others = sim.fishBoids.filter((_, j) => j !== i)
+        const allNeighbors = schoolHash.queryNeighbors(boid, 90)
+        const visible = perceptionFilter(boid, allNeighbors, -0.5)
         const fT: Vec2 = {
-          x: scx + SCHOOL[i].ox * cosA - SCHOOL[i].oy * sinA,
-          y: scy + SCHOOL[i].ox * sinA + SCHOOL[i].oy * cosA,
+          x: scx + SCHOOL[i % SCHOOL.length].ox * cosA - SCHOOL[i % SCHOOL.length].oy * sinA,
+          y: scy + SCHOOL[i % SCHOOL.length].ox * sinA + SCHOOL[i % SCHOOL.length].oy * cosA,
         }
-        boid.acc = v2.add(boid.acc, v2.add(
-          v2.scale(separate(boid, others, 55, 1.4), 1.2),
-          v2.add(v2.scale(align(boid, others, 90), 0.5),
-            v2.add(v2.scale(cohere(boid, others, 90), 0.4),
-              v2.add(v2.scale(seek(boid, fT, true), 0.9),
-                sharkPos ? v2.scale(flee(boid, sharkPos, 350), 2.0) : { x: 0, y: 0 })))))
-        step(boid, dt, 0.92); boid.phase += dt * 0.0055
+        const sharkThreat = sharkStalking && sharkPos ? sharkPos : undefined
+        const sepF = v2.scale(separate(boid, visible, 55, 1.4), 1.2)
+        const aliF = v2.scale(align(boid, visible, 90), 0.5)
+        const cohF = v2.scale(selfishHerdCohere(boid, visible, 90, sharkThreat), 0.4)
+        const sekF = v2.scale(seek(boid, fT, true), 0.9)
+        const flsF = sharkPos ? v2.scale(flee(boid, sharkPos, 350), 2.0) : { x: 0, y: 0 }
+        const flcF = cursorPos ? v2.scale(flee(boid, cursorPos, 220), 2.0) : { x: 0, y: 0 }
+        boid.acc = v2.add(boid.acc, v2.add(sepF, v2.add(aliF, v2.add(cohF, v2.add(sekF, v2.add(flsF, flcF))))))
+        step(boid, dt, 0.92)
+        boid.phase += dt * 0.0055
+      }
+
+      // Fish respawn (ecosystem refill)
+      if (sim.fishBoids.length < 12 && t > (sim.lastRespawnAt ?? 0) + 18000) {
+        const fi = sim.fishBoids.length % SCHOOL.length
+        sim.fishBoids.push({
+          pos: { x: -60, y: vh * 0.58 + SCHOOL[fi].oy },
+          vel: { x: 0.05, y: 0 }, acc: { x: 0, y: 0 }, mass: 1,
+          maxSpeed: 0.06, maxForce: 0.0004,
+          sz: SCHOOL[fi].sz, depth: SCHOOL[fi].depth,
+          phase: SCHOOL[fi].phase * Math.PI,
+          wanderTheta: SCHOOL[fi].phase * Math.PI,
+        })
+        sim.lastRespawnAt = t
       }
 
       // Sequential creature
@@ -861,10 +933,51 @@ export default function OceanWorld() {
           step(c, dt, d.drag)
 
         } else if (c.type === 'shark') {
-          const patrolY = vh * d.yFrac, distS = v2.dist(c.pos, { x: scx, y: scy })
-          if (c.state === 'patrol') { c.vel.x = d.speed * c.dir; c.acc.y += (patrolY - c.pos.y) * 0.00002; if (distS < 350) { c.state = 'stalk'; c.stateTimer = 8000 } }
-          else if (c.state === 'stalk') { c.acc = v2.add(c.acc, seek(c, { x: scx, y: scy }, false)); c.stateTimer -= dt; if (c.stateTimer <= 0 || distS < 80) c.state = 'retreat' }
-          else { c.vel.x = d.speed * c.dir * 1.4; c.acc.y += (patrolY - c.pos.y) * 0.00008; if (Math.abs(c.pos.y - patrolY) < 10) c.state = 'patrol' }
+          if (!c.drives) c.drives = { hunger: 0.3, fatigue: 0, fear: 0 }
+          c.drives.hunger = Math.min(1, c.drives.hunger + dt * 0.00004)
+          c.drives.fatigue = Math.max(0, c.drives.fatigue - dt * 0.00008)
+          if (cursorPos) {
+            const dCursor = v2.dist(c.pos, cursorPos)
+            c.drives.fear = dCursor < 180 ? 1 - dCursor / 180 : Math.max(0, c.drives.fear - dt * 0.001)
+          } else {
+            c.drives.fear = Math.max(0, c.drives.fear - dt * 0.001)
+          }
+          const distToSchool = v2.dist(c.pos, { x: scx, y: scy })
+          const proximity = Math.max(0, 1 - distToSchool / 600)
+          const schoolVel: Vec2 = {
+            x: -vw * 0.21 * ω1 * Math.sin(t * ω1) * 1000,
+            y:  vh * 0.11 * ω2 * Math.cos(t * ω2) * 1000,
+          }
+          type SharkAction = 'pursueSchool' | 'patrol' | 'retreat' | 'rest'
+          const action = utilityScore<SharkAction>(
+            {
+              pursueSchool: (dr) => dr.hunger * proximity * (1 - dr.fatigue) * (1 - dr.fear * 2),
+              patrol:       (dr) => (1 - dr.hunger) * (1 - dr.fear),
+              retreat:      (dr) => dr.fear * 1.5,
+              rest:         (dr) => dr.fatigue * (1 - dr.hunger * 0.5),
+            },
+            c.drives, {}
+          )
+          if (!c.state || (action !== c.state)) c.state = action
+          if (c.state === 'pursueSchool') {
+            c.acc = v2.add(c.acc, v2.scale(pursue(c, { x: scx, y: scy }, schoolVel), 1.2))
+            c.drives.fatigue = Math.min(1, c.drives.fatigue + dt * 0.00012)
+            for (let fi = sim.fishBoids.length - 1; fi >= 0; fi--) {
+              if (v2.dist(c.pos, sim.fishBoids[fi].pos) < 35 && sim.fishBoids.length > 6) {
+                sim.fishBoids.splice(fi, 1)
+                c.drives.hunger = 0; c.drives.fatigue = 0.7
+                break
+              }
+            }
+          } else if (c.state === 'patrol') {
+            c.vel.x = d.speed * c.dir
+            c.acc.y += (vh * d.yFrac - c.pos.y) * 0.00002
+          } else if (c.state === 'retreat') {
+            if (cursorPos) c.acc = v2.add(c.acc, v2.scale(flee(c, cursorPos, 300), 2.0))
+            else { c.vel.x = d.speed * c.dir; c.acc.y += (vh * d.yFrac - c.pos.y) * 0.00002 }
+          } else {
+            c.acc = v2.add(c.acc, arrival(c, { x: c.pos.x + c.vel.x * 200, y: vh * 0.85 }, 150))
+          }
           step(c, dt, d.drag)
 
         } else if (c.type === 'dolphin') {
@@ -877,6 +990,19 @@ export default function OceanWorld() {
           c.bodyAngle = Math.atan2(c.vel.y, Math.abs(c.vel.x)) * 0.22
           step(c, dt, d.drag)
 
+          // Dolphin followers via leaderFollow
+          if (sim.dolphinFollowers.length === 0) {
+            sim.dolphinFollowers = [
+              { pos: { x: c.pos.x - c.dir * 50, y: c.pos.y - 30 }, vel: { x: 0, y: 0 }, acc: { x: 0, y: 0 }, mass: 0.8, maxSpeed: c.maxSpeed * 0.88, maxForce: c.maxForce * 0.8 },
+              { pos: { x: c.pos.x - c.dir * 90, y: c.pos.y + 25 }, vel: { x: 0, y: 0 }, acc: { x: 0, y: 0 }, mass: 0.8, maxSpeed: c.maxSpeed * 0.90, maxForce: c.maxForce * 0.8 },
+            ]
+          }
+          for (let di = 0; di < sim.dolphinFollowers.length; di++) {
+            const f = sim.dolphinFollowers[di]
+            f.acc = v2.add(f.acc, leaderFollow(f, c, { x: 45 + di * 35, y: di === 0 ? -30 : 25 }))
+            step(f, dt, 0.97)
+          }
+
         } else if (c.type === 'manta') {
           // Manta: gentle sinusoidal vertical glide
           const targetY = vh * d.yFrac + Math.sin(c.lt * 0.00055) * vh * 0.065
@@ -885,16 +1011,14 @@ export default function OceanWorld() {
 
         } else if (c.type === 'turtle') {
           // Turtle: plodding straight with gentle depth variation
-          c.vel.x = d.speed * c.dir * (0.88 + Math.sin(c.lt * 0.0008) * 0.12)
           const targetY = vh * d.yFrac + Math.sin(c.lt * 0.0006) * vh * 0.04
-          c.acc.y += (targetY - c.pos.y) * 0.00004
+          c.acc = v2.add(c.acc, seek(c, { x: c.pos.x + c.dir * 300, y: targetY }, true))
           step(c, dt, d.drag)
 
         } else if (c.type === 'stingray') {
           // Stingray: hugs the bottom with slight vertical undulation
           const targetY = vh * d.yFrac + Math.sin(c.lt * 0.0010) * vh * 0.028
-          c.vel.x = d.speed * c.dir
-          c.acc.y += (targetY - c.pos.y) * 0.00006
+          c.acc = v2.add(c.acc, seek(c, { x: c.pos.x + c.dir * 400, y: targetY }, true))
           step(c, dt, d.drag)
 
         } else if (c.type === 'pufferfish') {
@@ -905,14 +1029,13 @@ export default function OceanWorld() {
           c.acc = v2.add(c.acc, v2.scale(wander(c, c.wanderTheta, 30), 0.6))
           const targetY = vh * d.yFrac + Math.sin(c.lt * 0.0012) * vh * 0.03
           c.acc.y += (targetY - c.pos.y) * 0.00004
-          c.vel.x += d.speed * c.dir * 0.02
           step(c, dt, d.drag)
 
         } else {
-          // Anglerfish: slow deep traverse with slight vertical weave
-          c.vel.x = d.speed * c.dir * (0.85 + Math.sin(c.lt * 0.0007) * 0.15)
+          // Anglerfish: slow deep traverse with seek + subtle wander
+          c.wanderTheta += (Math.random() - 0.5) * 0.15
           const targetY = vh * d.yFrac + Math.sin(c.lt * 0.00075) * vh * 0.038
-          c.acc.y += (targetY - c.pos.y) * 0.00003
+          c.acc = v2.add(c.acc, v2.add(v2.scale(wander(c, c.wanderTheta, 20), 0.5), seek(c, { x: c.pos.x + c.dir * 300, y: targetY }, true)))
           step(c, dt, d.drag)
         }
 
@@ -922,35 +1045,81 @@ export default function OceanWorld() {
         }
       }
 
-      // Ghost fish
+      // Ghost fish — flow-field driven Boids
+      const GHOST_BOUNDS = { minX: -50, minY: 0, maxX: vw + 50, maxY: vh }
       for (const g of sim.ghostFish) {
-        g.phase += dt * 0.004
-        g.x += g.speed * g.dir * dSpeed(g.zLayer) * dt
-        if (g.dir === 1 && g.x > vw + g.sz * 3) g.x = -g.sz * 3
-        if (g.dir === -1 && g.x < -g.sz * 3) g.x = vw + g.sz * 3
+        const ff = flowField(g, GHOST_FLOW, t, 0.9)
+        const ct = containment(g, GHOST_BOUNDS, 80, 1.2)
+        g.acc = v2.add(g.acc, v2.add(ff, ct))
+        if (cursorPos && v2.distSq(g.pos, cursorPos) < 120 * 120) {
+          g.acc = v2.add(g.acc, v2.scale(flee(g, cursorPos, 120), 1.5))
+        }
+        step(g, dt, 0.96)
+        g.dir = g.vel.x >= 0 ? 1 : -1
+        g.phase += dt * 0.006
       }
 
-      // Jellyfish — slow vertical bob + horizontal drift
+      // Jellyfish — flow-field + pulsed buoyancy + depth-restore
+      const JELLY_BOUNDS = { minX: 0, minY: 0, maxX: vw, maxY: vh }
       for (const j of sim.jellyfish) {
-        j.phase += dt * 0.00085
-        j.x += j.driftDir * 0.012 * dSpeed(j.zLayer) * dt
-        if (j.x < -j.sz * 2) j.x = vw + j.sz; if (j.x > vw + j.sz * 2) j.x = -j.sz
-        // Vertical: bob around initial y (stored as baseY via yFrac at init)
+        const ff = flowField(j, JELLY_FLOW, t, 0.7)
+        const ct = containment(j, JELLY_BOUNDS, 60, 1.0)
+        const pulsed = Math.sin(j.phase) > 0.7
+        const buoy: Vec2 = { x: 0, y: pulsed ? -j.maxSpeed * 0.4 : j.maxSpeed * 0.08 }
+        const depthRestore: Vec2 = { x: 0, y: (j.restDepthFrac * vh - j.pos.y) * 0.00003 }
+        j.acc = v2.add(j.acc, v2.add(ff, v2.add(ct, v2.add(buoy, depthRestore))))
+        step(j, dt, 0.985)
+        j.phase += dt * 0.0014
       }
 
       // Seahorse — slow hover drift
       sim.seahorsePhase += dt * 0.0009
 
-      // Octopus — periodic visibility
+      // Octopus — cursor-flee + periodic visibility
       sim.octopusPhase += dt * 0.0007
       sim.octopusTimer -= dt
+      const restPos: Vec2 = { x: vw * 0.48 + Math.sin(sim.octopusPhase * 0.5) * vw * 0.04, y: vh * 0.92 - Math.sin(sim.octopusPhase * 0.3) * vh * 0.018 }
+
+      // Cursor flee — when cursor near, flee to hide point then become invisible
+      if (cursorPos && v2.distSq(sim.octopusBoid.pos, cursorPos) < 150 * 150) {
+        sim.octopusBoid.acc = v2.add(sim.octopusBoid.acc, v2.scale(flee(sim.octopusBoid, cursorPos, 150), 1.8))
+        const hideTarget = v2.add(restPos, { x: 60, y: 80 })
+        sim.octopusBoid.acc = v2.add(sim.octopusBoid.acc, arrival(sim.octopusBoid, hideTarget, 100))
+        if (v2.distSq(sim.octopusBoid.pos, hideTarget) < 30 * 30) {
+          sim.octopusVisible = false
+          sim.octopusTimer = 6000 + Math.random() * 4000
+        }
+        sim.octopusTimer = Math.max(sim.octopusTimer, 1000)
+      } else {
+        sim.octopusBoid.acc = v2.add(sim.octopusBoid.acc, arrival(sim.octopusBoid, restPos, 60))
+      }
+      step(sim.octopusBoid, dt, 0.94)
+
       if (sim.octopusTimer <= 0) {
         sim.octopusVisible = !sim.octopusVisible
         sim.octopusTimer = sim.octopusVisible ? 22000 + Math.random() * 12000 : 8000 + Math.random() * 6000
       }
 
-      // Clownfish orbit
-      sim.clownPhase += dt * 0.0018
+      // Clownfish — path-follow around anemone
+      {
+        const anX = vw * 0.888, anY = vh * 0.90
+        const clownPath: Vec2[] = Array.from({ length: 12 }, (_, i) => {
+          const ang = (i / 12) * Math.PI * 2
+          return {
+            x: anX + Math.cos(ang) * 28,
+            y: anY - 24 + Math.sin(ang) * 28 * 0.42,
+          }
+        })
+        for (let ci = 0; ci < sim.clownBoids.length; ci++) {
+          const cb = sim.clownBoids[ci]
+          cb.acc = v2.add(cb.acc, pathFollow(cb, clownPath, 8, true))
+          if (cursorPos && v2.distSq(cb.pos, cursorPos) < 100 * 100) {
+            cb.acc = v2.add(cb.acc, v2.scale(flee(cb, cursorPos, 100), 1.5))
+          }
+          step(cb, dt, 0.93)
+          cb.phase += dt * 0.006
+        }
+      }
 
       // Bubbles — spawn from 3 sources
       bubbleTimer += dt
@@ -991,7 +1160,7 @@ export default function OceanWorld() {
       ctx.save(); ctx.fillStyle = I(0.50)
       for (const g of sim.ghostFish) {
         const prev = ctx.globalAlpha; ctx.globalAlpha = prev * dAlpha(g.zLayer)
-        drawGhostFish(ctx, g.x, g.y, g.sz * dScale(g.zLayer), g.dir, g.phase); ctx.globalAlpha = prev
+        drawGhostFish(ctx, g.pos.x, g.pos.y, g.sz * dScale(g.zLayer), g.dir, g.phase); ctx.globalAlpha = prev
       }
       ctx.restore()
 
@@ -1029,9 +1198,9 @@ export default function OceanWorld() {
 
       // 6 — Jellyfish (various depths)
       for (const j of sim.jellyfish) {
-        const bobY = j.y + Math.sin(j.phase) * vh * 0.038
+        const bobY = j.pos.y + Math.sin(j.phase) * vh * 0.038
         const prev = ctx.globalAlpha; ctx.globalAlpha = prev * dAlpha(j.zLayer)
-        drawJellyfish(ctx, j.x, bobY, j.sz * dScale(j.zLayer), t); ctx.globalAlpha = prev
+        drawJellyfish(ctx, j.pos.x, bobY, j.sz * dScale(j.zLayer), t); ctx.globalAlpha = prev
       }
 
       // 7 — Fish school (z=0.68)
@@ -1058,11 +1227,15 @@ export default function OceanWorld() {
         else if (c.type === 'pufferfish') drawPufferfish(ctx, c.pos.x, c.pos.y, sz, c.inflated, c.lt)
         else if (c.type === 'anglerfish') drawAnglerfish(ctx, c.pos.x, c.pos.y, sz, c.dir, c.lt)
         else {
-          // dolphin pod
+          // dolphin pod — followers from Boid physics
           drawDolphin(ctx, c.pos.x, c.pos.y, sz, c.dir, c.lt, c.bodyAngle)
           const p2 = ctx.globalAlpha; ctx.globalAlpha = p2 * 0.82
-          drawDolphin(ctx, c.pos.x - c.dir * 50, c.pos.y - 52 * dScale(z), sz * 0.88, c.dir, c.lt + 500, c.bodyAngle * 0.7)
-          drawDolphin(ctx, c.pos.x - c.dir * 88, c.pos.y + 40 * dScale(z), sz * 0.92, c.dir, c.lt + 800, c.bodyAngle * 0.6)
+          for (let di = 0; di < sim.dolphinFollowers.length; di++) {
+            const f = sim.dolphinFollowers[di]
+            const fSz = sz * (0.88 - di * 0.04)
+            const fBodyAngle = Math.atan2(f.vel.y, Math.abs(f.vel.x)) * 0.22
+            drawDolphin(ctx, f.pos.x, f.pos.y, fSz, c.dir, c.lt + 200 + di * 200, fBodyAngle)
+          }
           ctx.globalAlpha = p2
         }
         ctx.globalAlpha = prev
@@ -1083,13 +1256,11 @@ export default function OceanWorld() {
         const anX = vw * 0.888, anY = vh * 0.90
         const anSz = 26 * dScale(z)
         drawAnemone(ctx, anX, anY, anSz, t)
-        // Two clownfish orbiting anemone
-        for (let i = 0; i < 2; i++) {
-          const orbitR = anSz * 1.1, orbitAng = sim.clownPhase + i * Math.PI
-          const cfx = anX + Math.cos(orbitAng) * orbitR
-          const cfy = anY - anSz * 0.96 + Math.sin(orbitAng) * orbitR * 0.42
-          const dir: 1|-1 = Math.cos(orbitAng) > 0 ? 1 : -1
-          drawClownfish(ctx, cfx, cfy, 8 * dScale(z), dir, sim.clownPhase + i * 1.5)
+        // Two clownfish — Boid driven with path-follow
+        for (let ci = 0; ci < sim.clownBoids.length; ci++) {
+          const cb = sim.clownBoids[ci]
+          const dir: 1|-1 = cb.vel.x >= 0 ? 1 : -1
+          drawClownfish(ctx, cb.pos.x, cb.pos.y, 8 * dScale(z), dir, cb.phase)
         }
         ctx.globalAlpha = prev
       }
@@ -1099,9 +1270,7 @@ export default function OceanWorld() {
         const z = 0.96, prev = ctx.globalAlpha
         const emergeAmt = Math.min(1, (22000 - sim.octopusTimer) / 3000)
         ctx.globalAlpha = prev * dAlpha(z) * emergeAmt
-        const ocX = vw * 0.48 + Math.sin(sim.octopusPhase * 0.5) * vw * 0.04
-        const ocY = vh * 0.92 - Math.sin(sim.octopusPhase * 0.3) * vh * 0.018
-        drawOctopus(ctx, ocX, ocY, 30 * dScale(z), t)
+        drawOctopus(ctx, sim.octopusBoid.pos.x, sim.octopusBoid.pos.y, 30 * dScale(z), t)
         ctx.globalAlpha = prev
       }
 
