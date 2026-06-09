@@ -29,7 +29,7 @@ export default function Folio() {
       fontFamily: 'var(--serif)',
       fontSize: 16,
       fontStyle: 'italic',
-      color: 'var(--ink-40)',
+      color: 'var(--accent-gold)',
       letterSpacing: '0.04em',
       whiteSpace: 'nowrap',
     }}>

@@ -1,14 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isSupabaseConfigured } from '@/lib/ledger/supabase-server';
+import { queryTransactions, upsertTransactions, getTransactionCount } from '@/lib/ledger/db';
 import { readLedger, updateLedger } from '@/lib/ledger/ledger';
 import type { Transaction } from '@/lib/ledger/types';
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const dateFrom = searchParams.get('dateFrom');
-    const dateTo = searchParams.get('dateTo');
-    const search = searchParams.get('search');
+    const dateFrom = searchParams.get('dateFrom') ?? undefined;
+    const dateTo = searchParams.get('dateTo') ?? undefined;
+    const search = searchParams.get('search') ?? undefined;
 
+    // Use Supabase DB when available
+    if (isSupabaseConfigured()) {
+      try {
+        const result = await queryTransactions({ dateFrom, dateTo, search });
+        const total = await getTransactionCount();
+        return NextResponse.json({
+          success: true,
+          transactions: result.transactions,
+          lastUpdated: result.lastUpdated,
+          total,
+          filtered: result.transactions.length,
+        });
+      } catch (supabaseError) {
+        console.warn('Supabase query failed, falling back to filesystem:', supabaseError);
+      }
+    }
+
+    // Filesystem fallback
     const ledger = await readLedger();
     let transactions: Transaction[] = ledger.entries;
 
@@ -36,6 +56,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       transactions: sorted,
+      lastUpdated: ledger.lastUpdated,
       total: ledger.entries.length,
       filtered: sorted.length,
     });
@@ -59,7 +80,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Compute how many transactions existed before the update
+    // Use Supabase DB when available
+    if (isSupabaseConfigured()) {
+      try {
+        const beforeCount = await getTransactionCount();
+        const { added } = await upsertTransactions(body.transactions);
+        const afterCount = await getTransactionCount();
+        const allTransactions = await queryTransactions({});
+        const computedAdded = afterCount - beforeCount >= 0
+          ? afterCount - beforeCount
+          : added;
+
+        return NextResponse.json({
+          success: true,
+          added: computedAdded,
+          ledger: {
+            entries: allTransactions.transactions,
+            lastUpdated: allTransactions.lastUpdated,
+          },
+        });
+      } catch (supabaseError) {
+        console.warn('Supabase upsert failed, falling back to filesystem:', supabaseError);
+      }
+    }
+
+    // Filesystem fallback
     const before = await readLedger();
     const beforeCount = before.entries.length;
 

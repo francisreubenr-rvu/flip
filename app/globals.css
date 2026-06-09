@@ -48,6 +48,10 @@
   --accent-dim:    oklch(86% 0.045 22);
   --accent-glow:   oklch(52% 0.22 22 / 0.12);
 
+  /* Second accent — warm amber gold (sound / folio) */
+  --accent-gold:     oklch(68% 0.15 72);
+  --accent-gold-dim: oklch(68% 0.15 72 / 0.12);
+
   /* Semantic tokens (decouple error from decoration) */
   --danger:        oklch(44% 0.26 16);
   --warn:          oklch(58% 0.17 68);
@@ -989,9 +993,10 @@ body::before {
   .notebook { border-radius: 0; height: 100dvh; }
   .notebook::before { display: none; }
   .topbar { padding: 8px 14px; }
-  .topbar-brand { font-size: 28px; }
-  .topbar-rhythm { gap: 12px; font-size: 12px; }
-  .topbar-time { font-size: 15px; letter-spacing: 0; }
+  .topbar-brand { font-size: 26px; }
+  .topbar-rhythm { gap: 8px; font-size: 12px; }
+  .topbar-time { font-size: 13px; letter-spacing: 0; }
+  .topbar-signout { display: none; }
 
   /* ── Pomodoro ──────────────────────────── */
   .pomo-time   { font-size: clamp(56px, 16vw, 88px); }
@@ -1058,6 +1063,10 @@ body::before {
   --accent-dim:  oklch(60% 0.22 22 / 0.14);
   --accent-glow: oklch(60% 0.22 22 / 0.32);
   --margin:      oklch(60% 0.22 22);
+
+  /* Gold — brighter on dark so it reads on deep paper */
+  --accent-gold:     oklch(74% 0.17 74);
+  --accent-gold-dim: oklch(74% 0.17 74 / 0.14);
 
   /* Semantic */
   --work-color:  oklch(60% 0.22 22);

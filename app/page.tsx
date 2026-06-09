@@ -519,7 +519,7 @@ export default function FlipPage() {
           }}
         >
           <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
-            Sound <em style={{ fontStyle: 'italic', color: 'var(--ink-60)' }}>Environment</em>
+            Sound <em style={{ fontStyle: 'italic', color: 'var(--accent-gold)' }}>Environment</em>
           </div>
 
           {/* Mobile-only ambient toggle — desktop uses tap-anywhere */}
@@ -586,59 +586,105 @@ export default function FlipPage() {
       </div>
 
       {/* ── Bottom page navigation ──────────────────────────────────────── */}
-      <div style={{
-        borderTop: '1px solid var(--grid-major)',
-        padding: isMobile ? '10px 16px' : '12px 28px 12px 76px',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        background: 'var(--page)',
-      }}>
-        <div style={{ fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>
-          {pageLabel[page]}
-          <button
-            onClick={ambientOn ? stopAmbient : startAmbient}
-            style={{
-              marginLeft: 16, fontSize: 11,
-              color: ambientOn ? 'var(--accent)' : 'var(--ink-25)',
-              background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-              fontFamily: 'var(--mono)', letterSpacing: '0.10em',
-              opacity: ambientOn ? 0.85 : 1,
-              animation: ambientOn ? 'none' : 'dotPulse 3s ease-in-out infinite',
-            }}
-          >
-            {ambientOn ? '· ♪ stop ambient' : '· ♪ begin ambient'}
-          </button>
+      {isMobile ? (
+        /* ── Mobile: 5-tab bar ──────────────────────────────────────────── */
+        <div style={{
+          borderTop: '1px solid var(--grid-major)',
+          background: 'var(--page)',
+          display: 'flex',
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        }}>
+          {(['Daily', 'Focus', 'Sound', 'Rest', 'Play'] as const).map((label, i) => {
+            const TAB_ICONS = ['◎', '⏱', '♪', '○', '◇']
+            const isActive = page === i
+            return (
+              <button
+                key={i}
+                onClick={() => scrollToPage(i)}
+                style={{
+                  flex: 1,
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                  gap: 4,
+                  padding: '10px 4px 9px',
+                  minHeight: 56,
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  color: isActive ? 'var(--accent)' : 'var(--ink-40)',
+                  fontFamily: 'var(--mono)',
+                  position: 'relative',
+                  transition: 'color 0.15s',
+                  WebkitTapHighlightColor: 'transparent',
+                }}
+              >
+                {isActive && (
+                  <span style={{
+                    position: 'absolute', top: 0, left: '15%', right: '15%',
+                    height: 2, background: 'var(--accent)', borderRadius: '0 0 2px 2px',
+                  }} />
+                )}
+                <span style={{ fontSize: 15, lineHeight: 1 }}>{TAB_ICONS[i]}</span>
+                <span style={{ fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', lineHeight: 1 }}>
+                  {label}
+                </span>
+              </button>
+            )
+          })}
         </div>
+      ) : (
+        /* ── Desktop: prev / next ───────────────────────────────────────── */
+        <div style={{
+          borderTop: '1px solid var(--grid-major)',
+          padding: '12px 28px 12px 76px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          background: 'var(--page)',
+        }}>
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--ink-40)', letterSpacing: '0.10em' }}>
+            {pageLabel[page]}
+            <button
+              onClick={ambientOn ? stopAmbient : startAmbient}
+              style={{
+                marginLeft: 16, fontSize: 11,
+                color: ambientOn ? 'var(--accent)' : 'var(--ink-25)',
+                background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+                fontFamily: 'var(--mono)', letterSpacing: '0.10em',
+                opacity: ambientOn ? 0.85 : 1,
+                animation: ambientOn ? 'none' : 'dotPulse 3s ease-in-out infinite',
+              }}
+            >
+              {ambientOn ? '· ♪ stop ambient' : '· ♪ begin ambient'}
+            </button>
+          </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <button
-            onClick={() => scrollToPage(Math.max(0, page - 1))}
-            disabled={page === 0}
-            style={{
-              fontFamily: 'var(--mono)', fontSize: 13, letterSpacing: '0.10em',
-              background: 'none', border: '1px solid var(--grid-major)',
-              borderRadius: 3, padding: '6px 16px', cursor: page === 0 ? 'default' : 'pointer',
-              color: page === 0 ? 'var(--ink-25)' : 'var(--ink-80)',
-              opacity: page === 0 ? 0.4 : 1,
-            }}>
-            ← prev
-          </button>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-25)', letterSpacing: '0.16em' }}>
-            {page + 1} / {totalPages}
-          </span>
-          <button
-            onClick={() => scrollToPage(Math.min(totalPages - 1, page + 1))}
-            disabled={page === totalPages - 1}
-            style={{
-              fontFamily: 'var(--mono)', fontSize: 13, letterSpacing: '0.10em',
-              background: 'none', border: '1px solid var(--grid-major)',
-              borderRadius: 3, padding: '6px 16px', cursor: page === totalPages - 1 ? 'default' : 'pointer',
-              color: page === totalPages - 1 ? 'var(--ink-25)' : 'var(--ink-80)',
-              opacity: page === totalPages - 1 ? 0.4 : 1,
-            }}>
-            next →
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <button
+              onClick={() => scrollToPage(Math.max(0, page - 1))}
+              disabled={page === 0}
+              style={{
+                fontFamily: 'var(--mono)', fontSize: 13, letterSpacing: '0.10em',
+                background: 'none', border: '1px solid var(--grid-major)',
+                borderRadius: 3, padding: '6px 16px', cursor: page === 0 ? 'default' : 'pointer',
+                color: page === 0 ? 'var(--ink-25)' : 'var(--ink-80)',
+                opacity: page === 0 ? 0.4 : 1,
+              }}>
+              ← prev
+            </button>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-25)', letterSpacing: '0.16em' }}>
+              {page + 1} / {totalPages}
+            </span>
+            <button
+              onClick={() => scrollToPage(Math.min(totalPages - 1, page + 1))}
+              disabled={page === totalPages - 1}
+              style={{
+                fontFamily: 'var(--mono)', fontSize: 13, letterSpacing: '0.10em',
+                background: 'none', border: '1px solid var(--grid-major)',
+                borderRadius: 3, padding: '6px 16px', cursor: page === totalPages - 1 ? 'default' : 'pointer',
+                color: page === totalPages - 1 ? 'var(--ink-25)' : 'var(--ink-80)',
+                opacity: page === totalPages - 1 ? 0.4 : 1,
+              }}>
+              next →
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
