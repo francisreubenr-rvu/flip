@@ -301,17 +301,23 @@ export default function FlipPage() {
             href="/pumps"
             style={{
               fontFamily: 'var(--mono)',
-              fontSize: 11,
+              fontSize: 10,
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              color: 'var(--ink-40)',
+              color: 'var(--page)',
               textDecoration: 'none',
-              transition: 'color 0.15s',
+              background: 'var(--accent)',
+              padding: '3px 10px',
+              borderRadius: '3px',
+              transition: 'opacity 0.15s',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
             }}
-            onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--accent)')}
-            onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--ink-40)')}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.8' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1' }}
           >
-            pumps
+            <span style={{ fontSize: 12, lineHeight: 1 }}>🏋</span> pumps
           </a>
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme" title={isDark ? 'Switch to light' : 'Switch to dark'}>
             {isDark ? '☀' : '☾'}
