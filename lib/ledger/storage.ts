@@ -25,8 +25,10 @@ const LOCAL_STORAGE_DIR = `${process.cwd()}/need-welp/statements`;
  * Falls back to the local `need-welp/statements/` directory when Supabase
  * Storage is not available.
  *
- * @returns The public URL (Supabase) or relative path (filesystem), or `null`
- *          on failure.
+ * @returns A `supabase://<objectPath>` reference (Supabase) or a relative
+ *          `need-welp/...` path (filesystem), or `null` on failure. Bank
+ *          statements are private; we never mint a public URL — the process
+ *          route downloads the object server-side via the service-role client.
  */
 export async function uploadStatement(
   file: File | Buffer,
@@ -39,7 +41,7 @@ export async function uploadStatement(
     const supabase = getServerClient();
     if (supabase) {
       try {
-        const { data, error } = await supabase.storage
+        const { error } = await supabase.storage
           .from(BUCKET_NAME)
           .upload(objectPath, file, {
             upsert: true,
@@ -50,12 +52,9 @@ export async function uploadStatement(
 
         if (error) throw error;
 
-        // Return the public URL.
-        const { data: publicUrlData } = supabase.storage
-          .from(BUCKET_NAME)
-          .getPublicUrl(objectPath);
-
-        return publicUrlData?.publicUrl ?? null;
+        // Return an internal reference, NOT a public URL. The bucket is
+        // private; the process route resolves `supabase://` via download().
+        return `supabase://${objectPath}`;
       } catch (err) {
         console.warn(
           "[ledger/storage] Supabase upload failed, falling back to filesystem:",

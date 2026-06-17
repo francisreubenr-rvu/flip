@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { Statement, Transaction } from '@/lib/ledger/types'
+import { authedFetch } from '@/app/lib/authed-fetch'
 
 /* ─── Types ───────────────────────────────────────────────────────────────── */
 
@@ -174,7 +175,7 @@ export default function StatementPreview({ statement, onApply }: StatementPrevie
     if (applied || applying) return
     setApplying(true)
     try {
-      const res = await fetch('/api/ledger/transactions', {
+      const res = await authedFetch('/api/ledger/transactions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ transactions }),

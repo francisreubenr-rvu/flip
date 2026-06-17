@@ -4,13 +4,19 @@ import path from 'path';
 import os from 'os';
 import { parseFile } from '@/lib/ledger/parser';
 import { cleanStatement } from '@/lib/ledger/cleaner';
-import { isSupabaseConfigured } from '@/lib/ledger/supabase-server';
+import { isSupabaseConfigured, getAuthedUser } from '@/lib/ledger/supabase-server';
 import { downloadStatement } from '@/lib/ledger/storage';
 import type { Statement } from '@/lib/ledger/types';
 
 const NEED_WELP_DIR = path.join(process.cwd(), 'need-welp');
 
 export async function POST(request: NextRequest) {
+  if (!(await getAuthedUser(request))) {
+    return NextResponse.json(
+      { success: false, error: 'Unauthorized' },
+      { status: 401 },
+    );
+  }
   try {
     const body = (await request.json()) as { filePath: string };
 

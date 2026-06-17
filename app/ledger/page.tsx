@@ -5,6 +5,7 @@ import type { Transaction, Statement, Ledger } from '@/lib/ledger/types'
 import UploadZone from '../components/ledger/UploadZone'
 import StatementPreview from '../components/ledger/StatementPreview'
 import TransactionTable from '../components/ledger/TransactionTable'
+import { authedFetch } from '@/app/lib/authed-fetch'
 
 /* ─── Styles ──────────────────────────────────────────────────────────────── */
 
@@ -62,7 +63,7 @@ export default function LedgerPage() {
   useEffect(() => {
     const fetchLedger = async () => {
       try {
-        const res = await fetch('/api/ledger/transactions')
+        const res = await authedFetch('/api/ledger/transactions')
         if (res.ok) {
           const data = await res.json()
           setTransactions(data.transactions ?? [])
@@ -102,7 +103,7 @@ export default function LedgerPage() {
     async (newTransactions: Transaction[]) => {
       // Refresh the full ledger from the API after applying.
       try {
-        const res = await fetch('/api/ledger/transactions')
+        const res = await authedFetch('/api/ledger/transactions')
         if (res.ok) {
           const data = await res.json()
           setTransactions(data.transactions ?? [])

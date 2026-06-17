@@ -1,10 +1,40 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type User } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 let _serverClient: ReturnType<typeof createClient> | null = null;
+
+/**
+ * Verify the caller's Supabase session from the request's `Authorization:
+ * Bearer <jwt>` header and return the authenticated user, or `null` if the
+ * token is missing/invalid.
+ *
+ * The ledger API routes use the service-role client (which bypasses RLS), so
+ * the routes themselves MUST gate every request on this check — otherwise the
+ * endpoints are world-readable/writable. The JWT is validated with the anon
+ * key only; the service-role key is never used for verification.
+ */
+export async function getAuthedUser(request: Request): Promise<User | null> {
+  const authHeader = request.headers.get("authorization") ?? "";
+  const token = authHeader.startsWith("Bearer ")
+    ? authHeader.slice(7).trim()
+    : "";
+  if (!token || !supabaseUrl || !anonKey) return null;
+
+  const client = createClient(supabaseUrl, anonKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+
+  try {
+    const { data, error } = await client.auth.getUser(token);
+    if (error || !data?.user) return null;
+    return data.user;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Create or return a cached server-side Supabase client.

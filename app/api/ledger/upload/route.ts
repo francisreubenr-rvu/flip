@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, access } from 'fs/promises';
 import path from 'path';
-import { isSupabaseConfigured } from '@/lib/ledger/supabase-server';
+import { isSupabaseConfigured, getAuthedUser } from '@/lib/ledger/supabase-server';
 import { uploadStatement } from '@/lib/ledger/storage';
 
 const ALLOWED_EXTENSIONS = ['.xlsx', '.pdf'];
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10 MB
 const NEED_WELP_DIR = path.join(process.cwd(), 'need-welp');
 
 function getToday(): string {
@@ -20,6 +21,12 @@ function getTimestamp(): string {
 }
 
 export async function POST(request: NextRequest) {
+  if (!(await getAuthedUser(request))) {
+    return NextResponse.json(
+      { success: false, error: 'Unauthorized' },
+      { status: 401 },
+    );
+  }
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
@@ -36,6 +43,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { success: false, error: 'Only .xlsx and .pdf files are accepted' },
         { status: 400 },
+      );
+    }
+
+    if (file.size > MAX_UPLOAD_BYTES) {
+      return NextResponse.json(
+        { success: false, error: 'File exceeds the 10 MB limit' },
+        { status: 413 },
       );
     }
 

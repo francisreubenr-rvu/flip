@@ -2,6 +2,7 @@
 
 import { useState, useRef, type DragEvent, type ChangeEvent } from 'react'
 import type { Statement } from '@/lib/ledger/types'
+import { authedFetch } from '@/app/lib/authed-fetch'
 
 /* ─── Types ───────────────────────────────────────────────────────────────── */
 
@@ -124,7 +125,7 @@ export default function UploadZone({ onProcessed }: UploadZoneProps) {
     try {
       const fd = new FormData()
       fd.append('file', file)
-      const res = await fetch('/api/ledger/upload', { method: 'POST', body: fd })
+      const res = await authedFetch('/api/ledger/upload', { method: 'POST', body: fd })
       if (!res.ok) {
         const body = await res.json().catch(() => ({}))
         throw new Error((body as { error?: string }).error ?? `Upload failed (${res.status})`)
@@ -139,7 +140,7 @@ export default function UploadZone({ onProcessed }: UploadZoneProps) {
     // ── Process ─────────────────────────────────────────────────────────
     setState('processing')
     try {
-      const res = await fetch('/api/ledger/process', {
+      const res = await authedFetch('/api/ledger/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ filePath: uploadResult.filePath }),

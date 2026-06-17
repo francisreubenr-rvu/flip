@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { isSupabaseConfigured } from '@/lib/ledger/supabase-server';
+import { isSupabaseConfigured, getAuthedUser } from '@/lib/ledger/supabase-server';
 import { queryTransactions, upsertTransactions, getTransactionCount } from '@/lib/ledger/db';
 import { readLedger, updateLedger } from '@/lib/ledger/ledger';
 import type { Transaction } from '@/lib/ledger/types';
 
+function unauthorized() {
+  return NextResponse.json(
+    { success: false, error: 'Unauthorized' },
+    { status: 401 },
+  );
+}
+
 export async function GET(request: NextRequest) {
+  if (!(await getAuthedUser(request))) return unauthorized();
   try {
     const { searchParams } = new URL(request.url);
     const dateFrom = searchParams.get('dateFrom') ?? undefined;
@@ -70,6 +78,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  if (!(await getAuthedUser(request))) return unauthorized();
   try {
     const body = (await request.json()) as { transactions: Transaction[] };
 
