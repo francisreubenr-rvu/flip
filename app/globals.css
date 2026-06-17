@@ -51,6 +51,15 @@
   /* Second accent — warm amber gold (sound / folio) */
   --accent-gold:     oklch(68% 0.15 72);
   --accent-gold-dim: oklch(68% 0.15 72 / 0.12);
+  --shadow-card:       oklch(10% 0.02 40 / 0.05);
+  --shadow-card-hover: oklch(10% 0.02 40 / 0.09);
+
+  /* ── Status tokens (byox progress, pumps) ── */
+  --status-todo:      var(--ink-25);
+  --status-wip:       oklch(58% 0.13 62);
+  --status-wip-dim:   oklch(58% 0.13 62 / 0.12);
+  --status-done:      oklch(48% 0.14 152);
+  --status-done-dim:  oklch(48% 0.14 152 / 0.12);
 
   /* Semantic tokens (decouple error from decoration) */
   --danger:        oklch(44% 0.26 16);
@@ -156,14 +165,22 @@ body::before {
   pointer-events: none;
 }
 
-/* Paper grain */
+/* Paper grain — denser fiber noise for tactile texture */
 .notebook::after {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 2;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.048'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 19px,
+      oklch(62% 0.01 244 / 0.018) 19px,
+      oklch(62% 0.01 244 / 0.018) 20px
+    );
 }
 
 /* ─── PERSISTENT TOP BAR ───────────────────────────────────────────────── */
@@ -604,7 +621,7 @@ body::before {
 
 .mode-chip.work-active  { border-color: var(--work-color);  color: var(--work-color);  background: oklch(52% 0.22 22 / 0.06); }
 .mode-chip.break-active { border-color: var(--break-color); color: var(--break-color); background: oklch(48% 0.16 152 / 0.06); }
-.mode-chip.rest-active  { border-color: var(--rest-color);  color: var(--rest-color);  background: oklch(62% 0.15 12 / 0.06); }
+.mode-chip.rest-active  { border-color: var(--rest-color);  color: var(--rest-color);  background: color-mix(in oklch, var(--rest-color) 6%, transparent); }
 
 .pomo-display { display: flex; align-items: baseline; gap: 24px; }
 
@@ -1067,6 +1084,14 @@ body::before {
   /* Gold — brighter on dark so it reads on deep paper */
   --accent-gold:     oklch(74% 0.17 74);
   --accent-gold-dim: oklch(74% 0.17 74 / 0.14);
+  --shadow-card:       oklch(0% 0 0 / 0.35);
+  --shadow-card-hover: oklch(0% 0 0 / 0.50);
+
+  /* Status tokens — slightly brighter on dark paper */
+  --status-wip:      oklch(65% 0.14 64);
+  --status-wip-dim:  oklch(65% 0.14 64 / 0.14);
+  --status-done:     oklch(55% 0.15 155);
+  --status-done-dim: oklch(55% 0.15 155 / 0.14);
 
   /* Semantic */
   --work-color:  oklch(60% 0.22 22);
