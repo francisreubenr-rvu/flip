@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/app/lib/auth'
 import { supabase } from '@/app/lib/supabase'
-import { Dumbbell, TrendingUp, CalendarDays, Plus, ArrowRight } from 'lucide-react'
+import { Plus, ArrowRight } from 'lucide-react'
 
 export default function PumpsDashboard() {
   const { user } = useAuth()
@@ -31,73 +31,97 @@ export default function PumpsDashboard() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      {/* Page header */}
+      <div className="flex items-start justify-between mb-10">
         <div>
-          <h1 className="font-[var(--serif)] italic text-3xl" style={{ color: 'var(--ink-100)' }}>Hey, {profile?.username || user?.email?.split('@')[0]}</h1>
-          <p className="font-[var(--mono)] text-xs tracking-wider mt-1" style={{ color: 'var(--ink-40)' }}>YOUR GYM OVERVIEW</p>
+          <h1 className="font-[var(--serif)] italic" style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', color: 'var(--ink-100)', lineHeight: 1.1 }}>
+            {profile?.username || user?.email?.split('@')[0]}
+          </h1>
+          <p className="font-[var(--mono)] mt-2" style={{ fontSize: '0.6875rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-40)' }}>
+            gym overview
+          </p>
         </div>
-        <Link href="/pumps/workouts/new" className="flex items-center gap-2 px-4 py-2 rounded text-sm font-[var(--mono)] transition-opacity hover:opacity-80" style={{ background: 'var(--accent)', color: 'var(--page)' }}>
-          <Plus className="h-4 w-4" /> Start Workout
+        <Link
+          href="/pumps/workouts/new"
+          className="flex items-center gap-2 font-[var(--mono)] transition-opacity hover:opacity-80"
+          style={{ background: 'var(--accent)', color: 'var(--page)', padding: '10px 18px', borderRadius: 3, fontSize: '0.75rem', letterSpacing: '0.06em' }}
+        >
+          <Plus className="h-3.5 w-3.5" /> Start Workout
         </Link>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      {/* Stats — serif numbers as data heroes */}
+      <div className="grid grid-cols-3 gap-5 mb-10">
         {[
-          { label: 'Workouts', value: workoutCount, icon: Dumbbell, color: 'var(--accent)' },
-          { label: 'Volume', value: `${volume.toLocaleString()} kg`, icon: TrendingUp, color: 'var(--work-color)' },
-          { label: 'Live Comps', value: activeComps.length, icon: CalendarDays, color: 'var(--ink-60)' },
+          { label: 'workouts', value: workoutCount },
+          { label: 'kg lifted', value: volume.toLocaleString() },
+          { label: 'live comps', value: activeComps.length },
         ].map((stat) => (
-          <div key={stat.label} className="border rounded p-4" style={{ borderColor: 'var(--grid-major)', background: 'var(--page)' }}>
-            <div className="flex items-center gap-2 mb-1">
-              <stat.icon className="h-3.5 w-3.5" style={{ color: stat.color }} />
-              <span className="font-[var(--mono)] text-[10px] tracking-wider uppercase" style={{ color: 'var(--ink-40)' }}>{stat.label}</span>
-            </div>
-            <p className="font-[var(--mono)] text-2xl font-medium" style={{ color: 'var(--ink-80)' }}>{stat.value}</p>
+          <div key={stat.label} className="border" style={{ borderColor: 'var(--grid-major)', padding: '20px 22px', background: 'var(--page)' }}>
+            <p className="font-[var(--mono)]" style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ink-40)', marginBottom: 8 }}>
+              {stat.label}
+            </p>
+            <p className="font-[var(--serif)] italic" style={{ fontSize: 'clamp(2rem, 3.5vw, 2.75rem)', color: 'var(--ink-100)', lineHeight: 1 }}>
+              {stat.value}
+            </p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="border rounded" style={{ borderColor: 'var(--grid-major)', background: 'var(--page)' }}>
-          <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: 'var(--grid-minor)' }}>
+      {/* Cards */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+        <div className="border" style={{ borderColor: 'var(--grid-major)', background: 'var(--page)' }}>
+          <div className="flex items-center justify-between border-b px-5 py-4" style={{ borderColor: 'var(--grid-minor)' }}>
             <h2 className="font-[var(--serif)] italic text-lg" style={{ color: 'var(--ink-100)' }}>Recent Workouts</h2>
-            <Link href="/pumps/workouts" className="text-xs hover:underline" style={{ color: 'var(--accent)' }}>View all <ArrowRight className="inline h-3 w-3" /></Link>
+            <Link href="/pumps/workouts" className="font-[var(--mono)] hover:opacity-70 transition-opacity" style={{ color: 'var(--accent)', fontSize: '0.7rem', letterSpacing: '0.08em' }}>
+              all <ArrowRight className="inline h-3 w-3" />
+            </Link>
           </div>
-          <div className="p-4">
+          <div className="px-5 py-2">
             {recentWorkouts.length > 0 ? recentWorkouts.map((w: any) => (
-              <Link key={w.id} href={`/pumps/workouts/${w.id}`} className="flex items-center justify-between py-2 border-b last:border-0 transition-colors hover:opacity-70" style={{ borderColor: 'var(--grid-minor)' }}>
+              <Link key={w.id} href={`/pumps/workouts/${w.id}`} className="flex items-center justify-between border-b last:border-0 transition-opacity hover:opacity-60" style={{ borderColor: 'var(--grid-minor)', padding: '13px 0' }}>
                 <div>
                   <p className="font-[var(--mono)] text-sm" style={{ color: 'var(--ink-80)' }}>{w.name}</p>
-                  <p className="font-[var(--mono)] text-[10px] tracking-wider mt-0.5" style={{ color: 'var(--ink-40)' }}>{new Date(w.started_at).toLocaleDateString()}</p>
+                  <p className="font-[var(--mono)] mt-1" style={{ fontSize: '0.6875rem', color: 'var(--ink-40)', letterSpacing: '0.05em' }}>
+                    {new Date(w.started_at).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                  </p>
                 </div>
-                <span className="text-[10px] tracking-wider px-2 py-0.5 rounded-full font-[var(--mono)]" style={{ background: w.completed_at ? 'var(--rest-color)' : 'var(--ink-40)', color: 'var(--page)' }}>
-                  {w.completed_at ? 'Done' : 'Active'}
+                <span className="font-[var(--mono)]" style={{ fontSize: '0.6875rem', letterSpacing: '0.08em', color: w.completed_at ? 'var(--ink-60)' : 'var(--accent)' }}>
+                  [ {w.completed_at ? 'done' : 'active'} ]
                 </span>
               </Link>
             )) : (
-              <p className="text-sm font-[var(--mono)] py-8 text-center" style={{ color: 'var(--ink-40)' }}>No workouts yet. <Link href="/pumps/workouts/new" className="underline" style={{ color: 'var(--accent)' }}>Start one</Link></p>
+              <p className="font-[var(--mono)] text-sm py-10 text-center" style={{ color: 'var(--ink-40)' }}>
+                No workouts yet. <Link href="/pumps/workouts/new" className="underline" style={{ color: 'var(--accent)' }}>Start one</Link>
+              </p>
             )}
           </div>
         </div>
 
-        <div className="border rounded" style={{ borderColor: 'var(--grid-major)', background: 'var(--page)' }}>
-          <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: 'var(--grid-minor)' }}>
+        <div className="border" style={{ borderColor: 'var(--grid-major)', background: 'var(--page)' }}>
+          <div className="flex items-center justify-between border-b px-5 py-4" style={{ borderColor: 'var(--grid-minor)' }}>
             <h2 className="font-[var(--serif)] italic text-lg" style={{ color: 'var(--ink-100)' }}>Active Competitions</h2>
-            <Link href="/pumps/competitions" className="text-xs hover:underline" style={{ color: 'var(--accent)' }}>View all <ArrowRight className="inline h-3 w-3" /></Link>
+            <Link href="/pumps/competitions" className="font-[var(--mono)] hover:opacity-70 transition-opacity" style={{ color: 'var(--accent)', fontSize: '0.7rem', letterSpacing: '0.08em' }}>
+              all <ArrowRight className="inline h-3 w-3" />
+            </Link>
           </div>
-          <div className="p-4">
+          <div className="px-5 py-2">
             {activeComps.length > 0 ? activeComps.map((c: any) => (
-              <Link key={c.id} href={`/pumps/competitions/${c.id}`} className="flex items-center justify-between py-2 border-b last:border-0 transition-colors hover:opacity-70" style={{ borderColor: 'var(--grid-minor)' }}>
+              <Link key={c.id} href={`/pumps/competitions/${c.id}`} className="flex items-center justify-between border-b last:border-0 transition-opacity hover:opacity-60" style={{ borderColor: 'var(--grid-minor)', padding: '13px 0' }}>
                 <div>
                   <p className="font-[var(--mono)] text-sm" style={{ color: 'var(--ink-80)' }}>{c.name}</p>
-                  <p className="font-[var(--mono)] text-[10px] tracking-wider mt-0.5" style={{ color: 'var(--ink-40)' }}>{c.exercises?.name} — {c.type.replace('_', ' ')}</p>
+                  <p className="font-[var(--mono)] mt-1" style={{ fontSize: '0.6875rem', color: 'var(--ink-40)', letterSpacing: '0.05em' }}>
+                    {c.exercises?.name} — {c.type.replace('_', ' ')}
+                  </p>
                 </div>
-                <span className="text-[10px] tracking-wider px-2 py-0.5 rounded-full font-[var(--mono)]" style={{ background: 'var(--work-color)', color: 'var(--page)' }}>LIVE</span>
+                <span className="font-[var(--mono)]" style={{ fontSize: '0.6875rem', letterSpacing: '0.08em', color: 'var(--accent)' }}>
+                  [ live ]
+                </span>
               </Link>
             )) : (
-              <div className="text-center py-8">
-                <p className="text-sm font-[var(--mono)]" style={{ color: 'var(--ink-40)' }}>No active competitions</p>
-                <Link href="/pumps/competitions/new" className="text-xs mt-2 inline-block underline" style={{ color: 'var(--accent)' }}>Create one</Link>
+              <div className="text-center py-10">
+                <p className="font-[var(--mono)] text-sm" style={{ color: 'var(--ink-40)' }}>No active competitions</p>
+                <Link href="/pumps/competitions/new" className="font-[var(--mono)] mt-3 inline-block underline" style={{ color: 'var(--accent)', fontSize: '0.75rem' }}>Create one</Link>
               </div>
             )}
           </div>

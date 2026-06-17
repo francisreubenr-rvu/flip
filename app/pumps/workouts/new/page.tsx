@@ -75,45 +75,54 @@ export default function NewWorkoutPage() {
 
   return (
     <div>
-      <h1 className="font-[var(--serif)] italic text-3xl mb-2" style={{ color: 'var(--ink-100)' }}>New Workout</h1>
-      <p className="font-[var(--mono)] text-[10px] tracking-wider mb-4" style={{ color: 'var(--ink-40)' }}>LOG YOUR SETS</p>
+      <h1 className="font-[var(--serif)] italic mb-1" style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', color: 'var(--ink-100)', lineHeight: 1.1 }}>New Workout</h1>
+      <p className="font-[var(--mono)] mb-8" style={{ fontSize: '0.6875rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-40)' }}>log your sets</p>
 
       <input value={workoutName} onChange={e => setWorkoutName(e.target.value)} placeholder="Workout name"
-        className="px-3 py-2 text-sm font-[var(--mono)] border rounded w-full max-w-xs mb-6 outline-none"
-        style={{ borderColor: 'var(--grid-major)', background: 'var(--page)', color: 'var(--ink-80)' }} />
+        className="font-[var(--mono)] border w-full max-w-sm mb-8 outline-none"
+        style={{ borderColor: 'var(--grid-major)', background: 'transparent', color: 'var(--ink-80)', padding: '10px 14px', fontSize: '0.875rem' }} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-6">
           {selected.map(eid => {
             const ex = exercises.find(e => e.id === eid)
             const ess = sets[eid] || []
             return (
-              <div key={eid} className="border rounded" style={{ borderColor: 'var(--grid-major)', background: 'var(--page)' }}>
-                <div className="flex items-center justify-between p-3 border-b" style={{ borderColor: 'var(--grid-minor)' }}>
-                  <span className="font-[var(--mono)] text-sm" style={{ color: 'var(--ink-80)' }}>{ex?.name}</span>
-                  <button onClick={() => removeEx(eid)} className="hover:opacity-60" style={{ color: 'var(--accent)' }}><Trash2 className="h-4 w-4" /></button>
+              <div key={eid} className="border" style={{ borderColor: 'var(--grid-major)', background: 'var(--page)' }}>
+                <div className="flex items-center justify-between border-b px-5 py-4" style={{ borderColor: 'var(--grid-minor)' }}>
+                  <span className="font-[var(--serif)] italic text-lg" style={{ color: 'var(--ink-80)' }}>{ex?.name}</span>
+                  <button onClick={() => removeEx(eid)} className="flex items-center justify-center w-8 h-8 hover:opacity-60 transition-opacity" style={{ color: 'var(--accent)' }}>
+                    <Trash2 className="h-4 w-4" />
+                  </button>
                 </div>
-                <div className="p-3 space-y-2">
+                <div className="px-5 py-4 space-y-1">
+                  {/* Column headers */}
+                  {ess.length > 0 && (
+                    <div className="grid items-center mb-3" style={{ gridTemplateColumns: '2rem 1fr 1fr 2rem 2rem', gap: '12px' }}>
+                      {['set', 'kg', 'reps', '', ''].map((h, i) => (
+                        <span key={i} className="font-[var(--mono)]" style={{ fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-40)' }}>{h}</span>
+                      ))}
+                    </div>
+                  )}
                   {ess.map((s, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="font-[var(--mono)] text-xs w-6 text-center" style={{ color: 'var(--ink-40)' }}>{i + 1}</span>
-                      <input type="number" placeholder="kg" value={s.weight || ''} onChange={e => updateSet(eid, i, 'weight', Number(e.target.value))}
-                        className="w-20 px-2 py-1 text-sm font-[var(--mono)] border rounded outline-none"
-                        style={{ borderColor: 'var(--grid-minor)', background: 'var(--page)', color: 'var(--ink-80)' }} />
-                      <span className="font-[var(--mono)] text-[10px]" style={{ color: 'var(--ink-40)' }}>kg</span>
-                      <input type="number" placeholder="reps" value={s.reps || ''} onChange={e => updateSet(eid, i, 'reps', Number(e.target.value))}
-                        className="w-16 px-2 py-1 text-sm font-[var(--mono)] border rounded outline-none"
-                        style={{ borderColor: 'var(--grid-minor)', background: 'var(--page)', color: 'var(--ink-80)' }} />
-                      <button onClick={() => toggleSet(eid, i)} style={{ color: s.completed ? 'var(--rest-color)' : 'var(--ink-25)' }}>
+                    <div key={i} className="grid items-center" style={{ gridTemplateColumns: '2rem 1fr 1fr 2rem 2rem', gap: '12px' }}>
+                      <span className="font-[var(--mono)] text-center" style={{ fontSize: '0.75rem', color: 'var(--ink-40)' }}>{i + 1}</span>
+                      <input type="number" placeholder="0" value={s.weight || ''} onChange={e => updateSet(eid, i, 'weight', Number(e.target.value))}
+                        className="font-[var(--mono)] border outline-none w-full"
+                        style={{ borderColor: 'var(--grid-minor)', background: 'var(--page)', color: 'var(--ink-80)', padding: '8px 10px', fontSize: '0.875rem' }} />
+                      <input type="number" placeholder="0" value={s.reps || ''} onChange={e => updateSet(eid, i, 'reps', Number(e.target.value))}
+                        className="font-[var(--mono)] border outline-none w-full"
+                        style={{ borderColor: 'var(--grid-minor)', background: 'var(--page)', color: 'var(--ink-80)', padding: '8px 10px', fontSize: '0.875rem' }} />
+                      <button onClick={() => toggleSet(eid, i)} className="flex items-center justify-center w-8 h-8 transition-opacity hover:opacity-70" style={{ color: s.completed ? 'var(--accent)' : 'var(--ink-25)' }}>
                         <Check className="h-4 w-4" />
                       </button>
-                      <button onClick={() => removeSet(eid, i)} style={{ color: 'var(--ink-25)' }}>
-                        <Trash2 className="h-3 w-3" />
+                      <button onClick={() => removeSet(eid, i)} className="flex items-center justify-center w-8 h-8 transition-opacity hover:opacity-60" style={{ color: 'var(--ink-25)' }}>
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   ))}
-                  <button onClick={() => addSet(eid)} className="w-full py-1.5 border border-dashed rounded text-xs font-[var(--mono)] transition-colors hover:opacity-70"
-                    style={{ borderColor: 'var(--grid-major)', color: 'var(--ink-40)' }}>
+                  <button onClick={() => addSet(eid)} className="w-full border-dashed border font-[var(--mono)] transition-opacity hover:opacity-70 mt-3"
+                    style={{ borderColor: 'var(--grid-major)', color: 'var(--ink-40)', padding: '10px', fontSize: '0.75rem', letterSpacing: '0.06em' }}>
                     <Plus className="inline h-3 w-3 mr-1" /> Add Set
                   </button>
                 </div>
@@ -122,30 +131,35 @@ export default function NewWorkoutPage() {
           })}
           {selected.length > 0 && (
             <button onClick={save} disabled={saving}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded text-sm font-[var(--mono)] transition-opacity hover:opacity-80"
-              style={{ background: 'var(--accent)', color: 'var(--page)' }}>
-              <Save className="h-4 w-4" /> {saving ? 'Saving...' : 'Complete Workout'}
+              className="w-full flex items-center justify-center gap-2 font-[var(--mono)] transition-opacity hover:opacity-80"
+              style={{ background: 'var(--accent)', color: 'var(--page)', padding: '14px', fontSize: '0.8125rem', letterSpacing: '0.06em' }}>
+              <Save className="h-4 w-4" /> {saving ? 'saving…' : 'Complete Workout'}
             </button>
           )}
         </div>
 
-        <div className="border rounded p-4 h-fit" style={{ borderColor: 'var(--grid-major)', background: 'var(--page)' }}>
-          <h3 className="font-[var(--serif)] italic text-lg mb-3" style={{ color: 'var(--ink-100)' }}>Add Exercises</h3>
-          {cats.map(cat => (
-            <div key={cat} className="mb-3">
-              <p className="font-[var(--mono)] text-[9px] tracking-widest uppercase mb-1" style={{ color: 'var(--ink-40)' }}>{cat}</p>
-              {exercises.filter(e => e.category === cat).map(ex => {
-                const added = selected.includes(ex.id)
-                return (
-                  <button key={ex.id} onClick={() => addEx(ex.id)} disabled={added}
-                    className="w-full text-left px-3 py-1.5 text-sm font-[var(--mono)] rounded transition-colors mb-0.5"
-                    style={{ color: added ? 'var(--ink-40)' : 'var(--ink-80)', background: added ? 'var(--page-buff)' : 'transparent' }}>
-                    <Plus className="inline h-3 w-3 mr-1" /> {ex.name}
-                  </button>
-                )
-              })}
-            </div>
-          ))}
+        {/* Exercise picker */}
+        <div className="border h-fit" style={{ borderColor: 'var(--grid-major)', background: 'var(--page)', position: 'sticky', top: '80px' }}>
+          <div className="border-b px-5 py-4" style={{ borderColor: 'var(--grid-minor)' }}>
+            <h3 className="font-[var(--serif)] italic text-lg" style={{ color: 'var(--ink-100)' }}>Add Exercises</h3>
+          </div>
+          <div className="px-4 py-4">
+            {cats.map(cat => (
+              <div key={cat} className="mb-4">
+                <p className="font-[var(--mono)] mb-2" style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ink-40)' }}>{cat}</p>
+                {exercises.filter(e => e.category === cat).map(ex => {
+                  const added = selected.includes(ex.id)
+                  return (
+                    <button key={ex.id} onClick={() => addEx(ex.id)} disabled={added}
+                      className="w-full text-left font-[var(--mono)] transition-opacity mb-1"
+                      style={{ color: added ? 'var(--ink-40)' : 'var(--ink-80)', padding: '8px 10px', fontSize: '0.8125rem', opacity: added ? 0.5 : 1, background: 'transparent' }}>
+                      {added ? '✓' : '+'} {ex.name}
+                    </button>
+                  )
+                })}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
