@@ -14,6 +14,7 @@ export default function NewWorkoutPage() {
   const [sets, setSets] = useState<Record<string, { reps: number; weight: number; completed: boolean }[]>>({})
   const [workoutName, setWorkoutName] = useState('')
   const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     supabase.from('exercises').select('*').order('category').then(({ data }) => setExercises(data ?? []))
@@ -48,26 +49,50 @@ export default function NewWorkoutPage() {
   }
 
   async function save() {
-    if (!user) return; setSaving(true)
-    const { data: w } = await supabase.from('workouts').insert({
+    if (!user || saving) return
+    setSaving(true); setError('')
+
+    // 1. Create the workout.
+    const { data: w, error: wErr } = await supabase.from('workouts').insert({
       user_id: user.id, name: workoutName || 'Workout',
       started_at: new Date().toISOString(), completed_at: new Date().toISOString(),
     }).select().single()
-    if (!w) { setSaving(false); return }
-
-    for (const [idx, eid] of selected.entries()) {
-      const { data: we } = await supabase.from('workout_exercises').insert({
-        workout_id: w.id, exercise_id: eid, sort_order: idx,
-      }).select().single()
-      if (!we) continue
-
-      const es = sets[eid] || []
-      await supabase.from('exercise_sets').insert(es.map((s, i) => ({
-        workout_exercise_id: we.id, set_number: i + 1,
-        reps: s.reps, weight_kg: s.weight, completed: s.completed,
-      })))
+    if (wErr || !w) {
+      setSaving(false)
+      setError(wErr?.message ?? 'Could not create workout. Try again.')
+      return
     }
-    setSaving(false)
+
+    // 2. Batch-insert this workout's exercises (one round-trip, not N).
+    const weRows = selected.map((eid, idx) => ({ workout_id: w.id, exercise_id: eid, sort_order: idx }))
+    const { data: wes, error: weErr } = weRows.length
+      ? await supabase.from('workout_exercises').insert(weRows).select()
+      : { data: [], error: null }
+    if (weErr || !wes) {
+      await supabase.from('workouts').delete().eq('id', w.id) // roll back the orphan
+      setSaving(false)
+      setError(weErr?.message ?? 'Could not save exercises. Try again.')
+      return
+    }
+
+    // 3. Batch-insert every set across all exercises (one round-trip).
+    const idByExercise = new Map<string, string>((wes as { id: string; exercise_id: string }[]).map((we) => [we.exercise_id, we.id]))
+    const setRows = selected.flatMap((eid) =>
+      (sets[eid] || []).map((s, i) => ({
+        workout_exercise_id: idByExercise.get(eid),
+        set_number: i + 1, reps: s.reps, weight_kg: s.weight, completed: s.completed,
+      })),
+    )
+    if (setRows.length) {
+      const { error: sErr } = await supabase.from('exercise_sets').insert(setRows)
+      if (sErr) {
+        await supabase.from('workouts').delete().eq('id', w.id) // cascades to exercises + sets
+        setSaving(false)
+        setError(sErr.message)
+        return
+      }
+    }
+
     router.push(`/pumps/workouts/${w.id}`)
   }
 
@@ -129,10 +154,15 @@ export default function NewWorkoutPage() {
               </div>
             )
           })}
+          {error && (
+            <p className="font-[var(--mono)]" style={{ color: 'var(--danger, var(--accent))', fontSize: '0.75rem', letterSpacing: '0.04em' }}>
+              {error}
+            </p>
+          )}
           {selected.length > 0 && (
             <button onClick={save} disabled={saving}
               className="w-full flex items-center justify-center gap-2 font-[var(--mono)] transition-opacity hover:opacity-80"
-              style={{ background: 'var(--accent)', color: 'var(--page)', padding: '14px', fontSize: '0.8125rem', letterSpacing: '0.06em' }}>
+              style={{ background: 'var(--accent)', color: 'var(--page)', padding: '14px', fontSize: '0.8125rem', letterSpacing: '0.06em', opacity: saving ? 0.6 : 1 }}>
               <Save className="h-4 w-4" /> {saving ? 'saving…' : 'Complete Workout'}
             </button>
           )}

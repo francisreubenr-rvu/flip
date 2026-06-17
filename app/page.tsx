@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback, useRef, type CSSProperties } from 'react'
+import React, { useState, useEffect, useCallback, useRef, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
 import InkStampClock from './components/InkStampClock'
 import Pomodoro from './components/Pomodoro'
@@ -13,6 +13,7 @@ import OceanWorld  from './components/OceanWorld'
 import GolfNav from './components/GolfNav'
 import Widgets from './components/Widgets'
 import { useAuth } from './lib/auth'
+import { motion } from 'framer-motion'
 
 type Mode = 'work' | 'short-break' | 'long-break'
 
@@ -35,7 +36,20 @@ type DayData = { date: string; intention: string; ifThen: string; sessions: Sess
 
 function loadDay(key: string): DayData | null {
   if (typeof window === 'undefined') return null
-  try { const d = localStorage.getItem(key); return d ? JSON.parse(d) : null } catch { return null }
+  try {
+    const raw = localStorage.getItem(key)
+    if (!raw) return null
+    const d = JSON.parse(raw)
+    if (!d || typeof d !== 'object') return null
+    // Normalise shape so a legacy/corrupt record can't crash the mount effect
+    // (e.g. sessions.reduce on a non-array would lock the user out entirely).
+    return {
+      ...d,
+      intention: typeof d.intention === 'string' ? d.intention : '',
+      ifThen: typeof d.ifThen === 'string' ? d.ifThen : '',
+      sessions: Array.isArray(d.sessions) ? d.sessions : [],
+    } as DayData
+  } catch { return null }
 }
 function saveDay(key: string, data: DayData) {
   try { localStorage.setItem(key, JSON.stringify(data)) } catch {}
@@ -47,6 +61,45 @@ function todayKey(): string {
 
 function pct() { const n=new Date();return Math.round((n.getHours()*3600+n.getMinutes()*60+n.getSeconds())/86400*100) }
 function weekInfo() { const n=new Date();const s=new Date(n.getFullYear(),0,1);const d=Math.floor((n.getTime()-s.getTime())/86400000)+1;return{day:d,week:Math.ceil(d/7)} }
+
+function usePastIntention() {
+  const [past, setPast] = useState<{ date: string; intention: string } | null>(null)
+  useEffect(() => {
+    const today = new Date()
+    for (let i = 1; i <= 7; i++) {
+      const d = new Date(today)
+      d.setDate(d.getDate() - i)
+      const k = `flip-day-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+      const data = loadDay(k)
+      if (data?.intention) {
+        setPast({
+          date: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+          intention: data.intention,
+        })
+        break
+      }
+    }
+  }, [])
+  return past
+}
+
+function InkReveal({ text, style }: { text: string; style?: React.CSSProperties }) {
+  return (
+    <motion.div key={text} style={style}>
+      {text.split(' ').map((word, wi) => (
+        <motion.span
+          key={wi}
+          initial={{ opacity: 0, filter: 'blur(4px)' }}
+          animate={{ opacity: 1, filter: 'blur(0px)' }}
+          transition={{ delay: wi * 0.1, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          style={{ display: 'inline' }}
+        >
+          {word}{wi < text.split(' ').length - 1 ? ' ' : ''}
+        </motion.span>
+      ))}
+    </motion.div>
+  )
+}
 
 export default function FlipPage() {
   const [mode, setMode] = useState<Mode>('work')
@@ -85,6 +138,8 @@ export default function FlipPage() {
 
   // Calendar popup state
   const [showCalendar, setShowCalendar] = useState(false)
+
+  const pastIntention = usePastIntention()
 
   // ─── Ambient: brown noise + YouTube ──────────────────────────────────────
   const [ambientOn, setAmbientOn] = useState(false)
@@ -298,6 +353,24 @@ export default function FlipPage() {
             byox
           </a>
           <a
+            href="http://localhost:5173"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: 11,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--ink-40)',
+              textDecoration: 'none',
+              transition: 'color 0.15s',
+            }}
+            onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--accent)')}
+            onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--ink-40)')}
+          >
+            gpa
+          </a>
+          <a
             href="/pumps"
             style={{
               fontFamily: 'var(--mono)',
@@ -344,6 +417,32 @@ export default function FlipPage() {
         </div>
       )}
 
+      {/* ── Right margin annotation (desktop only) ─────────────────────── */}
+      {!isMobile && committed && (
+        <div style={{
+          position: 'fixed', right: 16, top: '50%', transform: 'translateY(-50%)',
+          zIndex: 80, pointerEvents: 'none',
+          display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10,
+          maxWidth: 44,
+        }}>
+          {sessions.length > 0 && (
+            <div style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, color: 'var(--ink-25)', textAlign: 'right', lineHeight: 1.6, letterSpacing: '0.08em' }}>
+              <span style={{ display: 'block', color: 'var(--accent)', fontSize: 13 }}>{sessions.length}×</span>
+              <span style={{ display: 'block' }}>{focusMin}′</span>
+              <span style={{ display: 'block', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 4, color: 'var(--ink-25)' }}>focus</span>
+            </div>
+          )}
+          <div style={{
+            writingMode: 'vertical-rl', transform: 'rotate(180deg)',
+            fontFamily: 'var(--mono)', fontSize: 8, letterSpacing: '0.2em',
+            color: 'var(--ink-25)', textTransform: 'uppercase',
+            marginTop: sessions.length > 0 ? 12 : 0,
+          }}>
+            {dateLong.split(',')[0]}
+          </div>
+        </div>
+      )}
+
       {/* ── Global rocket orbit (desktop only — costly on mobile) ──────── */}
       {!isMobile && isDark  && <RocketOrbit />}
       {!isMobile && !isDark && <OceanWorld />}
@@ -375,13 +474,26 @@ export default function FlipPage() {
           style={{
             scrollSnapAlign: 'start',
             minHeight: '100%',
+            position: 'relative',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: committed ? 'flex-start' : 'center', gap: 28,
             padding: isMobile
-              ? '20px 16px 28px'
-              : (committed ? '52px 80px 60px 100px' : '40px 80px 40px 100px'),
+              ? '36px 16px 28px'
+              : (committed ? '68px 80px 60px 100px' : '56px 80px 40px 100px'),
           }}
         >
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0,
+            padding: isMobile ? '6px 16px' : '6px 24px 6px 76px',
+            borderBottom: '1px solid var(--grid-minor)',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '0.22em',
+            textTransform: 'uppercase', color: 'var(--ink-25)',
+            pointerEvents: 'none', zIndex: 5, background: 'var(--page)',
+          }}>
+            <span>Daily Page</span>
+            <span>1 / {totalPages}</span>
+          </div>
           {/* Date header */}
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 8vw, 116px)', fontStyle: 'italic', fontWeight: 700, color: 'var(--ink-100)', letterSpacing: '-0.03em' }}>
@@ -438,17 +550,18 @@ export default function FlipPage() {
 
               {/* Intention — the hero element */}
               <div style={{ position: 'relative', paddingBottom: 18, marginBottom: 8 }}>
-                <div style={{
-                  fontFamily: 'var(--serif)',
-                  fontSize: 'clamp(32px, 8.5vw, 128px)',
-                  fontStyle: 'italic',
-                  fontWeight: 700,
-                  color: 'var(--ink-100)',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.15,
-                }}>
-                  {intention}
-                </div>
+                <InkReveal
+                  text={intention}
+                  style={{
+                    fontFamily: 'var(--serif)',
+                    fontSize: 'clamp(32px, 8.5vw, 128px)',
+                    fontStyle: 'italic',
+                    fontWeight: 700,
+                    color: 'var(--ink-100)',
+                    letterSpacing: '-0.02em',
+                    lineHeight: 1.15,
+                  }}
+                />
                 {/* Hand-ruled baseline beneath the intention */}
                 <svg width="100%" height="6" style={{ position: 'absolute', bottom: 0, left: 0 }} aria-hidden="true">
                   <path
@@ -490,29 +603,58 @@ export default function FlipPage() {
 
               {showCalendar && <Calendar />}
 
-              {/* Session log: hand-ruled table */}
-              {sessions.length > 0 && (
-                <div style={{ borderTop: '1px solid var(--grid-major)', paddingTop: 20, width: '100%', textAlign: 'left' }}>
+              {/* ── Spaced review: most recent past intention ──────────── */}
+              {pastIntention && !showCalendar && (
+                <div style={{
+                  width: '100%', marginTop: 12,
+                  borderTop: '1px dashed var(--grid-major)',
+                  paddingTop: 14,
+                }}>
                   <div style={{
-                    display: 'grid', gridTemplateColumns: '28px 1fr 60px',
-                    fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--ink-25)',
-                    letterSpacing: '0.14em', textTransform: 'uppercase',
-                    paddingBottom: 8, borderBottom: '1px solid var(--grid-minor)', marginBottom: 6,
+                    fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '0.20em',
+                    textTransform: 'uppercase', color: 'var(--accent-gold)',
+                    marginBottom: 6,
                   }}>
-                    <span>#</span><span>time</span><span>dur</span>
+                    ↑ {pastIntention.date}
                   </div>
-                  {sessions.map((s, i) => (
-                    <div key={i} style={{
-                      display: 'grid', gridTemplateColumns: '28px 1fr 60px',
-                      alignItems: 'baseline', fontFamily: 'var(--mono)', fontSize: 12,
-                      padding: '7px 0', borderBottom: '1px solid var(--grid-minor)',
-                    }}>
-                      <span style={{ color: 'var(--accent)', opacity: 0.65, fontSize: 10 }}>✓</span>
-                      <span style={{ color: 'var(--ink-40)' }}>{s.start}</span>
-                      <span style={{ color: 'var(--ink-60)', fontWeight: 600 }}>{s.duration}′</span>
-                    </div>
-                  ))}
-                  <div style={{ fontFamily: 'var(--serif)', fontSize: 14, fontStyle: 'italic', color: 'var(--ink-60)', marginTop: 12, letterSpacing: '-0.01em' }}>
+                  <div style={{
+                    fontFamily: 'var(--serif)', fontStyle: 'italic',
+                    fontSize: 'clamp(14px, 1.5vw, 18px)', color: 'var(--ink-40)',
+                    letterSpacing: '-0.01em', lineHeight: 1.35,
+                  }}>
+                    {pastIntention.intention}
+                  </div>
+                </div>
+              )}
+
+              {/* Session log: timeline */}
+              {sessions.length > 0 && (
+                <div style={{ borderTop: '1px solid var(--grid-major)', paddingTop: 18, width: '100%', textAlign: 'left' }}>
+                  <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '0.20em', textTransform: 'uppercase', color: 'var(--ink-25)', marginBottom: 14 }}>
+                    Session Log
+                  </div>
+                  <div style={{ position: 'relative', paddingLeft: 22 }}>
+                    {/* Vertical timeline rule */}
+                    <div style={{ position: 'absolute', left: 4, top: 6, bottom: 8, width: 1, background: 'var(--grid-major)' }} />
+                    {sessions.map((s, i) => (
+                      <div key={i} style={{ position: 'relative', paddingBottom: 14 }}>
+                        <div style={{
+                          position: 'absolute', left: -18, top: 5,
+                          width: 9, height: 9, borderRadius: '50%',
+                          background: i === sessions.length - 1 ? 'var(--accent)' : 'var(--grid-major)',
+                          boxShadow: i === sessions.length - 1 ? '0 0 0 3px var(--accent-dim)' : 'none',
+                          boxSizing: 'border-box',
+                        }} />
+                        <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 15, color: 'var(--ink-60)', lineHeight: 1.2 }}>
+                          {s.start}
+                        </div>
+                        <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-40)', letterSpacing: '0.10em', marginTop: 1 }}>
+                          {s.duration}′
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ fontFamily: 'var(--serif)', fontSize: 14, fontStyle: 'italic', color: 'var(--ink-60)', marginTop: 4, letterSpacing: '-0.01em' }}>
                     {focusMin} minutes on the page today.
                   </div>
                 </div>
@@ -530,12 +672,25 @@ export default function FlipPage() {
           style={{
             scrollSnapAlign: 'start',
             minHeight: '100%',
+            position: 'relative',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: 'center', gap: 24,
-            padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
+            padding: isMobile ? '36px 16px 24px' : '40px 80px 40px 100px',
             background: 'var(--page-cream)',
           }}
         >
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0,
+            padding: isMobile ? '6px 16px' : '6px 24px 6px 76px',
+            borderBottom: '1px solid var(--grid-minor)',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '0.22em',
+            textTransform: 'uppercase', color: 'var(--ink-25)',
+            pointerEvents: 'none', zIndex: 5, background: 'var(--page-cream)',
+          }}>
+            <span>Focus</span>
+            <span>2 / {totalPages}</span>
+          </div>
           <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
             Focus <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>Session</em>
           </div>
@@ -551,11 +706,24 @@ export default function FlipPage() {
           style={{
             scrollSnapAlign: 'start',
             minHeight: '100%',
+            position: 'relative',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: 'center', gap: 28,
-            padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
+            padding: isMobile ? '36px 16px 24px' : '40px 80px 40px 100px',
           }}
         >
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0,
+            padding: isMobile ? '6px 16px' : '6px 24px 6px 76px',
+            borderBottom: '1px solid var(--grid-minor)',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '0.22em',
+            textTransform: 'uppercase', color: 'var(--ink-25)',
+            pointerEvents: 'none', zIndex: 5, background: 'var(--page)',
+          }}>
+            <span>Sound</span>
+            <span>3 / {totalPages}</span>
+          </div>
           <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
             Sound <em style={{ fontStyle: 'italic', color: 'var(--accent-gold)' }}>Environment</em>
           </div>
@@ -586,11 +754,24 @@ export default function FlipPage() {
           style={{
             scrollSnapAlign: 'start',
             minHeight: '100%',
+            position: 'relative',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: 'center', gap: 24,
-            padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
+            padding: isMobile ? '36px 16px 24px' : '40px 80px 40px 100px',
           }}
         >
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0,
+            padding: isMobile ? '6px 16px' : '6px 24px 6px 76px',
+            borderBottom: '1px solid var(--grid-minor)',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '0.22em',
+            textTransform: 'uppercase', color: 'var(--ink-25)',
+            pointerEvents: 'none', zIndex: 5, background: 'var(--page)',
+          }}>
+            <span>Rest</span>
+            <span>4 / {totalPages}</span>
+          </div>
           <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 6vw, 96px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
             Rest <em style={{ fontStyle: 'italic', color: 'var(--break-color)' }}>& Recover</em>
           </div>
@@ -607,11 +788,24 @@ export default function FlipPage() {
           style={{
             scrollSnapAlign: 'start',
             minHeight: '100%',
+            position: 'relative',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: 'flex-start',
-            gap: 20, padding: isMobile ? '24px 16px' : '40px 80px 40px 100px',
+            gap: 20, padding: isMobile ? '36px 16px 24px' : '56px 80px 40px 100px',
           }}
         >
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0,
+            padding: isMobile ? '6px 16px' : '6px 24px 6px 76px',
+            borderBottom: '1px solid var(--grid-minor)',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '0.22em',
+            textTransform: 'uppercase', color: 'var(--ink-25)',
+            pointerEvents: 'none', zIndex: 5, background: 'var(--page-cream)',
+          }}>
+            <span>Play</span>
+            <span>5 / {totalPages}</span>
+          </div>
           <div style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(24px, 5vw, 72px)', fontWeight: 700, lineHeight: 0.9, color: 'var(--ink-100)', letterSpacing: '-0.04em', textAlign: 'center' }}>
             Play <em style={{ fontStyle: 'italic', color: 'var(--ink-60)' }}>After Work</em>
           </div>

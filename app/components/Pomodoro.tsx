@@ -33,6 +33,7 @@ export default function Pomodoro({ onModeChange, onSessionComplete }: { onModeCh
   const sw = useCallback((n: Mode) => { setMode(n); setRem(P[n].dur); setRun(false); onModeChange?.(n) }, [onModeChange])
 
   const done = useCallback(() => {
+    if (intRef.current) { clearInterval(intRef.current); intRef.current = null }
     setRun(false); chime()
     if (mode === 'work') {
       const n = sess + 1; setSess(n)
@@ -42,11 +43,18 @@ export default function Pomodoro({ onModeChange, onSessionComplete }: { onModeCh
     else sw('work')
   }, [mode, sess, sw, onSessionComplete, p.dur])
 
+  // Tick: keep the updater pure (no side effects — avoids double-firing under
+  // React StrictMode and never recreates the interval when `done` changes).
   useEffect(() => {
     if (!run) { if (intRef.current) clearInterval(intRef.current); return }
-    intRef.current = setInterval(() => setRem(p => { if (p <= 1) { done(); return 0 } return p - 1 }), 1000)
+    intRef.current = setInterval(() => setRem(p => Math.max(0, p - 1)), 1000)
     return () => { if (intRef.current) clearInterval(intRef.current) }
-  }, [run, done])
+  }, [run])
+
+  // Fire completion exactly once when the countdown reaches zero.
+  useEffect(() => {
+    if (run && rem === 0) done()
+  }, [run, rem, done])
 
   const chipCls = (m: Mode) => {
     if (mode !== m) return 'mode-chip'

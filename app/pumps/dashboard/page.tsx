@@ -51,7 +51,7 @@ export default function PumpsDashboard() {
       </div>
 
       {/* Stats — serif numbers as data heroes */}
-      <div className="grid grid-cols-3 gap-5 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
         {[
           { label: 'workouts', value: workoutCount },
           { label: 'kg lifted', value: volume.toLocaleString() },

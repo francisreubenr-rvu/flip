@@ -1299,7 +1299,11 @@ export default function OceanWorld() {
     }
 
     rafRef.current = requestAnimationFrame(frame)
-    return () => { cancelAnimationFrame(rafRef.current); window.removeEventListener('resize', resize) }
+    return () => {
+      cancelAnimationFrame(rafRef.current)
+      window.removeEventListener('resize', resize)
+      document.removeEventListener('mousemove', onMouseMove)
+    }
   }, [])
 
   return (
