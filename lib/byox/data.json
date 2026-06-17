@@ -1,0 +1,3188 @@
+[
+  {
+    "id": "b3duLWthZmth",
+    "category": "Distributed Systems",
+    "language": "Java",
+    "title": "Building Your Own Kafka-like System From Scratch: A Step-by-Step Guide",
+    "url": "https://github.com/buildthingsuseful/build-your-own-kafka",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "zLWl0LXdvcms",
+    "category": "3D Renderer",
+    "language": "C++",
+    "title": "Introduction to Ray Tracing: a Simple Method for Creating 3D Images",
+    "url": "https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tracing/how-does-it-work",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZXJlci93aWtp",
+    "category": "3D Renderer",
+    "language": "C++",
+    "title": "How OpenGL works: software rendering in 500 lines of code",
+    "url": "https://github.com/ssloy/tinyrenderer/wiki",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "RpbmcuaHRtbA",
+    "category": "3D Renderer",
+    "language": "C++",
+    "title": "Raycasting engine of Wolfenstein 3D",
+    "url": "http://lodev.org/cgtutor/raycasting.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Ym9vay5vcmcv",
+    "category": "3D Renderer",
+    "language": "C++",
+    "title": "Physically Based Rendering:From Theory To Implementation",
+    "url": "http://www.pbr-book.org/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "rZW5kLmh0bWw",
+    "category": "3D Renderer",
+    "language": "C++",
+    "title": "Ray Tracing in One Weekend",
+    "url": "https://raytracing.github.io/books/RayTracingInOneWeekend.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "hbGdvcml0aG0",
+    "category": "3D Renderer",
+    "language": "C++",
+    "title": "Rasterization: a Practical Implementation",
+    "url": "https://www.scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/overview-rasterization-algorithm",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Zhc2NyaXB0Lw",
+    "category": "3D Renderer",
+    "language": "C# / TypeScript / JavaScript",
+    "title": "Learning how to write a 3D soft engine from scratch in C#, TypeScript or JavaScript",
+    "url": "https://www.davrous.com/2013/06/13/tutorial-series-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-typescript-or-javascript/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "F5dHJhY2VyLw",
+    "category": "3D Renderer",
+    "language": "Java / JavaScript",
+    "title": "Build your own 3D renderer",
+    "url": "https://avik-das.github.io/build-your-own-raytracer/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bmRlci5odG1s",
+    "category": "3D Renderer",
+    "language": "Java",
+    "title": "How to create your own simple 3D render engine in pure Java",
+    "url": "http://blog.rogach.org/2015/08/how-to-create-your-own-simple-3d-render.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Rpb24uaHRtbA",
+    "category": "3D Renderer",
+    "language": "JavaScript / Pseudocode",
+    "title": "Computer Graphics from scratch",
+    "url": "http://www.gabrielgambetta.com/computer-graphics-from-scratch/introduction.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "xsZXIuaHRtbA",
+    "category": "3D Renderer",
+    "language": "Python",
+    "title": "A 3D Modeller",
+    "url": "http://aosabook.org/en/500L/a-3d-modeller.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bS1zY3JhdGNo",
+    "category": "AI Model",
+    "language": "Python",
+    "title": "A Large Language Model (LLM)",
+    "url": "https://github.com/rasbt/LLMs-from-scratch",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "uL3VuaXQxLzM",
+    "category": "AI Model",
+    "language": "Python",
+    "title": "Diffusion Models for Image Generation",
+    "url": "https://huggingface.co/learn/diffusion-course/en/unit1/3",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bS1zY3JhdGNo",
+    "category": "AI Model",
+    "language": "Python",
+    "title": "RAG for Document Search",
+    "url": "https://github.com/langchain-ai/rag-from-scratch",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "5qTmNxVzRrWQ",
+    "category": "Augmented Reality",
+    "language": "C#",
+    "title": "How To: Augmented Reality App Tutorial for Beginners with Vuforia and Unity 3D",
+    "url": "https://www.youtube.com/watch?v=uXNjNcqW4kY",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "WlBRbl9yZ1N2",
+    "category": "Augmented Reality",
+    "language": "C#",
+    "title": "How To Unity ARCore",
+    "url": "https://www.youtube.com/playlist?list=PLKIKuXdn4ZMjuUAtdQfK1vwTZPQn_rgSv",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "cUxVMEhUbXZu",
+    "category": "Augmented Reality",
+    "language": "C#",
+    "title": "AR Portal Tutorial with Unity",
+    "url": "https://www.youtube.com/playlist?list=PLPCqNOwwN794Gz5fzUSi1p4OqLU0HTmvn",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "NEUGtQeVBxcw",
+    "category": "Augmented Reality",
+    "language": "C#",
+    "title": "How to create a Dragon in Augmented Reality in Unity ARCore",
+    "url": "https://www.youtube.com/watch?v=qTSDPkPyPqs",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "FtcU11TmkwOA",
+    "category": "Augmented Reality",
+    "language": "C#",
+    "title": "How to Augmented Reality AR Tutorial: ARKit Portal to the Upside Down",
+    "url": "https://www.youtube.com/watch?v=Z5AmqMuNi08",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "di1wYXJ0LTEv",
+    "category": "Augmented Reality",
+    "language": "Python",
+    "title": "Augmented Reality with Python and OpenCV",
+    "url": "https://bitesofcode.wordpress.com/2017/09/12/augmented-reality-with-python-and-opencv-part-1/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "JlbnQuaHRtbA",
+    "category": "BitTorrent Client",
+    "language": "C#",
+    "title": "Building a BitTorrent client from scratch in C#",
+    "url": "https://www.seanjoflynn.com/research/bittorrent.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "90b3JyZW50Lw",
+    "category": "BitTorrent Client",
+    "language": "Go",
+    "title": "Building a BitTorrent client from the ground up in Go",
+    "url": "https://blog.jse.li/posts/torrent/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "jb2RlLmh0bWw",
+    "category": "BitTorrent Client",
+    "language": "Nim",
+    "title": "Writing a Bencode Parser",
+    "url": "https://xmonader.github.io/nimdays/day02_bencode.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "pZW50Lmh0bWw",
+    "category": "BitTorrent Client",
+    "language": "Node.js",
+    "title": "Write your own bittorrent client",
+    "url": "https://allenkim67.github.io/programming/2016/05/04/how-to-make-your-own-bittorrent-client.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bi1weXRob24v",
+    "category": "BitTorrent Client",
+    "language": "Python",
+    "title": "A BitTorrent client in Python 3.5",
+    "url": "http://markuseliasson.se/article/bittorrent-in-python/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bG9ja2NoYWlu",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "ATS",
+    "title": "Functional Blockchain",
+    "url": "https://beta.observablehq.com/@galletti94/functional-blockchain",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZDVkOWQwYzUy",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Crystal",
+    "title": "Write your own blockchain and PoW algorithm using Crystal",
+    "url": "https://medium.com/@bradford_hamilton/write-your-own-blockchain-and-pow-algorithm-using-crystal-d53d5d9d0c52",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "8tcGFydC0xLw",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Go",
+    "title": "Building Blockchain in Go",
+    "url": "https://jeiwan.net/posts/building-blockchain-in-go-part-1/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "YyODJiY2ZmYw",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Go",
+    "title": "Code your own blockchain in less than 200 lines of Go",
+    "url": "https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "VkM2NiMDNmYQ",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Java",
+    "title": "Creating Your First Blockchain with Java",
+    "url": "https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "uYWl2ZWNvaW4",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "JavaScript",
+    "title": "A cryptocurrency implementation in less than 1500 lines of code",
+    "url": "https://github.com/conradoqg/naivecoin",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Fpbi1pbi1qcw",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "JavaScript",
+    "title": "Build your own Blockchain in JavaScript",
+    "url": "https://github.com/nambrot/blockchain-in-js",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "MWMyODU4MjFl",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "JavaScript",
+    "title": "Learn & Build a JavaScript Blockchain",
+    "url": "https://medium.com/digital-alchemy-holdings/learn-build-a-javascript-blockchain-part-1-ca61c285821e",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "YXZqZWVDb2lu",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "JavaScript",
+    "title": "Creating a blockchain with JavaScript",
+    "url": "https://github.com/SavjeeTutorials/SavjeeCoin",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "N2NiNzczMzcx",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "JavaScript",
+    "title": "How To Launch Your Own Production-Ready Cryptocurrency",
+    "url": "https://hackernoon.com/how-to-launch-your-own-production-ready-cryptocurrency-ab97cb773371",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "LW5vZGUtanMv",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "JavaScript",
+    "title": "Writing a Blockchain in Node.js",
+    "url": "https://www.smashingmagazine.com/2020/02/cryptocurrency-blockchain-node-js/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "QwNjlmODU4MA",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Kotlin",
+    "title": "Let’s implement a cryptocurrency in Kotlin",
+    "url": "https://medium.com/@vasilyf/lets-implement-a-cryptocurrency-in-kotlin-part-1-blockchain-8704069f8580",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "NDI4NjEyZjQ2",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Python",
+    "title": "Learn Blockchains by Building One",
+    "url": "https://hackernoon.com/learn-blockchains-by-building-one-117428612f46",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "sb2NrY2hhaW4",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Python",
+    "title": "Build your own blockchain: a Python tutorial",
+    "url": "http://ecomunsing.com/build-your-own-blockchain",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "4tcHl0aG9uLw",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Python",
+    "title": "A Practical Introduction to Blockchain with Python",
+    "url": "http://adilmoujahid.com/posts/2018/03/intro-blockchain-bitcoin-python/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "MDk2NWEyNDhi",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Python",
+    "title": "Let’s Build the Tiniest Blockchain",
+    "url": "https://medium.com/crypto-currently/lets-build-the-tiniest-blockchain-e70965a248b",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cC1ieS1zdGVw",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Ruby",
+    "title": "Programming Blockchains Step-by-Step (Manuscripts Book Edition)",
+    "url": "https://github.com/yukimotopress/programming-blockchains-step-by-step",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "xZTk5NmMxNzc",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Scala",
+    "title": "How to build a simple actor-based blockchain",
+    "url": "https://medium.freecodecamp.org/how-to-build-a-simple-actor-based-blockchain-aac1e996c177",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "aXRodWIuaW8v",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "TypeScript",
+    "title": "Naivecoin: a tutorial for building a cryptocurrency",
+    "url": "https://lhartikk.github.io/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZWFybi51bm8v",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "TypeScript",
+    "title": "NaivecoinStake: a tutorial for building a cryptocurrency with the Proof of Stake consensus",
+    "url": "https://naivecoinstake.learn.uno/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "LWtjMjIzeWJw",
+    "category": "Blockchain / Cryptocurrency",
+    "language": "Rust",
+    "title": "Building A Blockchain in Rust & Substrate",
+    "url": "https://hackernoon.com/building-a-blockchain-in-rust-and-substrate-a-step-by-step-guide-for-developers-kc223ybp",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "5fSVJDX2JvdA",
+    "category": "Bot",
+    "language": "Haskell",
+    "title": "Roll your own IRC bot",
+    "url": "https://wiki.haskell.org/Roll_your_own_IRC_bot",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZTJmYTVjODBk",
+    "category": "Bot",
+    "language": "Node.js",
+    "title": "Creating a Simple Facebook Messenger AI Bot with API.ai in Node.js",
+    "url": "https://tutorials.botsfloor.com/creating-a-simple-facebook-messenger-ai-bot-with-api-ai-in-node-js-50ae2fa5c80d",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Z3JhbS1ib3Qv",
+    "category": "Bot",
+    "language": "Node.js",
+    "title": "How to make a responsive telegram bot",
+    "url": "https://www.sohamkamani.com/blog/2016/09/21/making-a-telegram-bot/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "anMuZ3VpZGUv",
+    "category": "Bot",
+    "language": "Node.js",
+    "title": "Create a Discord bot",
+    "url": "https://discordjs.guide/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dGlvbi5odG1s",
+    "category": "Bot",
+    "language": "Node.js",
+    "title": "gifbot - Building a GitHub App",
+    "url": "https://blog.scottlogic.com/2017/05/22/gifbot-github-integration.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "LW5vZGUtanMv",
+    "category": "Bot",
+    "language": "Node.js",
+    "title": "Building A Simple AI Chatbot With Web Speech API And Node.js",
+    "url": "https://www.smashingmagazine.com/2017/08/ai-chatbot-web-speech-api-node-js/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Rob24uaHRtbA",
+    "category": "Bot",
+    "language": "Python",
+    "title": "How to Build Your First Slack Bot with Python",
+    "url": "https://www.fullstackpython.com/blog/build-first-slack-bot-python.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "YzNhOWJmNjRl",
+    "category": "Bot",
+    "language": "Python",
+    "title": "How to build a Slack Bot with Python using Slack Events API & Django under 20 minute",
+    "url": "https://medium.com/freehunch/how-to-build-a-slack-bot-with-python-using-slack-events-api-django-under-20-minute-code-included-269c3a9bf64e",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0LXBhcnQtMS8",
+    "category": "Bot",
+    "language": "Python",
+    "title": "Build a Reddit Bot",
+    "url": "https://pythonforengineers.com/blog/build-a-reddit-bot-part-1/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "RVZjdCcFRjMA",
+    "category": "Bot",
+    "language": "Python",
+    "title": "How To Make A Reddit Bot",
+    "url": "https://www.youtube.com/watch?v=krTUf7BpTc0",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "ctcHl0aG9uLw",
+    "category": "Bot",
+    "language": "Python",
+    "title": "How To Create a Telegram Bot Using Python",
+    "url": "https://www.freecodecamp.org/news/how-to-create-a-telegram-bot-using-python/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "yNDE1N2E2MDc",
+    "category": "Bot",
+    "language": "Python",
+    "title": "Create a Twitter Bot in Python Using Tweepy",
+    "url": "https://medium.freecodecamp.org/creating-a-twitter-bot-in-python-with-tweepy-ac524157a607",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "X1hoRy00ZnBQ",
+    "category": "Bot",
+    "language": "Python",
+    "title": "Creating Reddit Bot with Python & PRAW",
+    "url": "https://www.youtube.com/playlist?list=PLIFBTFgFpoJ9vmYYlfxRFV6U_XhG-4fpP",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "VjNDI5ZTFiMQ",
+    "category": "Bot",
+    "language": "R",
+    "title": "Build A Cryptocurrency Trading Bot with R",
+    "url": "https://towardsdatascience.com/build-a-cryptocurrency-trading-bot-with-r-1445c429e1b1",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0LzQzNjI1NC8",
+    "category": "Bot",
+    "language": "Rust",
+    "title": "A bot for Starcraft in Rust, C or any other language",
+    "url": "https://habr.com/en/post/436254/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "aWJ1dGlvbnMv",
+    "category": "Command-Line Tool",
+    "language": "Go",
+    "title": "Visualize your local git contributions with Go",
+    "url": "https://flaviocopes.com/go-git-contributions/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "wtbG9sY2F0Lw",
+    "category": "Command-Line Tool",
+    "language": "Go",
+    "title": "Build a command line app with Go: lolcat",
+    "url": "https://flaviocopes.com/go-tutorial-lolcat/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "wtY293c2F5Lw",
+    "category": "Command-Line Tool",
+    "language": "Go",
+    "title": "Building a cli command with Go: cowsay",
+    "url": "https://flaviocopes.com/go-tutorial-cowsay/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tZm9ydHVuZS8",
+    "category": "Command-Line Tool",
+    "language": "Go",
+    "title": "Go CLI tutorial: fortune clone",
+    "url": "https://flaviocopes.com/go-tutorial-fortune/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "N0b3cuaHRtbA",
+    "category": "Command-Line Tool",
+    "language": "Nim",
+    "title": "Writing a stow alternative to manage dotfiles",
+    "url": "https://xmonader.github.io/nimdays/day06_nistow.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tY2xpLXRvb2w",
+    "category": "Command-Line Tool",
+    "language": "Node.js",
+    "title": "Create a CLI tool in Javascript",
+    "url": "https://citw.dev/tutorial/create-your-own-cli-tool",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bmRleC5odG1s",
+    "category": "Command-Line Tool",
+    "language": "Rust",
+    "title": "Command line apps in Rust",
+    "url": "https://rust-cli.github.io/book/index.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "J1c3QuaHRtbA",
+    "category": "Command-Line Tool",
+    "language": "Rust",
+    "title": "Writing a Command Line Tool in Rust",
+    "url": "https://mattgathu.dev/2017/08/29/writing-cli-app-rust.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "taW5hbC9jbGk",
+    "category": "Command-Line Tool",
+    "language": "Zig",
+    "title": "Build Your Own CLI App in Zig from Scratch",
+    "url": "https://rebuild-x.github.io/docs/#/./zig/terminal/cli",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "R1dG9yaWFsLw",
+    "category": "Database",
+    "language": "C",
+    "title": "Let's Build a Simple Database",
+    "url": "https://cstack.github.io/db_tutorial/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "vcmcvcmVkaXM",
+    "category": "Database",
+    "language": "C++",
+    "title": "Build Your Own Redis from Scratch",
+    "url": "https://build-your-own.org/redis",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tRGF0YWJhc2U",
+    "category": "Database",
+    "language": "C#",
+    "title": "Build Your Own Database",
+    "url": "https://www.codeproject.com/Articles/1029838/Build-Your-Own-Database",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "iYXNlLmh0bWw",
+    "category": "Database",
+    "language": "Clojure",
+    "title": "An Archaeology-Inspired Database",
+    "url": "http://aosabook.org/en/500L/an-archaeology-inspired-database.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "JhNDIwMzlmNQ",
+    "category": "Database",
+    "language": "Crystal",
+    "title": "Why you should build your own NoSQL Database",
+    "url": "https://medium.com/@marceloboeira/why-you-should-build-your-own-nosql-database-9bbba42039f5",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZGF0YWJhc2Uv",
+    "category": "Database",
+    "language": "Go",
+    "title": "Build Your Own Database from Scratch: From B+Tree To SQL in 3000 Lines",
+    "url": "https://build-your-own.org/database/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZGF0YWJhc2Uv",
+    "category": "Database",
+    "language": "Go",
+    "title": "Code a database in 45 steps: a series of test-driven small coding puzzles",
+    "url": "https://trialofcode.org/database/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "hdGNoLmRldi8",
+    "category": "Database",
+    "language": "Go",
+    "title": "Build Your Own Redis from Scratch",
+    "url": "https://www.build-redis-from-scratch.dev/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Jhc2UuaHRtbA",
+    "category": "Database",
+    "language": "JavaScript",
+    "title": "Dagoba: an in-memory graph database",
+    "url": "http://aosabook.org/en/500L/dagoba-an-in-memory-graph-database.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "YmFzZS5odG1s",
+    "category": "Database",
+    "language": "Python",
+    "title": "DBDB: Dog Bed Database",
+    "url": "http://aosabook.org/en/500L/dbdb-dog-bed-database.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "gtcHl0aG9uLw",
+    "category": "Database",
+    "language": "Python",
+    "title": "Write your own miniature Redis with Python",
+    "url": "http://charlesleifer.com/blog/building-a-simple-redis-server-with-python/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "rdi1zdG9yZS8",
+    "category": "Database",
+    "language": "Ruby",
+    "title": "Build your own fast, persistent KV store in Ruby",
+    "url": "https://dineshgowda.com/posts/build-your-own-persistent-kv-store/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "lhbC9zZXR1cA",
+    "category": "Database",
+    "language": "Rust",
+    "title": "Build your own Redis client and server",
+    "url": "https://tokio.rs/tokio/tutorial/setup",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "1sb2MuaHRtbA",
+    "category": "Docker",
+    "language": "C",
+    "title": "Linux containers in 500 lines of code",
+    "url": "https://blog.lizzie.io/linux-containers-in-500-loc.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "VyLWdvbGFuZw",
+    "category": "Docker",
+    "language": "Go",
+    "title": "Build Your Own Container Using Less than 100 Lines of Go",
+    "url": "https://www.infoq.com/articles/build-a-container-golang",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "k3dVNZbE9kYw",
+    "category": "Docker",
+    "language": "Go",
+    "title": "Building a container from scratch in Go",
+    "url": "https://www.youtube.com/watch?v=8fi7uSYlOdc",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "lci1kb2NrZXI",
+    "category": "Docker",
+    "language": "Python",
+    "title": "A workshop on Linux containers: Rebuild Docker from Scratch",
+    "url": "https://github.com/Fewbytes/rubber-docker",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "V5L21vY2tlcg",
+    "category": "Docker",
+    "language": "Python",
+    "title": "A proof-of-concept imitation of Docker, written in 100% Python",
+    "url": "https://github.com/tonybaloney/mocker",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "UyL2JvY2tlcg",
+    "category": "Docker",
+    "language": "Shell",
+    "title": "Docker implemented in around 100 lines of bash",
+    "url": "https://github.com/p8952/bocker",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "EyZDU5YjI1Yw",
+    "category": "Emulator / Virtual Machine",
+    "language": "C",
+    "title": "Home-grown bytecode interpreters",
+    "url": "https://medium.com/bumble-tech/home-grown-bytecode-interpreters-51e12d59b25c",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "pbmUtaW4tYy8",
+    "category": "Emulator / Virtual Machine",
+    "language": "C",
+    "title": "Virtual machine in C",
+    "url": "http://web.archive.org/web/20200121100942/https://blog.felixangell.com/virtual-machine-in-c/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "by9sYzMtdm0v",
+    "category": "Emulator / Virtual Machine",
+    "language": "C",
+    "title": "Write your Own Virtual Machine",
+    "url": "https://justinmeiners.github.io/lc3-vm/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ub29wLmh0bWw",
+    "category": "Emulator / Virtual Machine",
+    "language": "C",
+    "title": "Writing a Game Boy emulator, Cinoop",
+    "url": "https://cturt.github.io/cinoop.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZXJwcmV0ZXIv",
+    "category": "Emulator / Virtual Machine",
+    "language": "C++",
+    "title": "How to write an emulator (CHIP-8 interpreter)",
+    "url": "http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "aGlwOC5odG1s",
+    "category": "Emulator / Virtual Machine",
+    "language": "C++",
+    "title": "Emulation tutorial (CHIP-8 interpreter)",
+    "url": "http://www.codeslinger.co.uk/pages/projects/chip8.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "lYm95Lmh0bWw",
+    "category": "Emulator / Virtual Machine",
+    "language": "C++",
+    "title": "Emulation tutorial (GameBoy emulator)",
+    "url": "http://www.codeslinger.co.uk/pages/projects/gameboy.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tb3J5Lmh0bWw",
+    "category": "Emulator / Virtual Machine",
+    "language": "C++",
+    "title": "Emulation tutorial (Master System emulator)",
+    "url": "http://www.codeslinger.co.uk/pages/projects/mastersystem/memory.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Wl80SWd0ZVlm",
+    "category": "Emulator / Virtual Machine",
+    "language": "C++",
+    "title": "NES Emulator From Scratch",
+    "url": "https://www.youtube.com/playlist?list=PLrOv9FMX8xJHqMvSGB_9G9nZZ_4IgteYf",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "oaXA4LWNwdS8",
+    "category": "Emulator / Virtual Machine",
+    "language": "Common Lisp",
+    "title": "CHIP-8 in Common Lisp",
+    "url": "http://stevelosh.com/blog/2016/12/chip8-cpu/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "hdmFTY3JpcHQ",
+    "category": "Emulator / Virtual Machine",
+    "language": "JavaScript",
+    "title": "GameBoy Emulation in JavaScript",
+    "url": "http://imrannazar.com/GameBoy-Emulation-in-JavaScript",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "lwLTguaHRtbA",
+    "category": "Emulator / Virtual Machine",
+    "language": "Python",
+    "title": "Emulation Basics: Write your own Chip 8 Emulator/Interpreter",
+    "url": "http://omokute.blogspot.com.br/2012/06/emulation-basics-write-your-own-chip-8.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "uaW8vMGRtZy8",
+    "category": "Emulator / Virtual Machine",
+    "language": "Rust",
+    "title": "0dmg: Learning Rust by building a partial Game Boy emulator",
+    "url": "https://jeremybanks.github.io/0dmg/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "mLWlzLWpzeC8",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "WTF is JSX (Let's Build a JSX Renderer)",
+    "url": "https://jasonformat.com/wtf-is-jsx/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dGEvZGlkYWN0",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "A DIY guide to build your own React",
+    "url": "https://github.com/hexacta/didact",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "FENE9seTl5Zw",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Building React From Scratch",
+    "url": "https://www.youtube.com/watch?v=_MAD4Oly9yg",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "wNzQyYWQ2MGY",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Gooact: React in 160 lines of JavaScript",
+    "url": "https://medium.com/@sweetpalma/gooact-react-in-160-lines-of-javascript-44e0742ad60f",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cxNjRhNDE5OQ",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Learn how React Reconciler package works by building your own lightweight React DOM",
+    "url": "https://hackernoon.com/learn-you-some-custom-react-renderers-aed7164a4199",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "sZC1yZWR1eC8",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Build Yourself a Redux",
+    "url": "https://zapier.com/engineering/how-to-build-redux/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dGUtcmVkdXgv",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Let’s Write Redux!",
+    "url": "https://www.jamasoftware.com/blog/lets-write-redux/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0tc2NyYXRjaA",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Redux: Implementing Store from Scratch",
+    "url": "https://egghead.io/lessons/react-redux-implementing-store-from-scratch",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "5ndWxhcmpzLw",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Build Your own Simplified AngularJS in 200 Lines of JavaScript",
+    "url": "https://blog.mgechev.com/2015/03/09/build-learn-your-own-light-lightweight-angularjs/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "nZXN0Lmh0bWw",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Make Your Own AngularJS",
+    "url": "http://teropa.info/blog/2013/11/03/make-your-own-angular-part-1-scopes-and-digest.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "RhY2MxMzA2MA",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "How to write your own Virtual DOM",
+    "url": "https://medium.com/@deathmood/how-to-write-your-own-virtual-dom-ee74acc13060",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "yYW1ld29yay8",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Building a frontend framework, from scratch, with components (templating, state, VDOM)",
+    "url": "https://mfrachet.github.io/create-frontend-framework/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "duLXJlYWN0Lw",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Build your own React",
+    "url": "https://pomb.us/build-your-own-react/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "BNbFdWY0hvaw",
+    "category": "Front-end Framework / Library",
+    "language": "JavaScript",
+    "title": "Building a Custom React Renderer",
+    "url": "https://youtu.be/CGpMlWVcHok",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "hlcm8ub3JnLw",
+    "category": "Game",
+    "language": "C",
+    "title": "Handmade Hero",
+    "url": "https://handmadehero.org/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "kb3VnLmNvbS8",
+    "category": "Game",
+    "language": "C",
+    "title": "How to Program an NES game in C",
+    "url": "https://nesdoug.com/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "WkhWYlQtMmhn",
+    "category": "Game",
+    "language": "C",
+    "title": "Chess Engine In C",
+    "url": "https://www.youtube.com/playlist?list=PLZ1QII7yudbc-Ky058TEaOstZHVbT-2hg",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "TE1uMTBiQ0Y5",
+    "category": "Game",
+    "language": "C",
+    "title": "Let's Make: Dangerous Dave",
+    "url": "https://www.youtube.com/playlist?list=PLSkJey49cOgTSj465v2KbLZ7LMn10bCF9",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "VF9nVmlZTU10",
+    "category": "Game",
+    "language": "C",
+    "title": "Learn Video Game Programming in C",
+    "url": "https://www.youtube.com/playlist?list=PLT6WFYYZE6uLMcPGS3qfpYm7T_gViYMMt",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dHp1Zi1SS3ZX",
+    "category": "Game",
+    "language": "C",
+    "title": "Coding A Sudoku Solver in C",
+    "url": "https://www.youtube.com/playlist?list=PLkTXsX7igf8edTYU92nU-f5Ntzuf-RKvW",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "bkpMSjBOazVH",
+    "category": "Game",
+    "language": "C",
+    "title": "Coding a Rogue/Nethack RPG in C",
+    "url": "https://www.youtube.com/playlist?list=PLkTXsX7igf8erbWGYT4iSAhpnJLJ0Nk5G",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "ZW50YXRpb24v",
+    "category": "Game",
+    "language": "C",
+    "title": "On Tetris and Reimplementation",
+    "url": "https://brennan.io/2015/06/12/tetris-reimplementation/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "9CcmVha291dA",
+    "category": "Game",
+    "language": "C++",
+    "title": "Breakout",
+    "url": "https://learnopengl.com/In-Practice/2D-Game/Breakout",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "aWFscy9TREwv",
+    "category": "Game",
+    "language": "C++",
+    "title": "Beginning Game Programming v2.0",
+    "url": "http://lazyfoo.net/tutorials/SDL/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZWdpbm5lcnMv",
+    "category": "Game",
+    "language": "C++",
+    "title": "Tetris tutorial in C++ platform independent focused in game logic for beginners",
+    "url": "http://javilop.com/gamedev/tetris-tutorial-in-c-platform-independent-focused-in-game-logic-for-beginners/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "JYS1NMk1zTGE",
+    "category": "Game",
+    "language": "C++",
+    "title": "Remaking Cavestory in C++",
+    "url": "https://www.youtube.com/watch?v=ETvApbD5xRo&list=PLNOBk_id22bw6LXhrGfhVwqQIa-M2MsLa",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "eUxyd2pZNjdY",
+    "category": "Game",
+    "language": "C++",
+    "title": "Reconstructing Cave Story",
+    "url": "https://www.youtube.com/playlist?list=PL006xsVEsbKjSKBmLu1clo85yLrwjY67X",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "cnQtMS5odG1s",
+    "category": "Game",
+    "language": "C++",
+    "title": "Space Invaders from Scratch",
+    "url": "http://nicktasios.nl/posts/space-invaders-from-scratch-part-1.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "BnLWluZGV4Lw",
+    "category": "Game",
+    "language": "C#",
+    "title": "Learn C# by Building a Simple RPG",
+    "url": "http://scottlilly.com/learn-c-by-building-a-simple-rpg-index/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cmVzcy5jb20v",
+    "category": "Game",
+    "language": "C#",
+    "title": "Creating a Roguelike Game in C#",
+    "url": "https://roguesharp.wordpress.com/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "N3cGYtcnBnLw",
+    "category": "Game",
+    "language": "C#",
+    "title": "Build a C#/WPF RPG",
+    "url": "https://scottlilly.com/build-a-cwpf-rpg/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "WkxNa0EzZzJ4",
+    "category": "Game",
+    "language": "Go",
+    "title": "Games With Go",
+    "url": "https://www.youtube.com/playlist?list=PLDZujg-VgQlZUy1iCqBbe5faZLMkA3g2x",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "VRRmVaZmV5TQ",
+    "category": "Game",
+    "language": "Java",
+    "title": "Code a 2D Game Engine using Java - Full Course for Beginners",
+    "url": "https://www.youtube.com/watch?v=025QFeZfeyM",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "L2NvbnRlbnQv",
+    "category": "Game",
+    "language": "Java",
+    "title": "3D Game Development with LWJGL 3",
+    "url": "https://lwjglgamedev.gitbooks.io/3d-game-development-with-lwjgl/content/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tZV9QaGFzZXI",
+    "category": "Game",
+    "language": "JavaScript",
+    "title": "2D breakout game using Phaser",
+    "url": "https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_breakout_game_Phaser",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tcGhhc2VyLTE",
+    "category": "Game",
+    "language": "JavaScript",
+    "title": "How to Make Flappy Bird in HTML5 With Phaser",
+    "url": "http://www.lessmilk.com/tutorial/flappy-bird-phaser-1",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Zy1wYXJ0LTEv",
+    "category": "Game",
+    "language": "JavaScript",
+    "title": "Developing Games with React, Redux, and SVG",
+    "url": "https://auth0.com/blog/developing-games-with-react-redux-and-svg-part-1/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dDcnRBbzRXYw",
+    "category": "Game",
+    "language": "JavaScript",
+    "title": "Build your own 8-Ball Pool game from scratch",
+    "url": "https://www.youtube.com/watch?v=aXwCrtAo4Wc",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "Rldi0xMzY3Nw",
+    "category": "Game",
+    "language": "JavaScript",
+    "title": "How to Make Your First Roguelike",
+    "url": "https://gamedevelopment.tutsplus.com/tutorials/how-to-make-your-first-roguelike--gamedev-13677",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0NzljMzMzOWU",
+    "category": "Game",
+    "language": "JavaScript",
+    "title": "Think like a programmer: How to build Snake using only JavaScript, HTML & CSS",
+    "url": "https://medium.freecodecamp.org/think-like-a-programmer-how-to-build-snake-using-only-javascript-html-and-css-7b1479c3339e",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "lzc3Vlcy8zMA",
+    "category": "Game",
+    "language": "Lua",
+    "title": "BYTEPATH",
+    "url": "https://github.com/SSYGEN/blog/issues/30",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tMS1pbnRyby8",
+    "category": "Game",
+    "language": "Python",
+    "title": "Developing Games With PyGame",
+    "url": "https://pythonprogramming.net/pygame-python-3-part-1-intro/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "nYW1lcy5wZGY",
+    "category": "Game",
+    "language": "Python",
+    "title": "Making Games with Python & Pygame",
+    "url": "https://inventwithpython.com/makinggames.pdf",
+    "hasVideo": false,
+    "hasPdf": true
+  },
+  {
+    "id": "aWFscy5jb20v",
+    "category": "Game",
+    "language": "Python",
+    "title": "Roguelike Tutorial Revised",
+    "url": "http://rogueliketutorials.com/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cnVieS9yZWFk",
+    "category": "Game",
+    "language": "Ruby",
+    "title": "Developing Games With Ruby",
+    "url": "https://leanpub.com/developing-games-with-ruby/read",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "13aHktbm90Lw",
+    "category": "Game",
+    "language": "Ruby",
+    "title": "Ruby Snake",
+    "url": "https://www.diatomenterprises.com/gamedev-on-ruby-why-not/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "taW4tcnVzdC8",
+    "category": "Game",
+    "language": "Rust",
+    "title": "Adventures in Rust: A Basic 2D Game",
+    "url": "https://a5huynh.github.io/posts/2018/adventures-in-rust/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0dXRvcmlhbC8",
+    "category": "Game",
+    "language": "Rust",
+    "title": "Roguelike Tutorial in Rust + tcod",
+    "url": "https://tomassedovic.github.io/roguelike-tutorial/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "90dG9tLXVwLw",
+    "category": "Git",
+    "language": "Haskell",
+    "title": "Reimplementing “git clone” in Haskell from the bottom up",
+    "url": "http://stefan.saasen.me/articles/git-clone-in-haskell-from-the-bottom-up/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0bGV0Lmh0bWw",
+    "category": "Git",
+    "language": "JavaScript",
+    "title": "Gitlet",
+    "url": "http://gitlet.maryrosecook.com/docs/gitlet.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Vhcm4tZ2l0Lw",
+    "category": "Git",
+    "language": "JavaScript",
+    "title": "Build GIT - Learn GIT",
+    "url": "https://kushagra.dev/blog/build-git-learn-git/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ncy9weWdpdC8",
+    "category": "Git",
+    "language": "Python",
+    "title": "Just enough of a Git client to create a repo, commit, and push itself to GitHub",
+    "url": "https://benhoyt.com/writings/pygit/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "nLnRoYi5sdC8",
+    "category": "Git",
+    "language": "Python",
+    "title": "Write yourself a Git!",
+    "url": "https://wyag.thb.lt/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0L3AvdWdpdC8",
+    "category": "Git",
+    "language": "Python",
+    "title": "ugit: Learn Git Internals by Building Git Yourself",
+    "url": "https://www.leshenko.net/p/ugit/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "QtaW4tcnVieQ",
+    "category": "Git",
+    "language": "Ruby",
+    "title": "Rebuilding Git in Ruby",
+    "url": "https://robots.thoughtbot.com/rebuilding-git-in-ruby",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "NTRlOTE0NDAy",
+    "category": "Memory Allocator",
+    "language": "C",
+    "title": "Malloc is not magic -- Implementing your own memory allocator",
+    "url": "https://medium.com/p/e0354e914402",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZGUvYmduZXQv",
+    "category": "Network Stack",
+    "language": "C",
+    "title": "Beej's Guide to Network Programming",
+    "url": "http://beej.us/guide/bgnet/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ybmV0LWFycC8",
+    "category": "Network Stack",
+    "language": "C",
+    "title": "Let's code a TCP/IP stack",
+    "url": "http://www.saminiir.com/lets-code-tcp-ip-stack-1-ethernet-arp/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "16ZXJvdGllcg",
+    "category": "Network Stack",
+    "language": "C / Python",
+    "title": "Build your own VPN/Virtual Switch",
+    "url": "https://github.com/peiyuanix/build-your-own-zerotier",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "FlYjFiNjYxYg",
+    "category": "Network Stack",
+    "language": "Ruby",
+    "title": "How to build a network stack in Ruby",
+    "url": "https://medium.com/geckoboard-under-the-hood/how-to-build-a-network-stack-in-ruby-f73aeb1b661b",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "R3b3JrLU9DUg",
+    "category": "Neural Network",
+    "language": "C#",
+    "title": "Neural Network OCR",
+    "url": "https://www.codeproject.com/Articles/11285/Neural-Network-OCR",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "MzJhZTk3MmU2",
+    "category": "Neural Network",
+    "language": "F#",
+    "title": "Building Neural Networks in F#: Part 1",
+    "url": "https://medium.com/data-science/building-neural-networks-in-f-part-1-a2832ae972e6",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "hNjg4ODlkYTY",
+    "category": "Neural Network",
+    "language": "F#",
+    "title": "Building Neural Networks in F#: Part 2",
+    "url": "https://medium.com/data-science/building-neural-networks-in-f-part-2-training-evaluation-5e3a68889da6",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "FsbmV0d29yaw",
+    "category": "Neural Network",
+    "language": "Go",
+    "title": "Build a multilayer perceptron with Golang",
+    "url": "https://made2591.github.io/posts/neuralnetwork",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "LXdpdGgtZ28v",
+    "category": "Neural Network",
+    "language": "Go",
+    "title": "How to build a simple artificial neural network with Go",
+    "url": "https://sausheong.github.io/posts/how-to-build-a-simple-artificial-neural-network-with-go/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dC13aXRoLWdv",
+    "category": "Neural Network",
+    "language": "Go",
+    "title": "Building a Neural Net from Scratch in Go",
+    "url": "https://datadan.io/blog/neural-net-with-go",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Ynk2WEZkQ2Zo",
+    "category": "Neural Network",
+    "language": "JavaScript / Java",
+    "title": "Neural Networks - The Nature of Code",
+    "url": "https://www.youtube.com/playlist?list=PLRqwX-V7Uu6aCibgK1PTWWu9by6XFdCfh",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "hNGQxZmJhZDI",
+    "category": "Neural Network",
+    "language": "JavaScript",
+    "title": "Neural networks from scratch for JavaScript linguists (Part1 — The Perceptron)",
+    "url": "https://hackernoon.com/neural-networks-from-scratch-for-javascript-linguists-part1-the-perceptron-632a4d1fbad2",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tbmV0d29yay8",
+    "category": "Neural Network",
+    "language": "Python",
+    "title": "A Neural Network in 11 lines of Python",
+    "url": "https://iamtrask.github.io/2015/07/12/basic-python-network/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "uZXR3b3Jrcy8",
+    "category": "Neural Network",
+    "language": "Python",
+    "title": "Implement a Neural Network from Scratch",
+    "url": "https://victorzhou.com/blog/intro-to-neural-networks/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "LW9jci5odG1s",
+    "category": "Neural Network",
+    "language": "Python",
+    "title": "Optical Character Recognition (OCR)",
+    "url": "http://aosabook.org/en/500L/optical-character-recognition-ocr.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "maWNhdGlvbi8",
+    "category": "Neural Network",
+    "language": "Python",
+    "title": "Traffic signs classification with a convolutional network",
+    "url": "https://navoshta.com/traffic-signs-classification/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ODY4MzRkNGM1",
+    "category": "Neural Network",
+    "language": "Python",
+    "title": "Generate Music using LSTM Neural Network in Keras",
+    "url": "https://towardsdatascience.com/how-to-generate-music-using-a-lstm-neural-network-in-keras-68786834d4c5",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "MtcGFydC0xLw",
+    "category": "Neural Network",
+    "language": "Python",
+    "title": "An Introduction to Convolutional Neural Networks",
+    "url": "https://victorzhou.com/blog/intro-to-cnns-part-1/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dkNBVWhSdkta",
+    "category": "Neural Network",
+    "language": "Python",
+    "title": "Neural Networks: Zero to Hero",
+    "url": "https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "zbG93dG9yY2g",
+    "category": "Neural Network",
+    "language": "Python",
+    "title": "SlowTorch: Implementation of PyTorch from the ground up in 100% pure Python",
+    "url": "https://github.com/xames3/slowtorch",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "fdHdvLmh0bWw",
+    "category": "Operating System",
+    "language": "Assembly",
+    "title": "Writing a Tiny x86 Bootloader",
+    "url": "http://joebergeron.io/posts/post_two.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "uZGV4Lmh0bWw",
+    "category": "Operating System",
+    "language": "Assembly",
+    "title": "Baking Pi – Operating Systems Development",
+    "url": "http://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/os/index.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "NU0RNM2FUdFg",
+    "category": "Operating System",
+    "language": "C",
+    "title": "Building a software and hardware stack for a simple computer from scratch",
+    "url": "https://www.youtube.com/watch?v=ZjwvMcP3Nf0&list=PLU94OURih-CiP4WxKSMt3UcwMSDM3aTtX",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "uaW8vb3MwMS8",
+    "category": "Operating System",
+    "language": "C",
+    "title": "Operating Systems: From 0 to 1",
+    "url": "https://tuhdo.github.io/os01/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "l0aHViLmlvLw",
+    "category": "Operating System",
+    "language": "C",
+    "title": "The little book about OS development",
+    "url": "https://littleosbook.github.io/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "aWFsX2h0bWwv",
+    "category": "Operating System",
+    "language": "C",
+    "title": "Roll your own toy UNIX-clone OS",
+    "url": "http://jamesmolloy.co.uk/tutorial_html/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "LWEta2VybmVs",
+    "category": "Operating System",
+    "language": "C",
+    "title": "Kernel 101 – Let’s write a Kernel",
+    "url": "https://arjunsreedharan.org/post/82710718100/kernel-101-lets-write-a-kernel",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ta2V5Ym9hcmQ",
+    "category": "Operating System",
+    "language": "C",
+    "title": "Kernel 201 – Let’s write a Kernel with keyboard and screen support",
+    "url": "https://arjunsreedharan.org/post/99370248137/kernel-201-lets-write-a-kernel-with-keyboard",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bmktYXJtLW9z",
+    "category": "Operating System",
+    "language": "C",
+    "title": "Build a minimal multi-tasking kernel for ARM from scratch",
+    "url": "https://github.com/jserv/mini-arm-os",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tdHV0b3JpYWw",
+    "category": "Operating System",
+    "language": "C",
+    "title": "How to create an OS from scratch",
+    "url": "https://github.com/cfenollosa/os-tutorial",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0dXRvcmlhbC8",
+    "category": "Operating System",
+    "language": "C",
+    "title": "Malloc tutorial",
+    "url": "https://danluu.com/malloc-tutorial/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bmdzLXByb2Mv",
+    "category": "Operating System",
+    "language": "C",
+    "title": "Hack the virtual memory",
+    "url": "https://blog.holbertonschool.com/hack-the-virtual-memory-c-strings-proc/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cnJ5LXBpLW9z",
+    "category": "Operating System",
+    "language": "C",
+    "title": "Learning operating system development using Linux kernel and Raspberry Pi",
+    "url": "https://github.com/s-matyukevich/raspberry-pi-os",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "NGQ3ODZlOGFj",
+    "category": "Operating System",
+    "language": "C",
+    "title": "Operating systems development for Dummies",
+    "url": "https://medium.com/@lduck11007/operating-systems-development-for-dummies-3d4d786e8ac",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "c1RKUzlNWjZN",
+    "category": "Operating System",
+    "language": "C++",
+    "title": "Write your own Operating System",
+    "url": "https://www.youtube.com/playlist?list=PLHh55M_Kq4OApWScZyPl5HhgsTJS9MZ6M",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "b3Rsb2FkZXIv",
+    "category": "Operating System",
+    "language": "C++",
+    "title": "Writing a Bootloader",
+    "url": "http://3zanders.co.uk/2017/10/13/writing-a-bootloader/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "LW9wcC5jb20v",
+    "category": "Operating System",
+    "language": "Rust",
+    "title": "Writing an OS in Rust",
+    "url": "https://os.phil-opp.com/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "1hcnouY29tLw",
+    "category": "Operating System",
+    "language": "Rust",
+    "title": "Add RISC-V Rust Operating System Tutorial",
+    "url": "https://osblog.stephenmarz.com/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "oLm9yZy9sZnM",
+    "category": "Operating System",
+    "language": "(any)",
+    "title": "Linux from scratch",
+    "url": "https://linuxfromscratch.org/lfs",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tZHluYW1pY3M",
+    "category": "Physics Engine",
+    "language": "C",
+    "title": "Video Game Physics Tutorial",
+    "url": "https://www.toptal.com/game/video-game-physics-part-i-an-introduction-to-rigid-body-dynamics",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "zLXNlcmllcy8",
+    "category": "Physics Engine",
+    "language": "C++",
+    "title": "Game physics series by Allen Chou",
+    "url": "http://allenchou.net/game-physics-series/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZGV2LTEyNzE1",
+    "category": "Physics Engine",
+    "language": "C++",
+    "title": "How to Create a Custom Physics Engine",
+    "url": "https://gamedevelopment.tutsplus.com/series/how-to-create-a-custom-physics-engine--gamedev-12715",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "MGhvR0g2Skow",
+    "category": "Physics Engine",
+    "language": "C++",
+    "title": "3D Physics Engine Tutorial",
+    "url": "https://www.youtube.com/playlist?list=PLEETnX-uPtBXm1KEr_2zQ6K_0hoGH6JJ0",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "VwaHlzaWNzLw",
+    "category": "Physics Engine",
+    "language": "JavaScript",
+    "title": "How Physics Engines Work",
+    "url": "http://buildnewgames.com/gamephysics/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZXRlY3Rpb24v",
+    "category": "Physics Engine",
+    "language": "JavaScript",
+    "title": "Broad Phase Collision Detection Using Spatial Partitioning",
+    "url": "http://buildnewgames.com/broad-phase-collision-detection/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0yZHBoeXNpYw",
+    "category": "Physics Engine",
+    "language": "JavaScript",
+    "title": "Build a simple 2D physics engine for JavaScript games",
+    "url": "https://developer.ibm.com/tutorials/wa-build2dphysicsengine/?mhsrc=ibmsearch_a&mhq=2dphysic",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "9UT19SSVNDVg",
+    "category": "Processor",
+    "language": "Verilog",
+    "title": "From Blinker to RISC-V",
+    "url": "https://github.com/BrunoLevy/learn-fpga/tree/master/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "rZS1hLWxpc3A",
+    "category": "Programming Language",
+    "language": "(any)",
+    "title": "mal - Make a Lisp",
+    "url": "https://github.com/kanaka/mal#mal---make-a-lisp",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZXNmb3J0aC5T",
+    "category": "Programming Language",
+    "language": "Assembly",
+    "title": "Jonesforth",
+    "url": "https://github.com/nornagon/jonesforth/blob/master/jonesforth.S",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "b2xsZWN0b3Iv",
+    "category": "Programming Language",
+    "language": "C",
+    "title": "Baby's First Garbage Collector",
+    "url": "http://journal.stuffwithstuff.com/2013/12/08/babys-first-garbage-collector/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "saXNwLmNvbS8",
+    "category": "Programming Language",
+    "language": "C",
+    "title": "Build Your Own Lisp: Learn C and build your own programming language in 1000 lines of code",
+    "url": "http://www.buildyourownlisp.com/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tL2djLmh0bWw",
+    "category": "Programming Language",
+    "language": "C",
+    "title": "Writing a Simple Garbage Collector in C",
+    "url": "http://maplant.com/gc.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "RlcnByZXRlcg",
+    "category": "Programming Language",
+    "language": "C",
+    "title": "C interpreter that interprets itself.",
+    "url": "https://github.com/lotabout/write-a-C-interpreter",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tY29tcGlsZXI",
+    "category": "Programming Language",
+    "language": "C",
+    "title": "A C & x86 version of the \"Let's Build a Compiler\" by Jack Crenshaw",
+    "url": "https://github.com/lotabout/Let-s-build-a-compiler",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cldrdC9hY3dq",
+    "category": "Programming Language",
+    "language": "C",
+    "title": "A journey explaining how to build a compiler from scratch",
+    "url": "https://github.com/DoctorWkt/acwj",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "NvbXBpbGVyLw",
+    "category": "Programming Language",
+    "language": "C++",
+    "title": "Writing Your Own Toy Compiler Using Flex",
+    "url": "https://gnuu.org/2009/09/18/writing-your-own-toy-compiler/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "lxV2J1UUx1dw",
+    "category": "Programming Language",
+    "language": "C++",
+    "title": "How to Create a Compiler",
+    "url": "https://www.youtube.com/watch?v=eF9qWbuQLuw",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "uZGV4Lmh0bWw",
+    "category": "Programming Language",
+    "language": "C++",
+    "title": "Kaleidoscope: Implementing a Language with LLVM",
+    "url": "https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "JpbmF0b3JzLw",
+    "category": "Programming Language",
+    "language": "F#",
+    "title": "Understanding Parser Combinators",
+    "url": "https://fsharpforfunandprofit.com/posts/understanding-parser-combinators/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "pZb1l3T0NkNA",
+    "category": "Programming Language",
+    "language": "Elixir",
+    "title": "Demystifying compilers by writing your own",
+    "url": "https://www.youtube.com/watch?v=zMJYoYwOCd4",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "LWNvbXBpbGVy",
+    "category": "Programming Language",
+    "language": "Go",
+    "title": "The Super Tiny Compiler",
+    "url": "https://github.com/hazbo/the-super-tiny-compiler",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "FEX3RyWHdSRQ",
+    "category": "Programming Language",
+    "language": "Go",
+    "title": "Lexical Scanning in Go",
+    "url": "https://www.youtube.com/watch?v=HxaD_trXwRE",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "vL2NyYWRsZS8",
+    "category": "Programming Language",
+    "language": "Haskell",
+    "title": "Let's Build a Compiler",
+    "url": "https://g-ford.github.io/cradle/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "uY29tL2Z1bi8",
+    "category": "Programming Language",
+    "language": "Haskell",
+    "title": "Write You a Haskell",
+    "url": "http://dev.stephendiehl.com/fun/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "fNDhfSG91cnM",
+    "category": "Programming Language",
+    "language": "Haskell",
+    "title": "Write Yourself a Scheme in 48 Hours",
+    "url": "https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "aG9tZS5odG1s",
+    "category": "Programming Language",
+    "language": "Haskell",
+    "title": "Write You A Scheme",
+    "url": "https://www.wespiser.com/writings/wyas/home.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dGVycy5jb20v",
+    "category": "Programming Language",
+    "language": "Java",
+    "title": "Crafting interpreters: A handbook for making programming languages",
+    "url": "http://www.craftinginterpreters.com/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "RW5rZWwtcmVm",
+    "category": "Programming Language",
+    "language": "Java",
+    "title": "Creating JVM Language",
+    "url": "http://jakubdziworski.github.io/categories.html#Enkel-ref",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "LWNvbXBpbGVy",
+    "category": "Programming Language",
+    "language": "JavaScript",
+    "title": "The Super Tiny Compiler",
+    "url": "https://github.com/jamiebuilds/the-super-tiny-compiler",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0ZXJwcmV0ZXI",
+    "category": "Programming Language",
+    "language": "JavaScript",
+    "title": "The Super Tiny Interpreter",
+    "url": "https://github.com/keyanzhang/the-super-tiny-interpreter",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "RlcnByZXRlcg",
+    "category": "Programming Language",
+    "language": "JavaScript",
+    "title": "Little Lisp interpreter",
+    "url": "https://maryrosecook.com/blog/post/little-lisp-interpreter",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "V0L3BsdHV0Lw",
+    "category": "Programming Language",
+    "language": "JavaScript",
+    "title": "How to implement a programming language in JavaScript",
+    "url": "http://lisperator.net/pltut/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cnQtMS5odG1s",
+    "category": "Programming Language",
+    "language": "JavaScript",
+    "title": "Let’s go write a Lisp",
+    "url": "https://idiocy.org/lets-go-write-a-lisp/part-1.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "pbGVyLmh0bWw",
+    "category": "Programming Language",
+    "language": "OCaml",
+    "title": "Writing a C Compiler",
+    "url": "https://norasandler.com/2017/11/29/Write-a-Compiler.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bG9nL2xpc3Av",
+    "category": "Programming Language",
+    "language": "OCaml",
+    "title": "Writing a Lisp, the series",
+    "url": "https://bernsteinbear.com/blog/lisp/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Y3JlbnNoYXcv",
+    "category": "Programming Language",
+    "language": "Pascal",
+    "title": "Let's Build a Compiler",
+    "url": "https://compilers.iecc.com/crenshaw/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0aG9uLmh0bWw",
+    "category": "Programming Language",
+    "language": "Python",
+    "title": "A Python Interpreter Written in Python",
+    "url": "http://aosabook.org/en/500L/a-python-interpreter-written-in-python.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "vbGlzcC5weS8",
+    "category": "Programming Language",
+    "language": "Python",
+    "title": "lisp.py: Make your own Lisp interpreter",
+    "url": "http://khamidou.com/compilers/lisp.py/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "lzcHkuaHRtbA",
+    "category": "Programming Language",
+    "language": "Python",
+    "title": "How to Write a Lisp Interpreter in Python",
+    "url": "http://norvig.com/lispy.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "zaS1wYXJ0MS8",
+    "category": "Programming Language",
+    "language": "Python",
+    "title": "Let’s Build A Simple Interpreter",
+    "url": "https://ruslanspivak.com/lsbasi-part1/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "QmaW5kZXg9MQ",
+    "category": "Programming Language",
+    "language": "Python",
+    "title": "Make Your Own Simple Interpreted Programming Language",
+    "url": "https://www.youtube.com/watch?v=dj9CBS3ikGA&list=PLZQftyCk7_SdoVexSmwy_tBgs7P0b97yD&index=1",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "Y29tcGlsZXIv",
+    "category": "Programming Language",
+    "language": "Python",
+    "title": "From Source Code To Machine Code: Build Your Own Compiler From Scratch",
+    "url": "https://build-your-own.org/compiler/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "NrZXQuY29tLw",
+    "category": "Programming Language",
+    "language": "Racket",
+    "title": "Beautiful Racket: How to make your own programming languages with Racket",
+    "url": "https://beautifulracket.com/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bS1zY3JhdGNo",
+    "category": "Programming Language",
+    "language": "Ruby",
+    "title": "A Compiler From Scratch",
+    "url": "https://www.destroyallsoftware.com/screencasts/catalog/a-compiler-from-scratch",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "NvbXBpbGVyLw",
+    "category": "Programming Language",
+    "language": "Ruby",
+    "title": "Markdown compiler from scratch in Ruby",
+    "url": "https://blog.beezwax.net/2017/07/07/writing-a-markdown-compiler/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "JpbmF0b3JzLw",
+    "category": "Programming Language",
+    "language": "Rust",
+    "title": "Learning Parser Combinators With Rust",
+    "url": "https://bodil.lol/parser-combinators/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0aC1zd2lmdC8",
+    "category": "Programming Language",
+    "language": "Swift",
+    "title": "Building a LISP from scratch with Swift",
+    "url": "https://www.uraimo.com/2017/02/05/building-a-lisp-from-scratch-with-swift/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "lsZXIuaHRtbA",
+    "category": "Programming Language",
+    "language": "TypeScript",
+    "title": "Build your own WebAssembly Compiler",
+    "url": "https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "aWZ1bC5odG1s",
+    "category": "Regex Engine",
+    "language": "C",
+    "title": "A Regular Expression Matcher",
+    "url": "https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZXhwMS5odG1s",
+    "category": "Regex Engine",
+    "language": "C",
+    "title": "Regular Expression Matching Can Be Simple And Fast",
+    "url": "https://swtch.com/~rsc/regexp/regexp1.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "c3RzL3JlZ2V4",
+    "category": "Regex Engine",
+    "language": "Go",
+    "title": "How to build a regex engine from scratch",
+    "url": "https://rhaeguard.github.io/posts/regex",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "duLXJlZ2V4Lw",
+    "category": "Regex Engine",
+    "language": "JavaScript",
+    "title": "Build a Regex Engine in Less than 40 Lines of Code",
+    "url": "https://nickdrane.com/build-your-own-regex/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "90b3lkcmVncw",
+    "category": "Regex Engine",
+    "language": "JavaScript",
+    "title": "How to implement regular expressions in functional javascript using derivatives",
+    "url": "http://dpk.io/dregs/toydregs",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "uLWVuZ2luZS8",
+    "category": "Regex Engine",
+    "language": "JavaScript",
+    "title": "Implementing a Regular Expression Engine",
+    "url": "https://deniskyashif.com/2019/02/17/implementing-a-regular-expression-engine/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "aWNsZS5odG1s",
+    "category": "Regex Engine",
+    "language": "Perl",
+    "title": "How Regexes Work",
+    "url": "https://perl.plover.com/Regex/article.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "L3IwX2ludHJv",
+    "category": "Regex Engine",
+    "language": "Python",
+    "title": "Build Your Own Regular Expression Engines: Backtracking, NFA, DFA",
+    "url": "https://build-your-own.org/b2a/r0_intro",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ByZXNzaW9ucw",
+    "category": "Regex Engine",
+    "language": "Scala",
+    "title": "No Magic: Regular Expressions",
+    "url": "https://rcoh.svbtle.com/no-magic-regular-expressions",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "YzRlOTAyZTk3",
+    "category": "Search Engine",
+    "language": "CSS",
+    "title": "A search engine in CSS",
+    "url": "https://stories.algolia.com/a-search-engine-in-css-b5ec4e902e97",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "1hbmQuaHRtbA",
+    "category": "Search Engine",
+    "language": "Python",
+    "title": "Building a search engine using Redis and redis-py",
+    "url": "http://www.dr-josiah.com/2010/07/building-search-engine-using-redis-and.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "UtcHl0aG9uLw",
+    "category": "Search Engine",
+    "language": "Python",
+    "title": "Building a Vector Space Indexing Engine in Python",
+    "url": "https://boyter.org/2010/08/build-vector-space-search-engine-python/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dwRTd2WDZNVQ",
+    "category": "Search Engine",
+    "language": "Python",
+    "title": "Building A Python-Based Search Engine",
+    "url": "https://www.youtube.com/watch?v=cY7pE7vX6MU",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "IxMGZkODdiMA",
+    "category": "Search Engine",
+    "language": "Python",
+    "title": "Making text search learn from feedback",
+    "url": "https://medium.com/filament-ai/making-text-search-learn-from-feedback-4fe210fd87b0",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0vdGYtaWRmLw",
+    "category": "Search Engine",
+    "language": "Python",
+    "title": "Finding Important Words in Text Using TF-IDF",
+    "url": "https://stevenloria.com/tf-idf/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "VsbC1pbi1jLw",
+    "category": "Shell",
+    "language": "C",
+    "title": "Tutorial - Write a Shell in C",
+    "url": "https://brennan.io/2015/01/16/write-a-shell-in-c/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "13b3Jrc2hvcA",
+    "category": "Shell",
+    "language": "C",
+    "title": "Let's build a shell!",
+    "url": "https://github.com/kamalmarhubi/shell-workshop",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "wtcGFydC0xLw",
+    "category": "Shell",
+    "language": "C",
+    "title": "Writing a UNIX Shell",
+    "url": "https://indradhanush.github.io/blog/writing-a-unix-shell-part-1/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "93bi1zaGVsbA",
+    "category": "Shell",
+    "language": "C",
+    "title": "Build Your Own Shell",
+    "url": "https://github.com/tokenrove/build-your-own-shell",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "peC1zaGVsbC8",
+    "category": "Shell",
+    "language": "Go",
+    "title": "Writing a simple shell in Go",
+    "url": "https://sj14.gitlab.io/post/2018-07-01-go-unix-shell/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZWxsLXJ1c3Qv",
+    "category": "Shell",
+    "language": "Rust",
+    "title": "Build Your Own Shell using Rust",
+    "url": "https://www.joshmcguigan.com/blog/build-your-own-shell-rust/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dC0yMC1saW5l",
+    "category": "Template Engine",
+    "language": "JavaScript",
+    "title": "JavaScript template engine in just 20 lines",
+    "url": "http://krasimirtsonev.com/blog/article/Javascript-template-engine-in-just-20-line",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "YTM3YjNiNDBl",
+    "category": "Template Engine",
+    "language": "JavaScript",
+    "title": "Understanding JavaScript Micro-Templating",
+    "url": "https://medium.com/wdstack/understanding-javascript-micro-templating-f37a37b3b40e",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "UtZW5naW5lLw",
+    "category": "Template Engine",
+    "language": "Python",
+    "title": "Approach: Building a toy template engine in Python",
+    "url": "http://alexmic.net/building-a-template-engine/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "naW5lLmh0bWw",
+    "category": "Template Engine",
+    "language": "Python",
+    "title": "A Template Engine",
+    "url": "http://aosabook.org/en/500L/a-template-engine.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tbGlicmFyeS8",
+    "category": "Template Engine",
+    "language": "Ruby",
+    "title": "How to write a template engine in less than 30 lines of code",
+    "url": "http://bits.citrusbyte.com/how-to-write-a-template-library/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "a2VuL2tpbG8v",
+    "category": "Text Editor",
+    "language": "C",
+    "title": "Build Your Own Text Editor",
+    "url": "https://viewsourcecode.org/snaptoken/kilo/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "aXRvci5odG1s",
+    "category": "Text Editor",
+    "language": "C++",
+    "title": "Designing a Simple Text Editor",
+    "url": "http://www.fltk.org/doc-1.1/editor.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "RvbkhFWVBnQQ",
+    "category": "Text Editor",
+    "language": "Python",
+    "title": "Python Tutorial: Make Your Own Text Editor",
+    "url": "https://www.youtube.com/watch?v=xqDonHEYPgA",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "QtRWRpdG9yLw",
+    "category": "Text Editor",
+    "language": "Python",
+    "title": "Create a Simple Python Text Editor!",
+    "url": "http://www.instructables.com/id/Create-a-Simple-Python-Text-Editor/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0LWVkaXRvci8",
+    "category": "Text Editor",
+    "language": "Ruby",
+    "title": "Build a Collaborative Text Editor Using Rails",
+    "url": "https://blog.aha.io/text-editor/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "4MzM1NjljY2Q",
+    "category": "Visual Recognition System",
+    "language": "Python",
+    "title": "Developing a License Plate Recognition System with Machine Learning in Python",
+    "url": "https://medium.com/devcenter/developing-a-license-plate-recognition-system-with-machine-learning-in-python-787833569ccd",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "3NjQ1MDE1Yjg",
+    "category": "Visual Recognition System",
+    "language": "Python",
+    "title": "Building a Facial Recognition Pipeline with Deep Learning in Tensorflow",
+    "url": "https://hackernoon.com/building-a-facial-recognition-pipeline-with-deep-learning-in-tensorflow-66e7645015b8",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dpbmUvaG9tZQ",
+    "category": "Voxel Engine",
+    "language": "C++",
+    "title": "Let's Make a Voxel Engine",
+    "url": "https://sites.google.com/site/letsmakeavoxelengine/home",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bmUtMS5odG1s",
+    "category": "Web Browser",
+    "language": "Rust",
+    "title": "Let's build a browser engine",
+    "url": "https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Z2luZWVyaW5n",
+    "category": "Web Browser",
+    "language": "Python",
+    "title": "Browser Engineering",
+    "url": "https://browser.engineering",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tLVNjcmF0Y2g",
+    "category": "Web Server",
+    "language": "C#",
+    "title": "Writing a Web Server from Scratch",
+    "url": "https://www.codeproject.com/Articles/859108/Writing-a-Web-Server-from-Scratch",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Vic2VydmVyLw",
+    "category": "Web Server",
+    "language": "Node.js",
+    "title": "Build Your Own Web Server From Scratch In JavaScript",
+    "url": "https://build-your-own.org/webserver/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "g0dWM5dXRqaQ",
+    "category": "Web Server",
+    "language": "Node.js",
+    "title": "Let's code a web server from scratch with NodeJS Streams",
+    "url": "https://www.codementor.io/@ziad-saab/let-s-code-a-web-server-from-scratch-with-nodejs-streams-h4uc9utji",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "kLWV4cHJlc3M",
+    "category": "Web Server",
+    "language": "Node.js",
+    "title": "lets-build-express",
+    "url": "https://github.com/antoaravinth/lets-build-express",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cHVyZS1waHAv",
+    "category": "Web Server",
+    "language": "PHP",
+    "title": "Writing a webserver in pure PHP",
+    "url": "http://station.clancats.com/writing-a-webserver-in-pure-php/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "J2ZXIuaHRtbA",
+    "category": "Web Server",
+    "language": "Python",
+    "title": "A Simple Web Server",
+    "url": "http://aosabook.org/en/500L/a-simple-web-server.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "3cy1wYXJ0MS8",
+    "category": "Web Server",
+    "language": "Python",
+    "title": "Let’s Build A Web Server.",
+    "url": "https://ruslanspivak.com/lsbaws-part1/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cmF0Y2gtMDEv",
+    "category": "Web Server",
+    "language": "Python",
+    "title": "Web application from scratch",
+    "url": "https://defn.io/2018/02/25/web-app-from-scratch-01/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "lYnNlcnZlci8",
+    "category": "Web Server",
+    "language": "Python",
+    "title": "Building a basic HTTP Server from scratch in Python",
+    "url": "http://joaoventura.net/blog/2017/python-webserver/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "yZXN0Lmh0bWw",
+    "category": "Web Server",
+    "language": "Python",
+    "title": "Implementing a RESTful Web API with Python & Flask",
+    "url": "http://blog.luisrei.com/articles/flaskrest.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "LWluLXJ1Ynkv",
+    "category": "Web Server",
+    "language": "Ruby",
+    "title": "Building a simple websockets server from scratch in Ruby",
+    "url": "http://blog.honeybadger.io/building-a-simple-websockets-server-from-scratch-in-ruby/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0cmlzLm9yZy8",
+    "category": "Uncategorized",
+    "language": "(any)",
+    "title": "From NAND to Tetris: Building a Modern Computer From First Principles",
+    "url": "http://nand2tetris.org/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "xpY3kuaHRtbA",
+    "category": "Uncategorized",
+    "language": "Alloy",
+    "title": "The Same-Origin Policy",
+    "url": "http://aosabook.org/en/500L/the-same-origin-policy.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "1wZWcuaHRtbA",
+    "category": "Uncategorized",
+    "language": "C",
+    "title": "How to Write a Video Player in Less Than 1000 Lines",
+    "url": "http://dranger.com/ffmpeg/ffmpeg.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "hc2gtdGFibGU",
+    "category": "Uncategorized",
+    "language": "C",
+    "title": "Learn how to write a hash table in C",
+    "url": "https://github.com/jamesroutley/write-a-hash-table",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ctZW4uaHRtbA",
+    "category": "Uncategorized",
+    "language": "C",
+    "title": "The very basics of a terminal emulator",
+    "url": "https://www.uninformativ.de/blog/postings/2018-02-24/0/POSTING-en.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "LWRldi1lcDMv",
+    "category": "Uncategorized",
+    "language": "C",
+    "title": "Write a System Call",
+    "url": "https://brennan.io/2016/11/14/kernel-dev-ep3/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "R0LWJyb2tlcg",
+    "category": "Uncategorized",
+    "language": "C",
+    "title": "Sol - An MQTT broker from scratch",
+    "url": "https://codepr.github.io/posts/sol-mqtt-broker",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "eS9SZWxhdGl2",
+    "category": "Uncategorized",
+    "language": "C++",
+    "title": "Build your own VR headset for $200",
+    "url": "https://github.com/relativty/Relativ",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cnQtaS5odG1s",
+    "category": "Uncategorized",
+    "language": "C++",
+    "title": "How X Window Managers work and how to write one",
+    "url": "https://seasonofcode.com/posts/how-x-window-managers-work-and-how-to-write-one-part-i.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZXItc2V0dXAv",
+    "category": "Uncategorized",
+    "language": "C++",
+    "title": "Writing a Linux Debugger",
+    "url": "https://blog.tartanllama.xyz/writing-a-linux-debugger-setup/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "50cm8uaHRtbA",
+    "category": "Uncategorized",
+    "language": "C++",
+    "title": "How a 64k intro is made",
+    "url": "http://www.lofibucket.com/articles/64k_intro.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZWxpV0hQRndU",
+    "category": "Uncategorized",
+    "language": "C++",
+    "title": "Make your own Game Engine",
+    "url": "https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZXR3b3JraW5n",
+    "category": "Uncategorized",
+    "language": "C#",
+    "title": "C# Networking: Create a TCP chater server, TCP games, UDP Pong and more",
+    "url": "https://16bpp.net/tutorials/csharp-networking",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dGlvbi5odG1s",
+    "category": "Uncategorized",
+    "language": "C#",
+    "title": "Loading and rendering 3D skeletal animations from scratch in C# and GLSL",
+    "url": "https://www.seanjoflynn.com/research/skeletal-animation.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bGNoZWNrZXIv",
+    "category": "Uncategorized",
+    "language": "Clojure",
+    "title": "Building a spell-checker",
+    "url": "https://bernhardwenzel.com/articles/clojure-spellchecker/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZXMtb2YtZ28v",
+    "category": "Uncategorized",
+    "language": "Go",
+    "title": "Build A Simple Terminal Emulator In 100 Lines of Golang",
+    "url": "https://ishuah.com/2021/03/10/build-a-terminal-emulator-in-100-lines-of-go/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "xlLWxiLWdvLw",
+    "category": "Uncategorized",
+    "language": "Go",
+    "title": "Let's Create a Simple Load Balancer",
+    "url": "https://kasvith.me/posts/lets-create-a-simple-lb-go/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0tc2NyYXRjaA",
+    "category": "Uncategorized",
+    "language": "Go",
+    "title": "Video Encoding from Scratch",
+    "url": "https://github.com/kevmo314/codec-from-scratch",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "UlZBbzlXNDd5",
+    "category": "Uncategorized",
+    "language": "Java",
+    "title": "How to Build an Android Reddit App",
+    "url": "https://www.youtube.com/playlist?list=PLgCYzUzKIBE9HUJU-upNvl3TRVAo9W47y",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "9taW5pcGFjaw",
+    "category": "Uncategorized",
+    "language": "JavaScript",
+    "title": "Build Your Own Module Bundler - Minipack",
+    "url": "https://github.com/ronami/minipack",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "MGZkODU1NzIw",
+    "category": "Uncategorized",
+    "language": "JavaScript",
+    "title": "Learn JavaScript Promises by Building a Promise from Scratch",
+    "url": "https://levelup.gitconnected.com/understand-javascript-promises-by-building-a-promise-from-scratch-84c0fd855720",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "wcm9taXNlcy8",
+    "category": "Uncategorized",
+    "language": "JavaScript",
+    "title": "Implementing promises from scratch (TDD way)",
+    "url": "https://www.mauriciopoppe.com/notes/computer-science/computation/promises/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Y2M4NWRiYTFi",
+    "category": "Uncategorized",
+    "language": "JavaScript",
+    "title": "Implement your own — call(), apply() and bind() method in JavaScript",
+    "url": "https://blog.usejournal.com/implement-your-own-call-apply-and-bind-method-in-javascript-42cc85dba1b",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "xnb3JpdGhtcw",
+    "category": "Uncategorized",
+    "language": "JavaScript",
+    "title": "JavaScript Algorithms and Data Structures",
+    "url": "https://github.com/trekhleb/javascript-algorithms",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Y3QtbmF0aXZl",
+    "category": "Uncategorized",
+    "language": "JavaScript",
+    "title": "Build a ride hailing app with React Native",
+    "url": "https://pusher.com/tutorials/ride-hailing-react-native",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "MwOTNiMDRjZA",
+    "category": "Uncategorized",
+    "language": "JavaScript",
+    "title": "Build Your Own AdBlocker in (Literally) 10 Minutes",
+    "url": "https://levelup.gitconnected.com/building-your-own-adblocker-in-literally-10-minutes-1eec093b04cd",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "FjaGUtbGl0ZQ",
+    "category": "Uncategorized",
+    "language": "Kotlin",
+    "title": "Build Your Own Cache",
+    "url": "https://github.com/kezhenxu94/cache-lite",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "QtcnVubmluZw",
+    "category": "Uncategorized",
+    "language": "Lua",
+    "title": "Building a CDN from Scratch to Learn about CDN",
+    "url": "https://github.com/leandromoreira/cdn-up-and-running",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "yZXNwLmh0bWw",
+    "category": "Uncategorized",
+    "language": "Nim",
+    "title": "Writing a Redis Protocol Parser",
+    "url": "https://xmonader.github.io/nimdays/day12_resp.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "c3RlbS5odG1s",
+    "category": "Uncategorized",
+    "language": "Nim",
+    "title": "Writing a Build system",
+    "url": "https://xmonader.github.io/nimdays/day11_buildsystem.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dGVzdC5odG1s",
+    "category": "Uncategorized",
+    "language": "Nim",
+    "title": "Writing a MiniTest Framework",
+    "url": "https://xmonader.github.io/nimdays/day08_minitest.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "NvZGUuaHRtbA",
+    "category": "Uncategorized",
+    "language": "Nim",
+    "title": "Writing a DMIDecode Parser",
+    "url": "https://xmonader.github.io/nimdays/day01_dmidecode.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "JzZXIuaHRtbA",
+    "category": "Uncategorized",
+    "language": "Nim",
+    "title": "Writing a INI Parser",
+    "url": "https://xmonader.github.io/nimdays/day05_iniparser.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Y2tlci5odG1s",
+    "category": "Uncategorized",
+    "language": "Nim",
+    "title": "Writing a Link Checker",
+    "url": "https://xmonader.github.io/nimdays/day04_asynclinkschecker.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "dHVybC5odG1s",
+    "category": "Uncategorized",
+    "language": "Nim",
+    "title": "Writing a URL Shortening Service",
+    "url": "https://xmonader.github.io/nimdays/day07_shorturl.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ViZTM0YjIyLw",
+    "category": "Uncategorized",
+    "language": "Node.js",
+    "title": "Build a static site generator in 40 lines with Node.js",
+    "url": "https://www.webdevdrops.com/en/build-static-site-generator-nodejs-8969ebe34b22/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZWU1ZmRmMzQw",
+    "category": "Uncategorized",
+    "language": "Node.js",
+    "title": "Building A Simple Single Sign On(SSO) Server And Solution From Scratch In Node.js.",
+    "url": "https://codeburst.io/building-a-simple-single-sign-on-sso-server-and-solution-from-scratch-in-node-js-ea6ee5fdf340",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "I3MjdiYmVkMw",
+    "category": "Uncategorized",
+    "language": "Node.js",
+    "title": "How to create a real-world Node CLI app with Node",
+    "url": "https://medium.freecodecamp.org/how-to-create-a-real-world-node-cli-app-with-node-391b727bbed3",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cy1zZXJ2ZXIv",
+    "category": "Uncategorized",
+    "language": "Node.js",
+    "title": "Build a DNS Server in Node.js",
+    "url": "https://engineerhead.github.io/dns-server/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "1ldmVyeW9uZQ",
+    "category": "Uncategorized",
+    "language": "Node.js",
+    "title": "Build a Synchronization Engine with Node.js and Y.js",
+    "url": "https://greenvitriol.com/posts/sync-engine-for-everyone",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tb3duLWJsb2c",
+    "category": "Uncategorized",
+    "language": "PHP",
+    "title": "Make your own blog",
+    "url": "https://ilovephp.jondh.me.uk/en/tutorial/make-your-own-blog",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ZyYW1ld29yaw",
+    "category": "Uncategorized",
+    "language": "PHP",
+    "title": "Modern PHP Without a Framework",
+    "url": "https://kevinsmith.io/modern-php-without-a-framework",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "cC1wYXJ0LTEv",
+    "category": "Uncategorized",
+    "language": "PHP",
+    "title": "Code a Web Search Engine in PHP",
+    "url": "https://boyter.org/2013/01/code-for-a-search-engine-in-php-part-1/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "RGVi1lejZHdw",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "Build a Deep Learning Library",
+    "url": "https://www.youtube.com/watch?v=o64FV-ez6Gw",
+    "hasVideo": true,
+    "hasPdf": false
+  },
+  {
+    "id": "tbWludXRlcy8",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "How to Build a Kick-Ass Mobile Document Scanner in Just 5 Minutes",
+    "url": "https://www.pyimagesearch.com/2014/09/01/build-kick-ass-mobile-document-scanner-just-5-minutes/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "N0ZW0uaHRtbA",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "Continuous Integration System",
+    "url": "http://aosabook.org/en/500L/a-continuous-integration-system.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "tcy1weXRob24",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "Recommender Systems in Python: Beginner Tutorial",
+    "url": "https://www.datacamp.com/community/tutorials/recommender-systems-python",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "hZmE3YTNjYTI",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "Write SMS-spam detector with Scikit-learn",
+    "url": "https://medium.com/@kopilov.vlad/detect-sms-spam-in-kaggle-with-scikit-learn-5f6afa7a3ca2",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Rob24uaHRtbA",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "A Simple Content-Based Recommendation Engine in Python",
+    "url": "http://blog.untrod.com/2016/06/simple-similar-products-recommendation-engine-in-python.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "Y2stbWFya2V0",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "Stock Market Predictions with LSTM in Python",
+    "url": "https://www.datacamp.com/community/tutorials/lstm-python-stock-market",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "bnNvcmZsb3cv",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "Building a simple Generative Adversarial Network (GAN) using Tensorflow",
+    "url": "https://blog.paperspace.com/implementing-gans-in-tensorflow/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "FjNTAzYzlhNA",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "Learn ML Algorithms by coding: Decision Trees",
+    "url": "https://lethalbrains.com/learn-ml-algorithms-by-coding-decision-trees-439ac503c9a4",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "FsZ29yaXRobQ",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "JSON Decoding Algorithm",
+    "url": "https://github.com/cheery/json-algorithm",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "l0LXBsdWdpbg",
+    "category": "Uncategorized",
+    "language": "Python",
+    "title": "Build your own Git plugin with python",
+    "url": "https://joshburns-xyz.vercel.app/posts/build-your-own-git-plugin",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "vcmxkLmh0bWw",
+    "category": "Uncategorized",
+    "language": "Ruby",
+    "title": "A Pedometer in the Real World",
+    "url": "http://aosabook.org/en/500L/a-pedometer-in-the-real-world.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "3aXRoLXJ1Ynk",
+    "category": "Uncategorized",
+    "language": "Ruby",
+    "title": "Creating a Linux Desktop application with Ruby",
+    "url": "https://iridakos.com/tutorials/2018/01/25/creating-a-gtk-todo-application-with-ruby",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "SRUFETUUubWQ",
+    "category": "Uncategorized",
+    "language": "Rust",
+    "title": "Building a DNS server in Rust",
+    "url": "https://github.com/EmilHernvall/dnsguide/blob/master/README.md",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "ydXN0Lmh0bWw",
+    "category": "Uncategorized",
+    "language": "Rust",
+    "title": "Writing Scalable Chat Service from Scratch",
+    "url": "https://nbaksalyar.github.io/2015/07/10/writing-chat-in-rust.html",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "0dXRvcmlhbC8",
+    "category": "Uncategorized",
+    "language": "Rust",
+    "title": "WebGL + Rust: Basic Water Tutorial",
+    "url": "https://www.chinedufn.com/3d-webgl-basic-water-tutorial/",
+    "hasVideo": false,
+    "hasPdf": false
+  },
+  {
+    "id": "lLW1hbmFnZXI",
+    "category": "Uncategorized",
+    "language": "TypeScript",
+    "title": "Tiny Package Manager: Learns how npm or Yarn works",
+    "url": "https://github.com/g-plane/tiny-package-manager",
+    "hasVideo": false,
+    "hasPdf": false
+  }
+]
