@@ -371,7 +371,7 @@ export default function FlipPage() {
             gpa
           </a>
           <a
-            href="/pumps"
+            href="https://pumps-rho.vercel.app/dashboard"
             style={{
               fontFamily: 'var(--mono)',
               fontSize: 10,
