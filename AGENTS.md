@@ -71,3 +71,18 @@ Do not hardcode font names or colour values — always use the CSS vars.
 `scrape.mjs`, `scrape2.mjs`, `pinterest-scrape.mjs`, `pinterest-extract.mjs`, `screenshot-all.mjs`, `screenshot-tabs.mjs`, `shot.mjs`
 
 All connect via `chromium.connectOverCDP('http://localhost:9222')`. They require Chrome already running with `--remote-debugging-port=9222` and fail silently if it isn't. Run them with `bun <script>.mjs`.
+
+---
+
+## Deploy & verification workflow
+
+- Production is a static export on GitHub Pages, built with `output: 'export'` in `next.config.ts` and served at `https://francisreubenr-rvu.github.io/flip/`. The sanctioned deploy path is push to `main`, which triggers `.github/workflows/deploy.yml` (GitHub Actions → GitHub Pages, via `actions/configure-pages` / `actions/upload-pages-artifact` / `actions/deploy-pages`) — no manual deploy step, no server, no Vercel.
+- **After any UI change, run the `verify-live` skill before reporting done**: screenshot desktop AND 390px mobile, exercise the interaction, read the console. Verify the *deployed* URL (`https://francisreubenr-rvu.github.io/flip/`) when the complaint mentions production.
+- **iOS/iPadOS is a known trouble spot for the MusicPlayer** — WebAudio requires a user gesture to start an AudioContext, and autoplay is restricted. Any audio change must be reasoned against (and ideally tested at) mobile Safari constraints.
+- Screenshot/Playwright scripts must run from this project (`bun <script>.mjs`), never from `/tmp` — module resolution fails there. Before starting `bun dev`, kill stale listeners: `lsof -ti:3000 | xargs kill` (orphaned dev servers accumulate on this machine).
+
+## Working on this codebase
+
+- Several simulation files (OceanWorld, RocketOrbit) use tabs + unicode glyphs (θ, box-drawing comment rulers) that defeat long exact-match edits — use short unique anchors, and avoid adding new unicode in comments.
+- Long multi-phase work (audits, rebuilds): checkpoint progress to a `PLAN.md`/`ROAST.md` at the project root as items complete, so session-limit resets resume instead of restart. Default to sequential passes, not wide parallel fan-outs (see global CLAUDE.md quota rules). The `roast-loop` skill encodes the audit→fix→re-audit pipeline.
+- Framework/stack questions: the answer is this file — do not re-derive the "framework matrix" by scanning the codebase each session.

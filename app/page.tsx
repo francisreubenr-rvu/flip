@@ -1,6 +1,5 @@
 'use client'
 import React, { useState, useEffect, useCallback, useRef, type CSSProperties } from 'react'
-import { useRouter } from 'next/navigation'
 import InkStampClock from './components/InkStampClock'
 import Pomodoro from './components/Pomodoro'
 import MusicPlayer from './components/MusicPlayer'
@@ -12,7 +11,6 @@ import RocketOrbit from './components/RocketOrbit'
 import OceanWorld  from './components/OceanWorld'
 import GolfNav from './components/GolfNav'
 import Widgets from './components/Widgets'
-import { useAuth } from './lib/auth'
 import { motion } from 'framer-motion'
 
 type Mode = 'work' | 'short-break' | 'long-break'
@@ -108,14 +106,6 @@ export default function FlipPage() {
   const [page, setPage] = useState(0)
   const totalPages = 5
   const [isDark, setIsDark] = useState(false)
-
-  const { user, loading: authLoading, signOut } = useAuth()
-  const router = useRouter()
-
-  // Auth guard
-  useEffect(() => {
-    if (!authLoading && !user) router.replace('/signin')
-  }, [user, authLoading, router])
 
   // Sync dark theme state from <html data-theme>
   useEffect(() => {
@@ -311,7 +301,7 @@ export default function FlipPage() {
 
   const pageLabel = ['Daily Page', 'Focus', 'Sound', 'Rest', 'Play']
 
-  if (!mounted || authLoading || !user) return null
+  if (!mounted) return null
 
   return (
     <div className="notebook" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -395,10 +385,6 @@ export default function FlipPage() {
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme" title={isDark ? 'Switch to light' : 'Switch to dark'}>
             {isDark ? '☀' : '☾'}
           </button>
-          <div className="topbar-avatar" title={user.email ?? ''}>
-            {(user.user_metadata?.display_name as string)?.[0]?.toUpperCase() ?? user.email?.[0]?.toUpperCase() ?? '?'}
-          </div>
-          <button className="topbar-signout" onClick={signOut}>sign out</button>
         </div>
       </header>
 
@@ -746,6 +732,40 @@ export default function FlipPage() {
           )}
 
           <MusicPlayer onPlay={startAmbient} stopRef={musicStopRef} />
+
+          {/* Chords — semantic music recommender */}
+          <a
+            href="https://chords-sigma.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              fontFamily: 'var(--mono)',
+              fontSize: 11,
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase' as const,
+              color: 'var(--ink-40)',
+              textDecoration: 'none',
+              border: '1px solid var(--grid-major)',
+              borderRadius: 3,
+              padding: '9px 18px',
+              transition: 'color 0.15s, border-color 0.15s',
+            }}
+            onMouseEnter={e => {
+              const el = e.currentTarget as HTMLAnchorElement
+              el.style.color = 'var(--accent)'
+              el.style.borderColor = 'var(--accent)'
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget as HTMLAnchorElement
+              el.style.color = 'var(--ink-40)'
+              el.style.borderColor = 'var(--grid-major)'
+            }}
+          >
+            ♩ Chords · semantic recommender ↗
+          </a>
         </div>
 
         {/* ── PAGE 3: REST ──────────────────────────────────────────────── */}

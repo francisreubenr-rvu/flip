@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "export",
+  images: { unoptimized: true },
+  basePath: "/flip",
+  assetPrefix: "/flip",
   experimental: {
     // The Turbopack persistent FileSystem cache (on by default since Next 16.1)
     // crashes on this machine — the repo lives under a path with spaces and a

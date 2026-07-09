@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
-import { AuthProvider } from "./lib/auth";
 import "./globals.css";
 
 const mono = IBM_Plex_Mono({
@@ -37,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        {children}
       </body>
     </html>
   );
