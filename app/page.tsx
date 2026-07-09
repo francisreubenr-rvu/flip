@@ -342,46 +342,6 @@ export default function FlipPage() {
           >
             byox
           </a>
-          <a
-            href="http://localhost:5173"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontFamily: 'var(--mono)',
-              fontSize: 11,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--ink-40)',
-              textDecoration: 'none',
-              transition: 'color 0.15s',
-            }}
-            onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--accent)')}
-            onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--ink-40)')}
-          >
-            gpa
-          </a>
-          <a
-            href="https://pumps-rho.vercel.app/dashboard"
-            style={{
-              fontFamily: 'var(--mono)',
-              fontSize: 10,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--page)',
-              textDecoration: 'none',
-              background: 'var(--accent)',
-              padding: '3px 10px',
-              borderRadius: '3px',
-              transition: 'opacity 0.15s',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '4px',
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.8' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1' }}
-          >
-            <span style={{ fontSize: 12, lineHeight: 1 }}>🏋</span> pumps
-          </a>
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme" title={isDark ? 'Switch to light' : 'Switch to dark'}>
             {isDark ? '☀' : '☾'}
           </button>
@@ -732,40 +692,6 @@ export default function FlipPage() {
           )}
 
           <MusicPlayer onPlay={startAmbient} stopRef={musicStopRef} />
-
-          {/* Chords — semantic music recommender */}
-          <a
-            href="https://chords-sigma.vercel.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              fontFamily: 'var(--mono)',
-              fontSize: 11,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase' as const,
-              color: 'var(--ink-40)',
-              textDecoration: 'none',
-              border: '1px solid var(--grid-major)',
-              borderRadius: 3,
-              padding: '9px 18px',
-              transition: 'color 0.15s, border-color 0.15s',
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLAnchorElement
-              el.style.color = 'var(--accent)'
-              el.style.borderColor = 'var(--accent)'
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLAnchorElement
-              el.style.color = 'var(--ink-40)'
-              el.style.borderColor = 'var(--grid-major)'
-            }}
-          >
-            ♩ Chords · semantic recommender ↗
-          </a>
         </div>
 
         {/* ── PAGE 3: REST ──────────────────────────────────────────────── */}

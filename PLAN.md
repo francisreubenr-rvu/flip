@@ -20,5 +20,10 @@ Scope locked with user via AskUserQuestion:
 | 7 | `AGENTS.md` deploy section — update to describe GH Pages flow instead of Vercel | done |
 | 8 | Verify: `bun run build` produces a clean static `out/` with no Supabase env dependency for the live routes | done — verified via clean build + local static-server browser test of `/` and `/byox` (localStorage read/write confirmed to persist across reload) |
 
-## Not committed yet
-All changes are in the working tree, uncommitted — user has not asked for a commit/push. `.github/workflows/deploy.yml` won't actually deploy until pushed to `main` on GitHub, and GitHub Pages must be enabled in the repo's Settings → Pages → Source: "GitHub Actions" (one-time manual step, cannot be done from the CLI).
+## Shipped
+Committed (`b668ca6` migration, `4448b8d` bun.lock fix), pushed to `main`, GitHub Pages enabled via API (`build_type: workflow`), deploy workflow ran green. Live at https://francisreubenr-rvu.github.io/flip/ — verified `/` and `/byox` both 200, `/pumps` 404s as expected, screenshot confirms no auth gate.
+
+Note: `bun.lock` was pre-existing stale (missing the `recharts` entry from an earlier commit, unrelated to this migration) and had to be regenerated to unblock CI's `--frozen-lockfile` install.
+
+## Follow-up: strip remaining external-site links
+User asked to remove any linkage to other websites from the live flip app. Removed 3 outbound link/button blocks from `app/page.tsx`: topbar "gpa" link (`http://localhost:5173`), topbar "pumps" badge link (`https://pumps-rho.vercel.app/dashboard`), and the "Chords · semantic recommender" link (`https://chords-sigma.vercel.app`) near the Sound page's MusicPlayer. `byox` link kept — it's an internal `/byox` route within flip itself, not an external site. No ledger button existed in the UI to begin with. Verified via clean rebuild + local static-server screenshot pass (topbar now shows only `byox` + theme toggle; Sound page shows no trailing link after MusicPlayer).
